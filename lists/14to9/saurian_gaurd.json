@@ -1,0 +1,107 @@
+{
+    "list":
+    {
+        "description": "The Saurian Guard",
+        "schematic": "14to9/dark_angels_4",
+        "author":"Scott Conley",
+        "author_email":"scott@14to9.org",
+        "variant": "1500",
+        "version": "5.1",
+        "units":{
+            "unit":{
+                "id":"interrogator_chaplain",
+                "model":{
+                    "id":"interrogator_chaplain_terminator",
+                    "count":1,
+                    "description":"Chaplain Addazius",
+                    "weapon":"combi_melta"
+                }
+            },
+            "unit":{
+                "id":"terminator_squad",
+                "description":"Angarian's Roughriders",
+                "model":{
+                    "id":"terminator_sergeant",
+                    "count":1,
+                    "description":"Terminator Sgt Angarian",
+                    "weapon":"power_weapon",
+                    "weapon":"melta_bombs"
+                },
+                "model":{
+                    "id":"terminator",
+                    "count":7,
+                }
+            },
+            "unit":{
+                "id":"land_raider",
+                "description":"Dedicated Transport: Angarian",
+                "model":{
+                    "id":"land_raider",
+                    "description":"Angarian's Wheelz",
+                }
+            },
+            "unit":{
+                "id":"tactical_squad",
+                "description":"Tactical Squad Vandarus",
+                "model":{
+                    "id":"veteran",
+                    "count":1,
+                    "description":"Veteran Sgt Vandarus",
+                    "weapon":"melta_bombs"
+                },
+                "model":{
+                    "id":"space_marine",
+                    "count":7,
+                },
+                "model":{
+                    "id":"space_marine",
+                    "weapon":"meltagun"
+                },
+                "model":{
+                    "id":"space_marine",
+                    "weapon":"multi_melta"
+                }
+            },
+            "unit":{
+                "id":"rhino",
+                "description":"Dedicated Transport: Vandarus",
+                "weapon":"storm_bolter"
+            },
+            "unit":{
+                "id":"scout_squad",
+                "description":"Scout Squad Houston",
+                "model":{
+                    "id":"scout_sergeant",
+                    "count":1,
+                    "description":"Sgt Houston",
+                    "weapon":"sniper_rifle",
+                    "weapon":"camouflage_cloak"
+                },
+                "model":{
+                    "id":"scout",
+                    "count":4,
+                    "weapon":"sniper_rifle",
+                    "weapon":"camouflage_cloak"
+                }
+            },
+            "unit":{
+                "id":"dreadnought",
+                "model":{
+                    "id":"dreadnought",
+                    "count":1,
+                    "description":"Brother White",
+                    "weapon":"heavy_flamer"
+                }
+            },
+            "unit":{
+                "id":"drop_pod",
+                "description":"Dedicated Transport: Brother White",
+                "model":{
+                    "id":"drop_pod",
+                    "count":1,
+                    "weapon":"deathwind_missile_launcher"
+                }
+            }
+        }
+    }
+}

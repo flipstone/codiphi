@@ -1,0 +1,17 @@
+{
+    "list":
+    {
+        "description": "First Man Standing",
+        "schematic": "test/hero_1",
+        "author":"Codiphi Developer",
+        "author_email":"development@flipstone.com",
+        "variant": "malformed",
+        "variant": "no id element for model",
+        "version": "1",
+        "model":{
+            "description":"Neo",
+            "count":1
+        }
+
+    }
+}

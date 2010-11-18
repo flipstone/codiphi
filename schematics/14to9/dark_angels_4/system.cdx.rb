@@ -1,5 +1,5 @@
 # cost system
-cost :points
+cost_unit :points
 
 # ranks
 rank :hq

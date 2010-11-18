@@ -1,7 +1,8 @@
 Codiphi protocol
 ---
 Define your own wargame codex in human-readable file structure
-Basically a Ruby-parsable DSL or similar (must allow conditionals)
+Declare your army list as a simple json construct
+Codiphi will validate and render your list (including its cost)
 
 Domain allows for basic army constructs:
   - Model
@@ -14,23 +15,24 @@ Domain allows for basic army constructs:
   - List
   - List Variant
 
-Codiphi Arms Exchange
+schematics.codiphi.org
 ---
-github for codiphiles: People can share and trade Codex implementations- maybe even fork
-Open an account
-Upload Codiphi schemas
-Validate Codiphi schemas
-View Codiphi lists
-Upload Codiphi lists
-Edit Codiphi lists
+think rubygems.org for codiphi: People can share and trade Codex implementations- maybe fork, but importantly, reference public schematics in list jsons.
+Open account
+Upload Codiphi schematics
+Server Validates schematics
+Server tracks downloads
+Server allows rating
 
 Codiphi Adjutant
 ---
 Tabletop wargaming assistant application (tablet delivered)
 
-Build Codiphi lists
-Render Codiphi lists
+View Codiphi lists
+Build/Edit Codiphi lists
+Richly rendered Codiphi lists
 Manage Codiphi lists
+Light codiphi.org integration
 Generate battle reports
 
 Relevant domains to pursue:

@@ -29,6 +29,7 @@ model :scout_sergeant
 model :servitor
 model :techmarine
 model :terminator
+model :terminator_sergeant
 model :drop_pod
 model :land_raider
 model :land_raider_crusader

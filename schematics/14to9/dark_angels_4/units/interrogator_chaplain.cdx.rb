@@ -1,4 +1,4 @@
-unit :interrogator_chaplain, {
+  unit :interrogator_chaplain, {
   ranked_as :hq
   with_nature :infantry
   having_special_rules :independent_character, :honour_of_the_chapter, :litanies_of_hate

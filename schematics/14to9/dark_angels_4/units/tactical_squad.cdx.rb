@@ -1,8 +1,8 @@
 unit :tactical_squad, {
-  ranked_as :troops
-  with_nature :infantry
-  having_special_rules :and_they_shall_know_no_fear, :combat_squads
-  costing 75
+  rank :troops
+  nature :infantry
+  has_special_rules :and_they_shall_know_no_fear, :combat_squads
+  costs 75
   demands 1.model :veteran
   demands 4.models :space_marine
   permits 9.models :space_marine

@@ -1,0 +1,26 @@
+# cost_unit element is required and accepts a string
+#
+cost_unit "points"
+
+# models are optional, technically
+# a model element requires:
+#   - an identifier 
+#   - a cost attribute
+#
+# All other attributes are optional and 
+# may be declared ad hoc
+#
+model :hero, {
+  cost 100
+}
+
+# list requirement
+# the list element is required
+# a list element requires:
+#   - an identifer
+#
+# list allows one or more (demands/permits) instructions
+#
+list :force_organization { 
+  demands 1.model :hero
+}
