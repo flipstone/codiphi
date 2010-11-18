@@ -18,8 +18,6 @@
 # these are the 'flat' ones (no conditionals)
 #
 
-include Codiphile
-
 require 'system.cdx.rb'
 require 'weapons.cdx.rb'
 require 'models.cdx.rb'
