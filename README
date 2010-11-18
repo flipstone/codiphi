@@ -1,0 +1,39 @@
+The Codiphile protocol
+---
+Define your own wargame codex in human-readable file structure
+Basically a Ruby-parsable DSL or similar (must allow conditionals)
+
+Domain allows for basic army constructs:
+  - Model
+  - Unit
+  - Weapon
+  - Unit Rank [HQ, Elite, etc]
+  - Unit Nature [Infantry, Vehicle]
+  - Special Ability
+  - various attributes, restrictions, etc on each of above.
+  - List
+  - List Variant
+
+Codiphi Arms Exchange
+---
+github for codiphiles: People can share and trade Codex implementations- maybe even fork
+Open an account
+Upload Codiphi schemas
+Validate Codiphi schemas
+View Codiphi lists
+Upload Codiphi lists
+Edit Codiphi lists
+
+Codiphi Adjutant
+---
+Tabletop wargaming assistant application (tablet delivered)
+
+Build Codiphi lists
+Render Codiphi lists
+Manage Codiphi lists
+Generate battle reports
+
+Relevant domains to pursue:
+ - adjutant.codiphi.org
+ - Codiphi.org codiphile.org codiphi.com
+ - batrep.org
