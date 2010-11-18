@@ -1,4 +1,4 @@
-The Codiphile protocol
+Codiphi protocol
 ---
 Define your own wargame codex in human-readable file structure
 Basically a Ruby-parsable DSL or similar (must allow conditionals)
