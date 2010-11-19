@@ -4,7 +4,7 @@ describe CodiphiParser, "cost_measure" do
   parser = CodiphiParser.new
 
   it "parses" do
-    parser.should parse %{"cost_measure "pants"}
+    parser.should parse %{cost_measure "pants"}
     parser.should parse %{ cost_measure "pants" }
   end
 

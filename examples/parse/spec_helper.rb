@@ -14,3 +14,13 @@ RSpec::Matchers.define :parse do |a_string|
     "Incorrectly parsed expected illegal input." 
   end
 end
+
+def read_codex(path)
+  data = ""
+  full_path = "schematics/test/#{path}"
+  f = File.open(full_path, "r")
+  f.each_line do |line|
+      data += line
+  end
+  data
+end
