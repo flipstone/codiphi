@@ -1,6 +1,6 @@
-# cost_unit element is required and accepts a string
+# cost_measure element is required and accepts a string
 #
-cost_unit "points"
+cost_measure "points"
 
 # models are optional, technically
 # a model element requires:
@@ -10,7 +10,7 @@ cost_unit "points"
 # All other attributes are optional and 
 # may be declared ad hoc
 #
-model :hero, {
+model :hero {
   cost 100
 }
 

@@ -1,0 +1,23 @@
+grammar Codiphi
+  rule codex
+    declaration+
+  end
+  
+  rule declaration
+    comment+
+    / cost_measure+
+    
+  end
+  
+  rule comment
+    '#' ( !'\n' . )* '\n'
+  end
+  
+  rule string
+    '"' ( !'"' . )* '"'
+  end
+  
+  rule cost_measure
+    'cost_measure' ' '+ string
+  end
+end
