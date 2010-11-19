@@ -3,8 +3,13 @@ require_relative 'spec_helper.rb'
 describe CodiphiParser, "cost_measure" do
   parser = CodiphiParser.new
 
-  it "accepts cost_measure string" do
-    parser.should generate_node_for 'cost_measure "pants"'
+  it "parses" do
+    parser.should parse 'cost_measure "pants"'
+    parser.should parse ' cost_measure "pants"'
   end
-
+  
+  it "fails non string arguments" do
+    parser.should_not parse 'cost_measure :pants'
+    parser.should_not parse 'cost_measure pants'
+  end
 end

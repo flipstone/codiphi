@@ -5,10 +5,12 @@ cost_measure "points"
 # models are optional, technically
 # a model element requires:
 #   - an identifier 
-#   - a cost attribute
 #
-# All other attributes are optional and 
+# Attributes block is optional and 
 # may be declared ad hoc
+# 
+# attr 'cost' will be used to calculate
+# list cost if list includes model
 #
 model :hero {
   cost 100
@@ -22,5 +24,5 @@ model :hero {
 # list allows one or more (demands/permits) instructions
 #
 list :force_organization { 
-  demands 1.model :hero
+  demands 1 :hero model 
 }

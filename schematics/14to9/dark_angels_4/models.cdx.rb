@@ -1,14 +1,14 @@
 # models
-model :space_marine, {
-  name: "Space Marine",
-  ws: 4,
-  bs: 4,
-  s: 4,
-  t: 4,
-  i: 4,
-  w: 1,
-  a: 1,
-  ld: 9,
+model :space_marine {
+  name "Space Marine"
+  ws 4
+  bs 4
+  s 4
+  t 4
+  i 4
+  w 1
+  a: 1
+  ld: 9
   sv: "3+"
 }
 model :veteran

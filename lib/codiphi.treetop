@@ -1,16 +1,33 @@
 grammar Codiphi
   rule codex
     declaration+
+    / comment+
   end
   
   rule declaration
-    comment+
-    / cost_measure+
-    
+    cost_measure
+    / model
+  end
+  
+  rule model
+    space model
+    / 'model' space+ name 
+  end
+
+  rule attribute_block
+    "{" space+ attribute+ space+ "}" space
+  end
+
+  rule attribute
+    [a-zA-Z0-9_]+ '' space [a-zA-Z0-9_]+ ''
   end
   
   rule comment
-    '#' ( !'\n' . )* '\n'
+    '#' (!eoc .)* eoc
+  end
+  
+  rule name
+    ':' [a-zA-Z0-9_]+ 
   end
   
   rule string
@@ -18,6 +35,21 @@ grammar Codiphi
   end
   
   rule cost_measure
-    'cost_measure' ' '+ string
+    space cost_measure comment*
+    / 'cost_measure' space string
   end
+  
+  rule eoc
+    "\n" / eof
+  end
+    
+  rule eof
+    !.
+  end
+  
+  rule space
+    [ \t\n]+
+    / comment+
+  end
+  
 end
