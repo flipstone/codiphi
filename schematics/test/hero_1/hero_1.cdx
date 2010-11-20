@@ -1,7 +1,3 @@
-# cost_measure element is required and accepts a string
-#
-cost_measure "points"
-
 # models are optional, technically
 # a model element requires:
 #   - an identifier 
@@ -20,9 +16,10 @@ model :hero {
 # the list element is required
 # a list element requires:
 #   - an identifer
-#
+#   - a cost_measure
 # list allows one or more (demands/permits) instructions
 #
 list "force_organization" { 
+  cost_measure "points"
   demands 1 :hero model
 }

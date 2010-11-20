@@ -8,11 +8,15 @@ grammar Codiphi
   end
   
   rule list
-    "list" space string space permission_block
+    "list" space string space* list_permission_block
   end
   
-  rule permission_block
-    "{" space permission+ space "}"
+  rule list_permission_block
+    "{" space* (permission space)? cost_measure (space permission)? space* "}"
+  end
+  
+  rule permission_sequence
+    permission (space permission)*
   end
   
   rule permission
@@ -29,8 +33,7 @@ grammar Codiphi
   end
   
   rule declaration
-    cost_measure
-    / model
+    model
   end
 
   rule declaration_list
@@ -42,11 +45,19 @@ grammar Codiphi
   end
 
   rule attribute_block
-    "{" space attribute+ space "}"
+    "{" space* attribute_list space* "}"
   end
 
+  rule attribute_list
+    attribute (space attribute)*
+  end
+
+  rule word
+    [a-zA-Z0-9_]+
+  end
+  
   rule attribute
-    [a-zA-Z0-9_]+ '' space [a-zA-Z0-9_]+ ''
+    word '' space word ''
   end
   
   rule comment
@@ -54,11 +65,11 @@ grammar Codiphi
   end
   
   rule name
-    ':' [a-zA-Z0-9_]+ 
+    ':' word 
   end
   
   rule string
-    '"' ( !'"' . )* '"'
+    '"' (!'"' .)+ '"'
   end
   
   rule cost_measure
