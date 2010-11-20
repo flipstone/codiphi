@@ -23,6 +23,6 @@ model :hero {
 #
 # list allows one or more (demands/permits) instructions
 #
-list :force_organization { 
-  demands 1 :hero model 
+list "force_organization" { 
+  demands 1 :hero model
 }

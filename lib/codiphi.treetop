@@ -3,6 +3,29 @@ grammar Codiphi
     space?
     declaration_list?
     space?
+    list?
+    space?
+  end
+  
+  rule list
+    "list" space string space permission_block
+  end
+  
+  rule permission_block
+    "{" space permission+ space "}"
+  end
+  
+  rule permission
+    "demands" space integer space name space role_token
+  end
+  
+  rule integer
+    [0-9]
+  end
+  
+  rule role_token
+    "model"
+    / "unit"
   end
   
   rule declaration

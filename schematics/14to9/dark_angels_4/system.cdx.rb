@@ -16,12 +16,12 @@ nature :bike
 
 # force organization
 list :force_organization { 
-  demands 1.unit.ranked :hq
-  demands 2.units.ranked :troops
+  demands 1 unit ranked :hq
+  demands 2 units ranked :troops
 
-  permits 2.units.ranked :hq
-  permits 6.units.ranked :troops
-  permits 3.units.ranked :heavy_support
-  permits 3.units.ranked :fast_attack
-  permits 3.units.ranked :elites
+  permits 2 units ranked :hq
+  permits 6 units ranked :troops
+  permits 3 units ranked :heavy_support
+  permits 3 units ranked :fast_attack
+  permits 3 units ranked :elites
 }
