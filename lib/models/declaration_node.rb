@@ -1,7 +1,3 @@
-class DeclarationNode < Treetop::Runtime::SyntaxNode
-
-  def foo
-    p "   ---  foo  ---"
-  end
+class DeclarationNode < CodiphiNode
 
 end
