@@ -3,8 +3,7 @@ def validate_list(list)
   schematic_data = read_schematic(schematic_path)
   node_tree = parse_codex(schematic_data)
   
-  p node_tree.instance_variables
-  # p node_tree.elements
+  node_tree.validate(list)
   
 end
 

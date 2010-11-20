@@ -4,7 +4,7 @@ grammar Codiphi
     declaration_list?
     space?
     list?
-    space?
+    space? <CodexNode>
   end
   
   rule list
