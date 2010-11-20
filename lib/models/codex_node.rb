@@ -1,14 +1,24 @@
 require_relative './codiphi_node'
 
 class CodexNode < CodiphiNode
-  def validate(json_document)
-    json_document["list"].should_not == nil
-    log %{validating json list "#{json_document['list']['description']}"}
+  def validate(list)
+    desc = list['description'] ? list['description'] : "Untitled List" 
 
-    log_ok  
-  end
-  
-  def validate_type(json_node)
+    say %{validating json list "#{desc}"} do
+      list["model"].should_not == nil
+    end  
     
   end
+  
+  def cost(list)
+    measure = "points"
+
+    say "looking up cost measure" do
+      measure = list["cost_measure"] if list["cost_measure"]
+    end  
+
+    return "0 #{measure}"
+  end
+    
+
 end

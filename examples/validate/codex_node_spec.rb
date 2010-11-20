@@ -1,30 +1,50 @@
 require_relative '../spec_helper.rb'
 
-describe CodexNode, "validate" do
-
-  it "confirms list element" do
-    json = read_json("test/one_man_army.json")
-    codexnode = CodexNode.new("foo",3)
-    codexnode.validate(json)
-  end
+describe CodexNode do
   
-  it "exceptions missing list element" do
-     data = %{{
-        "foo":
+  describe "cost_measure" do
+    xit "defaults to 'points'" do
+    end
+    xit "detects correct value" do
+    end
+  end  
+  
+  describe "validate" do
+    it "exceptions missing demands element(s)" do
+      data = %{
         {
-            "model":{
-                "id":"hero",
-                "description":"Neo",
-                "count":1
-            }
+          "nothin":
+          {
+            "id":"hero",
+            "count":1
+          }
         }
-    }}
+      }
     
-    lambda do
-      codexnode = CodexNode.new("foo",3)
-      codexnode.validate(JSON.parse(data))
-    end.should raise_error
+      lambda do
+        codexnode = CodexNode.new("foo",3)
+        codexnode.validate(JSON.parse(data))
+      end.should raise_error
     
+    end
+
+    it "validates legal element(s)" do
+      data = %{
+        {
+          "cost_measure":"buttons"
+          "nothin":
+          {
+            "id":"hero",
+            "count":1
+          }
+        }
+      }
+    
+      lambda do
+        codexnode = CodexNode.new("foo",3)
+        codexnode.validate(JSON.parse(data))
+      end.should raise_error
+    
+    end
   end
-  
 end

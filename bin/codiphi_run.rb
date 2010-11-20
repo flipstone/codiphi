@@ -1,11 +1,28 @@
 def validate_list(list)
+  build_symantic_tree(list).validate(list["list"])
+  
+end
+
+def cost(list)
+  cost = build_symantic_tree(list).cost(list["list"])
+  puts "List costs #{cost}"
+end
+
+def build_symantic_tree(list)
+  raise "List file must include a root-level 'list' element." unless list["list"]   
+
+  flash "inspecting list for schematic"
+  unless list["list"]["schematic"]
+    puts "FAILED"
+    raise "List element must include a 'schematic' element."
+  end
+  puts "OK"
+  
   schematic_path = list["list"]["schematic"]
   schematic_data = read_schematic(schematic_path)
   node_tree = parse_codex(schematic_data)
-  
-  node_tree.validate(list)
-  
 end
+
 
 def parse_codex(schematic_data)
   flash "parsing codex"

@@ -29,5 +29,7 @@ puts "OK"
 case command.to_sym
 when :validate
   validate_list(json_document)
+when :cost
+  cost(json_document)
 end
 

@@ -3,14 +3,12 @@ require 'rspec'
 class CodiphiNode < Treetop::Runtime::SyntaxNode
   @@log_suppression = false
 
-  def log(string)
+  def say(string)
     unless @@log_suppression
       print " - #{string} .. "
       STDOUT.flush
     end
-  end
-
-  def log_ok
+    yield
     puts "OK" unless @@log_suppression
   end
   
