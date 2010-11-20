@@ -12,38 +12,43 @@ grammar Codiphi
   end
   
   rule list_permission_block
-    "{" space* (permission space)? cost_measure (space permission)? space* "}"
+    "{"
+        space* 
+        (permission_list space)? 
+        cost_measure? 
+        (space permission_list)? 
+        space* 
+    "}"
   end
   
-  rule permission_sequence
+  rule permission_list
     permission (space permission)*
   end
   
   rule permission
-    "demands" space integer space name space role_token
+    permission_operator space integer space name space
   end
   
   rule integer
     [0-9]
   end
   
-  rule role_token
-    "model"
-    / "unit"
+  rule permission_operator
+    "demands"
   end
-  
+    
   rule declaration
-    model
+    type space name (space attribute_block)? <DeclarationNode>
+  end
+
+  rule type
+    word
   end
 
   rule declaration_list
     declaration (space declaration)*
   end
   
-  rule model
-    'model' space name (space attribute_block)?
-  end
-
   rule attribute_block
     "{" space* attribute_list space* "}"
   end

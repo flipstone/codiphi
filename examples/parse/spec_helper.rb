@@ -1,7 +1,11 @@
+bin_path = File.expand_path(File.dirname(__FILE__))
+base_path = File.join(bin_path, '../../')
+
 require 'polyglot'
 require 'treetop'
+Dir["#{base_path}lib/models/*.rb"].each {|file| require file }
 
-Treetop.load "/Users/scranky/dev/codiphi/lib/codiphi"
+Treetop.load File.join(base_path, "lib/codiphi")
 
 RSpec::Matchers.define :parse do |a_string|
   match do |parser|

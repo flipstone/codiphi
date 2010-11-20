@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+bin_path = File.expand_path(File.dirname(__FILE__))
+base_path = File.join(bin_path, '../')
+
+require_relative './codiphi_run'
+require 'json'
+require 'polyglot'
+require 'treetop'
+Dir["#{base_path}lib/models/*.rb"].each {|file| require file }
+Treetop.load File.join(base_path, "lib/codiphi")
+
+#
+# Arguments
+#
+if ARGV.length != 2
+  puts "Usage: codiphi <command> <list_json>"
+  exit(1)
+end
+
+command, list_json = *ARGV
+
+#
+# load list_json
+#
+flash "loading json file at #{list_json}"
+json_document = read_json(list_json)
+puts "OK"
+
+case command.to_sym
+when :validate
+  validate_list(json_document)
+end
+
