@@ -19,7 +19,7 @@ model :hero {
 #   - a cost_measure
 # list allows one or more (demands/permits) instructions
 #
-list "force_organization" { 
+list { 
   cost_measure "points"
   demands 1 :hero
 }

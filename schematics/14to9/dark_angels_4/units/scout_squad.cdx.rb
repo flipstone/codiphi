@@ -1,8 +1,14 @@
 unit :scout_squad, {
-  ranked_as :elites
-  with_nature :infantry
-  having_special_rules :and_they_shall_know_no_fear, :combat_squads, :infiltrate, :move_through_cover
-  costing 80
+  rank :elites
+  nature :infantry
+  special_rule {
+    :and_they_shall_know_no_fear
+    :combat_squads
+    :infiltrate
+    :move_through_cover
+  }
+  cost 80
+
   demands 1.model :scout_sergeant
   demands 4.models :scout
   permits 9.models :scout

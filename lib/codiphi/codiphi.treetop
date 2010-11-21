@@ -9,9 +9,7 @@ grammar Codiphi
   
   rule list
     "list"
-    space 
-    string 
-    space* 
+    space?
     list_permission_block 
     <ListNode>
   end
