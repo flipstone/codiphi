@@ -15,13 +15,13 @@ nature :open_topped
 nature :bike
 
 # force organization
-list :force_organization { 
-  demands 1 unit ranked :hq
-  demands 2 units ranked :troops
+list { 
+  demands 1 :hq
+  demands 2 :troops
 
-  permits 2 units ranked :hq
-  permits 6 units ranked :troops
-  permits 3 units ranked :heavy_support
-  permits 3 units ranked :fast_attack
-  permits 3 units ranked :elites
+  permits 2 :hq
+  permits 6 :troops
+  permits 3 :heavy_support
+  permits 3 :fast_attack
+  permits 3 :elites
 }

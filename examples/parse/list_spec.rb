@@ -3,8 +3,8 @@ require_relative 'spec_helper.rb'
 describe Codiphi::Parser, "list" do
 
   it "parses" do
-    Codiphi::Parser.should parse %{list { cost_measure "pants" } }
-    Codiphi::Parser.should parse %{list{cost_measure "pants"}}
+    Codiphi::Parser.should parse %{list { cost_measure pants } }
+    Codiphi::Parser.should parse %{list{cost_measure pants}}
   end
 
   it "parses end of line comment" do

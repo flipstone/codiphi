@@ -21,6 +21,11 @@ module Codiphi
        tree.elements.delete_if{|node| node.class.name == "Treetop::Runtime::SyntaxNode" }
        tree.elements.each {|node| self.clean_tree(node) }
      end
+
+     # sc: extend this to provide richer failure messages
+     def self.failure_reason
+       @@parser.failure_reason
+     end
   end
   
   class ParseException < Exception

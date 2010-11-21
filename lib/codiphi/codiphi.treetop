@@ -10,30 +10,10 @@ grammar Codiphi
   rule list
     "list"
     space?
-    list_permission_block 
+    attribute_block
     <ListNode>
   end
-  
-  rule list_permission_block
-    "{"
-        space* 
-        permission_sequence_A:permission_sequence?
-        space?
-        cost_measure? 
-        space? 
-        permission_sequence_B:permission_sequence? 
-        space* 
-    "}" 
-    <ListPermissionBlockNode>
-  end
-  
-  rule permission_sequence
-    permission
-    space?
-    permission_sequence:permission_sequence*
-    <PermissionSequenceNode>
-  end
-  
+      
   rule permission
     permission_operator 
     space 
@@ -73,25 +53,28 @@ grammar Codiphi
   rule attribute_block
     "{" 
     space* 
-    attribute_list 
+    attribute_list
     space* 
     "}"
     <LiteralNode>
   end
 
   rule attribute_list
-    attribute 
-    space? 
+    (permission / attribute) 
+    space?
     attribute_list?
     <LiteralNode>
   end
 
   rule word
-    [a-zA-Z0-9_]+
+    !"list" [a-zA-Z0-9_]+ 
     <LiteralNode>
   end
     
   rule attribute
+    word space string
+    <LiteralNode>
+    /
     word space integer
     <LiteralNode>
     /
@@ -112,14 +95,7 @@ grammar Codiphi
     '"' (!'"' .)+ '"'
     <LiteralNode>
   end
-  
-  rule cost_measure
-    'cost_measure'
-    space
-    string 
-    <CostMeasureNode>
-  end
-  
+    
   rule eoc
     [\n] / eof
   end
