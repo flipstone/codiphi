@@ -18,7 +18,7 @@ module Codiphi
     # (they point to the wrong child elements)
     def self.clean_tree(tree)
        return if(tree.elements.nil?)
-       tree.elements.delete_if{|node| node.class.name == "Treetop::Runtime::SyntaxNode" }
+       tree.elements.each { |node| ["Treetop::Runtime::SyntaxNode"].include? node.class.name  }
        tree.elements.each {|node| self.clean_tree(node) }
      end
 

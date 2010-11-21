@@ -20,7 +20,7 @@ grammar Codiphi
     integer 
     space 
     name 
-    space 
+    space?
     <PermissionNode>
   end
   
@@ -37,9 +37,8 @@ grammar Codiphi
   rule declaration
     type:word
     space
-    (name / string / integer / word)
-    space? 
-    declaration_block:declaration_block?
+    declared:(name / string / integer / word)
+    (space declaration_block:declaration_block)?
     <DeclarationNode>
   end
 
@@ -49,28 +48,33 @@ grammar Codiphi
     declaration_list
     space* 
     "}"
-    <LiteralNode>
+    <DeclarationBlockNode>
   end
 
   rule declaration_list
     declaration:(permission / declaration)
-    space? 
-    declaration_list* 
+    z:space?
+    declaration_list:declaration_list?
     <DeclarationListNode>
   end
 
   rule word
-    !"list" [a-zA-Z0-9_]+ 
+    !reserved [a-zA-Z0-9_]+ 
     <LiteralNode>
   end
-      
+  
+  rule reserved
+    "list" /
+    "demands"
+  end
+  
   rule comment
     '#' (!eoc .)* eoc
   end
   
   rule name
     ':' word 
-    <LiteralNode>
+    <NameNode>
   end
   
   rule string
@@ -88,6 +92,7 @@ grammar Codiphi
   
   rule space
     ([ \t\n] / comment)+
+    <SpaceNode>
   end
   
 end
