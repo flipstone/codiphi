@@ -14,10 +14,8 @@ model :hero {
 
 # list requirement
 # the list element is required
-# a list element requires:
-#   - an identifer
-#   - a cost_measure
-# list allows one or more (demands/permits) instructions
+# list block allows one or more (demands/permits) instructions
+# allows one or more attribute declarations
 #
 list { 
   cost_measure "points"
