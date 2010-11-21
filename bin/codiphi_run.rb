@@ -1,35 +1,25 @@
-def validate_list(list)
-  build_symantic_tree(list).validate(list["list"])
-  
+def emit(data)
+  tree = render_tree_from_data(data)
+  # tree.emit(data["list"])
 end
 
-def cost(list)
-  cost = build_symantic_tree(list).cost(list["list"])
-  puts "List costs #{cost}"
-end
+def render_tree_from_data(data)
+  raise "List file must include a root-level 'list' element." unless data["list"]   
 
-def build_symantic_tree(list)
-  raise "List file must include a root-level 'list' element." unless list["list"]   
-
-  flash "inspecting list for schematic"
-  unless list["list"]["schematic"]
-    puts "FAILED"
-    raise "List element must include a 'schematic' element."
+  say "inspecting list for schematic" do
+    unless data["list"]["schematic"]
+      puts "FAILED"
+      raise "List element must include a 'schematic' element."
+    end
   end
-  puts "OK"
   
-  schematic_path = list["list"]["schematic"]
+  schematic_path = data["list"]["schematic"]
   schematic_data = read_schematic(schematic_path)
-  node_tree = parse_codex(schematic_data)
-end
-
-
-def parse_codex(schematic_data)
-  flash "parsing codex"
-  parser = CodiphiParser.new
-  node_tree = parser.parse(schematic_data)
-  puts "OK"
-  return node_tree
+  node_tree = Codiphi::Parser.parse(schematic_data)
+  # p node_tree
+  puts " - codex.count: #{node_tree.elements.count}"
+  puts " - declaration_list: #{node_tree.declaration_list.class}"
+  puts " - list #{node_tree.list.class}"
 end
 
 def read_json(path)
@@ -45,17 +35,11 @@ def read_schematic(path)
   data = ""
   codex_name = path.split('/').last
   full_path = "schematics/#{path}/#{codex_name}.cdx"
-  flash "reading schematic at #{full_path}"
-  
-  f = File.open(full_path, "r")
-  f.each_line do |line|
-      data += line
+  say "reading schematic at #{full_path}" do
+    f = File.open(full_path, "r")
+    f.each_line do |line|
+        data += line
+    end
   end
-  puts "OK"
   data
-end
-
-def flash(value)
-  print " - #{value} .. "
-  STDOUT.flush
 end

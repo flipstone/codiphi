@@ -1,3 +1,0 @@
-class DeclarationNode < CodiphiNode
-
-end
