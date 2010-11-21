@@ -10,7 +10,7 @@ grammar Codiphi
   rule list
     "list"
     space?
-    attribute_block
+    declaration_block
     <ListNode>
   end
       
@@ -35,53 +35,35 @@ grammar Codiphi
   end
     
   rule declaration
-    word
+    type:word
     space
-    name
+    (name / string / integer / word)
     space? 
-    attribute_block:attribute_block?
+    declaration_block:declaration_block?
     <DeclarationNode>
   end
 
-  rule declaration_list
-    declaration
-    space? 
-    declaration_list* 
-    <DeclarationListNode>
-  end
-  
-  rule attribute_block
+  rule declaration_block
     "{" 
     space* 
-    attribute_list
+    declaration_list
     space* 
     "}"
     <LiteralNode>
   end
 
-  rule attribute_list
-    (permission / attribute) 
-    space?
-    attribute_list?
-    <LiteralNode>
+  rule declaration_list
+    declaration:(permission / declaration)
+    space? 
+    declaration_list* 
+    <DeclarationListNode>
   end
 
   rule word
     !"list" [a-zA-Z0-9_]+ 
     <LiteralNode>
   end
-    
-  rule attribute
-    word space string
-    <LiteralNode>
-    /
-    word space integer
-    <LiteralNode>
-    /
-    word space word
-    <LiteralNode>
-  end
-  
+      
   rule comment
     '#' (!eoc .)* eoc
   end

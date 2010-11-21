@@ -1,25 +1,23 @@
 def emit(data)
   tree = render_tree_from_data(data)
-  # tree.emit(data["list"])
+  tree.emit(data["list"])
 end
 
 def render_tree_from_data(data)
   raise "List file must include a root-level 'list' element." unless data["list"]   
 
   say "inspecting list for schematic" do
-    unless data["list"]["schematic"]
-      puts "FAILED"
-      raise "List element must include a 'schematic' element."
-    end
+    raise "List element must include a 'schematic' element." unless data["list"]["schematic"]
   end
   
   schematic_path = data["list"]["schematic"]
   schematic_data = read_schematic(schematic_path)
   node_tree = Codiphi::Parser.parse(schematic_data)
+  # puts " - codex.count: #{node_tree.elements.count}"
+  # puts " - declaration_list: #{node_tree.declaration_list.class}"
+  # puts " - list #{node_tree.list.class}"
   # p node_tree
-  puts " - codex.count: #{node_tree.elements.count}"
-  puts " - declaration_list: #{node_tree.declaration_list.class}"
-  puts " - list #{node_tree.list.class}"
+  node_tree
 end
 
 def read_json(path)

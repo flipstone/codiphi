@@ -1,0 +1,7 @@
+model :hero {
+  cost 100
+}
+list { 
+  cost_measure "points"
+  demands 1 :hero
+}

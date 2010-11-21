@@ -2,7 +2,7 @@
     "list":
     {
         "description": "First Man Standing",
-        "schematic": "test/hero_1",
+        "schematic": "test/hero1a",
         "author":"Codiphi Developer",
         "author_email":"development@flipstone.com",
         "variant": "legal",
