@@ -2,7 +2,7 @@ require 'rspec'
 
 class CodiphiNode < Treetop::Runtime::SyntaxNode
   def transform(data, context)
-    puts "transform! #{self.class}"
+    # puts "transform! #{self.class}"
     elements.each{ |e| e.transform(data, context) if e.respond_to? :transform } unless elements.nil?
   end
   
