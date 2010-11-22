@@ -8,7 +8,7 @@
         "variant": "legal",
         "version": "1",
         "model":{
-            "id":"hero",
+            "type":"hero",
             "description":"Neo",
             "count":1
         }

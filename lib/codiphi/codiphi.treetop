@@ -38,7 +38,8 @@ grammar Codiphi
     type:word
     space
     declared:(name / string / integer / word)
-    (space declaration_block:declaration_block)?
+    space? 
+    declaration_block:declaration_block?
     <DeclarationNode>
   end
 
@@ -60,7 +61,6 @@ grammar Codiphi
 
   rule word
     !reserved [a-zA-Z0-9_]+ 
-    <LiteralNode>
   end
   
   rule reserved
@@ -74,12 +74,10 @@ grammar Codiphi
   
   rule name
     ':' word 
-    <NameNode>
   end
   
   rule string
     '"' (!'"' .)+ '"'
-    <LiteralNode>
   end
     
   rule eoc
@@ -92,7 +90,6 @@ grammar Codiphi
   
   rule space
     ([ \t\n] / comment)+
-    <SpaceNode>
   end
   
 end

@@ -21,7 +21,9 @@ say "loading json file at #{list_json}" do
 end
 
 case command.to_sym
+when :transform
+  transform(data)
 when :emit
-  emit(data)
+  puts emit(data)
 end
 

@@ -13,13 +13,14 @@ module Codiphi
       return tree
     end
 
-    # sc: A useful method if inspecting the tree directly, but unsafe for emit
-    # removing the SyntaxNodes compromises the generated labels
-    # (they point to the wrong child elements)
+    # sc: A useful method if inspecting the tree directly, but unsafe for named references
+    # (removing the SyntaxNodes compromises the Treetop-generated references to child nodes)
+    # Instead, check child elements respond_to? the intended recursion call(s) before chaining
     def self.clean_tree(tree)
        return if(tree.elements.nil?)
-       tree.elements.each { |node| ["Treetop::Runtime::SyntaxNode"].include? node.class.name  }
+       tree.elements.delete_if { |node| ["Treetop::Runtime::SyntaxNode"].include? node.class.name  }
        tree.elements.each {|node| self.clean_tree(node) }
+       tree
      end
 
      # sc: extend this to provide richer failure messages

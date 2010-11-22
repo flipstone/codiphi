@@ -9,14 +9,17 @@ unit :scout_squad, {
   }
   cost 80
 
-  demands 1.model :scout_sergeant
-  demands 4.models :scout
-  permits 9.models :scout
-  equipped_with "Wargear", {
-    :bolt_pistol,
-    [ :boltgun, :chainsword, :combat_blade, :shotgun ]
+  demands 1 :scout_sergeant
+  demands 4 :scout
+  permits 9 :scout
+
+  weapon {
+    :bolt_pistol
+    :boltgun
+    :chainsword
+    :combat_blade
+    :shotgun
   }
-  
 }
 
 #

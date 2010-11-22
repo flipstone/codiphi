@@ -1,6 +1,15 @@
 def emit(data)
+  output_hash = transform(data)
+  JSON.generate(output_hash)
+end
+
+def transform(data)
   tree = render_tree_from_data(data)
-  tree.emit(data["list"])
+  list_data = data["list"] 
+  tree.transform(list_data,Hash.new)
+  return {
+    list: list_data
+  }
 end
 
 def render_tree_from_data(data)

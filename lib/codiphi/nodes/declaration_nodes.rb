@@ -1,28 +1,44 @@
 require_relative './codiphi_node'
 
 class DeclarationNode < CodiphiNode
-  def emit(data)
-    p "#{type.text_value} #{declared.text_value}"
+  def transform(data, context)
+    super(data,context)
+    match_node = parent_declaration
+    
+    if (match_node.nil?)
+      # has no parent declaration, don't do anything just now.
+    else
+      match_type = match_node.type.text_value
+      match_name = match_node.declared.text_value
+      say "placing #{type.text_value} #{declared.text_value} on matching #{match_type} #{match_name} nodes" do
+        # find match_node in data
+        traverse_data_for_match(data, match_type, match_name) do |target_hash|
+          target_hash[type.text_value] = declared.text_value
+        end
+      end      
+    end
   end
+    
+  def parent_declaration
+    upnode = parent
+    while !upnode.nil? do
+      if upnode.declarative?
+        return upnode
+      else
+        upnode = upnode.parent
+      end
+    end
+    nil
+  end
+  
+  def declarative?
+    true
+  end
+  
 end
 
 class DeclarationListNode < CodiphiNode
-  def emit(data)
-    children = elements.map { |e| 
-      "#{e.to_s} : #{e.text_value}"
-    }
-    puts "\n\nLIST: #{self.text_value}"
-    puts "declaration_list children: #{children}"
-    puts "declaration_list's declaration #{declaration}" if declaration
-    puts "declaration_list's recursive declaration_list: #{declaration_list}" if declaration_list
-    declaration.emit(data)
-    declaration_list.emit(data) if declaration_list
-  end
 end
 
 class DeclarationBlockNode < CodiphiNode
-  def emit(data)
-    puts "declaration_block list count: #{declaration_list.elements.count}"
-    declaration_list.emit(data)
-  end
 end
