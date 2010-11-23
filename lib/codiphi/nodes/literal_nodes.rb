@@ -13,6 +13,9 @@ class IntegerNode < CodiphiNode
 end
 
 class NameNode < CodiphiNode
+  def text_value
+    super.reverse.chop.reverse
+  end
 end
 
 class SpaceNode < LiteralNode

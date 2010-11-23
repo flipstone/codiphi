@@ -7,8 +7,10 @@
         "author_email":"development@flipstone.com",
         "variant": "legal",
         "version": "1",
+        "cost_measure":"points",
         "model":{
             "type":"hero",
+            "cost":100,
             "description":"Neo",
             "count":1
         }

@@ -79,7 +79,7 @@ describe CodiphiParser, "declaration" do
     
     decl2 = decl.declaration_block.declaration_list.declaration
     decl2.class.should == DeclarationNode
-    decl2.parent_declaration.declared.text_value.should == ":pants"
+    decl2.parent_declaration.declared.text_value.should == "pants"
   end
     
     

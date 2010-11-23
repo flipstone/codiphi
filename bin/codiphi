@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 require_relative '../lib/codiphi.rb'
-require_relative './codiphi_run'
 
 #
 # Arguments
@@ -17,13 +16,17 @@ command, list_json = *ARGV
 #
 data = {}
 say "loading json file at #{list_json}" do
-  data = read_json(list_json)
+  data = Codiphi::Support.read_json(list_json)
 end
+
+engine = Codiphi::Engine.new(data)
 
 case command.to_sym
 when :transform
-  transform(data)
+  engine.transform
 when :emit
-  puts emit(data)
+  puts engine.emit
+when :cost
+  puts engine.cost
 end
 

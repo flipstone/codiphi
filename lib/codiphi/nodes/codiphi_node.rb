@@ -13,11 +13,17 @@ class CodiphiNode < Treetop::Runtime::SyntaxNode
   def traverse_data_for_match(data, schematic_type, schematic_name, &block)
     data.each do |k,v| 
       if (k == schematic_type)
-        # this is our guy
-        # verify name
-
-        # do the block
-        block.call(v)
+        # this is our guy, verify child "type" = name
+        if ("list" == k || 
+             (
+                v.class == Hash && 
+                v.include?("type") && 
+                v["type"] == schematic_name
+              )
+            )
+          # do the block
+          block.call(v)
+        end
       else
         # check this node's children
         traverse_data_for_match(v, schematic_type, schematic_name, &block) if v.class == Hash
@@ -25,5 +31,4 @@ class CodiphiNode < Treetop::Runtime::SyntaxNode
     end
   end
   
-
 end
