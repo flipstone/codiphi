@@ -10,6 +10,22 @@ class CodiphiNode < Treetop::Runtime::SyntaxNode
     false
   end
 
+  def parent_declaration
+    parent_declaration_node.declared.text_value
+  end
+
+  def parent_declaration_node
+    upnode = parent
+    while !upnode.nil? do
+      if upnode.declarative?
+        return upnode
+      else
+        upnode = upnode.parent
+      end
+    end
+    nil
+  end
+
   def traverse_data_for_match(data, schematic_type, schematic_name, &block)
     data.each do |k,v| 
       if (k == schematic_type)

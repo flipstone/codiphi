@@ -13,7 +13,7 @@
             "cost":100,
             "description":"Neo",
             "count":1
-        }
-
+        },
+        "cost":100
     }
 }

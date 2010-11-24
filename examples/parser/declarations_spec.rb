@@ -26,7 +26,7 @@ describe CodiphiParser, "declaration" do
     Codiphi::Parser.should parse %{ model\t\t:wtabs\t\n}
   end
   
-  it "parses permissions without children" do
+  it "parses assertions without children" do
     Codiphi::Parser.should parse %{demands 1 :argle}
     Codiphi::Parser.should parse %{\ndemands 1 :argle}
     Codiphi::Parser.should parse %{demands 99 :bargle\n}
@@ -39,7 +39,7 @@ describe CodiphiParser, "declaration" do
     Codiphi::Parser.should parse %{model :foo\nargle "bargle"\neasy "peasy"\n demands 1 :argle }
   end
 
-  it "parses permission-mixed, without-children lists" do
+  it "parses assertion-mixed, without-children lists" do
     Codiphi::Parser.should parse %{model :foo\n demands 1 :argle }
     Codiphi::Parser.should parse %{model :foo demands 1 :argle}
     Codiphi::Parser.should parse %{demands 1 :argle\nargle "bargle"}
@@ -75,11 +75,11 @@ describe CodiphiParser, "declaration" do
     tree = Codiphi::Parser.parse %{model :pants { cost 100 }}
     decl = tree.declaration_list.declaration
     decl.class.should == DeclarationNode
-    decl.parent_declaration.should be_nil
+    decl.parent_declaration_node.should be_nil
     
     decl2 = decl.declaration_block.declaration_list.declaration
     decl2.class.should == DeclarationNode
-    decl2.parent_declaration.declared.text_value.should == "pants"
+    decl2.parent_declaration_node.declared.text_value.should == "pants"
   end
     
     

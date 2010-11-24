@@ -3,7 +3,7 @@ require_relative './codiphi_node'
 class DeclarationNode < CodiphiNode
   def transform(data, context)
     super(data,context)
-    match_node = parent_declaration
+    match_node = parent_declaration_node
     
     if (match_node.nil?)
       # has no parent declaration, don't do anything just now.
@@ -18,19 +18,7 @@ class DeclarationNode < CodiphiNode
       end      
     end
   end
-    
-  def parent_declaration
-    upnode = parent
-    while !upnode.nil? do
-      if upnode.declarative?
-        return upnode
-      else
-        upnode = upnode.parent
-      end
-    end
-    nil
-  end
-  
+      
   def declarative?
     true
   end

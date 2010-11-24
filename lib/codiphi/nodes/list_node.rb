@@ -11,5 +11,5 @@ class ListNode < CodiphiNode
 
 end
 
-class ListPermissionBlockNode < CodiphiNode
+class ListAssertionBlockNode < CodiphiNode
 end

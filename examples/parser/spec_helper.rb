@@ -17,9 +17,9 @@ RSpec::Matchers.define :parse do |a_string|
   end
 end
 
-def read_codex(path)
+def read_sample_codex(path)
   data = ""
-  full_path = "schematics/test/#{path}"
+  full_path = "samples/schematics/test/#{path}"
   f = File.open(full_path, "r")
   f.each_line do |line|
       data += line

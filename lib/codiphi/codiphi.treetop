@@ -14,14 +14,13 @@ grammar Codiphi
     <ListNode>
   end
       
-  rule permission
-    permission_operator 
+  rule assertion
+    assertion_operator 
     space 
     integer 
     space 
     name 
-    space?
-    <PermissionNode>
+    <AssertionNode>
   end
   
   rule integer
@@ -29,7 +28,7 @@ grammar Codiphi
     <IntegerNode>
   end
   
-  rule permission_operator
+  rule assertion_operator
     "demands"
     <LiteralNode>
   end
@@ -53,8 +52,8 @@ grammar Codiphi
   end
 
   rule declaration_list
-    declaration:(permission / declaration)
-    z:space?
+    declaration:(assertion / declaration)
+    space?
     declaration_list:declaration_list?
     <DeclarationListNode>
   end

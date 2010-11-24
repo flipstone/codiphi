@@ -27,7 +27,9 @@ unit :scout_squad, {
 #
 
 unit_option :scout_squad, "Additional scouts", {
-  model_addition 5.models :scout, 65
+  model_addition 5 :scout {
+    cost 65
+  }
 }
 unit_option :scout_squad, "Sniper rifles", :scout, {
   weapon_replacement :boltgun, :sniper_rifle, 5
