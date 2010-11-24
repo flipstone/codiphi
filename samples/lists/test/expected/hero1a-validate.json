@@ -2,18 +2,18 @@
     "list":
     {
         "description": "First Man Standing",
-        "schematic": "test/hero1",
+        "schematic": "test/hero1a",
         "author":"Codiphi Developer",
         "author_email":"development@flipstone.com",
-        "variant": "illegal",
-        "notes":"bad model id",
+        "variant": "legal",
         "version": "1",
-        "cost":0,
         "cost_measure":"points",
         "model":{
-            "type":"hero-godling",
+            "type":"hero",
+            "cost":100,
             "description":"Neo",
             "count":1
-        }
+        },
+        "cost":100
     }
 }

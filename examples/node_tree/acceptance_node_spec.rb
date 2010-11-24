@@ -11,9 +11,9 @@ end
 describe AssertionNode do 
   it "adds itself to passed context on transform" do
     node = mocked_node("foopants", 99, "foopants")
-    context = {}
-    node.transform({}, context)
-    context["assertions"].should_not be_nil
-    context["assertions"].should be_include node
+    list = []
+    node.gather_assertions(list)
+    list.should_not be_nil
+    list.should be_include node
   end
 end

@@ -8,12 +8,13 @@
         "variant": "illegal",
         "notes":"bad model id",
         "version": "1",
-        "cost":0,
-        "cost_measure":"points",
         "model":{
             "type":"hero-godling",
             "description":"Neo",
             "count":1
         }
-    }
+    },
+    "list-errors":
+      [ "At least 1 hero model required in list",
+        "Model hero-godling not permitted in list" ]
 }

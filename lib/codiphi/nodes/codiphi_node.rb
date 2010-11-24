@@ -1,9 +1,10 @@
-require 'rspec'
-
 class CodiphiNode < Treetop::Runtime::SyntaxNode
   def transform(data, context)
-    # puts "transform! #{self.class}"
-    elements.each{ |e| e.transform(data, context) if e.respond_to? :transform } unless elements.nil?
+    elements.each{ |e| e.transform(data, context) if e.respond_to? :transform } unless terminal?
+  end
+  
+  def gather_assertions(assertion_list)
+    elements.each{ |e| e.gather_assertions(assertion_list) if e.respond_to? :gather_assertions } unless terminal?
   end
   
   def declarative?

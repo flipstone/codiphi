@@ -1,8 +1,8 @@
 require_relative './codiphi_node.rb'
 
 class AssertionNode < CodiphiNode
-  def transform(data, context)
-    context["assertions"] = [] if context["assertions"].nil?
-    context["assertions"] << self
+  def gather_assertions(assertion_list)
+    assertion_list = [] if assertion_list.nil?
+    assertion_list << self
   end
 end

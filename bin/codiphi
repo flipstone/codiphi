@@ -1,32 +1,74 @@
 #!/usr/bin/env ruby
 require_relative '../lib/codiphi.rb'
+require 'optparse'
+require 'ostruct'
 
-#
-# Arguments
-#
-if ARGV.length != 2
-  puts "Usage: codiphi <command> <list_json>"
-  exit(1)
+def options_parse(args)
+  # The options specified on the command line will be collected in *options*.
+  # We set default values here.
+  options = OpenStruct.new
+  options.no_validate = false
+  options.verbose = false
+
+  opts = OptionParser.new do |opts|
+    opts.banner = "Usage: codiphi [options] file"
+
+    opts.separator ""
+    opts.separator "Specific options:"
+
+    opts.on("-f", "--file JSON_FILE",
+                    "Path to input JSON file") do |file|
+              options.json_file = file
+            end
+
+    opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+      options.verbose = v
+    end
+
+    opts.on("-x", "--no-validate", "Run without checking schematic assertions.") do |v|
+      options.no_validate = v
+    end
+
+    opts.separator ""
+    opts.separator "Common options:"
+
+    opts.on_tail("-h", "--help", "Show this message") do
+      puts opts
+      exit
+    end
+
+    # Another typical switch to print the version.
+    opts.on_tail("--version", "Show version") do
+      puts "v#{Codiphi::Engine::Version.join('.')}"
+      exit
+    end
+  end
+
+  foo = opts.parse(args)
+  return options, foo
 end
 
-command, list_json = *ARGV
+#
+# parse options
+#
+ARGV << "-h" if ARGV.empty?
+options, PARGV = options_parse(ARGV)
+options.json_file = PARGV[0] if PARGV[0]
+SayLogging.suppress_log(!options.verbose)
 
 #
-# load list_json
+# load json_file
 #
 data = {}
-say "loading json file at #{list_json}" do
-  data = Codiphi::Support.read_json(list_json)
+say "loading json file at #{options.json_file}" do
+  data = Codiphi::Support.read_json(options.json_file)
 end
 
 engine = Codiphi::Engine.new(data)
 
-case command.to_sym
-when :transform
   engine.transform
-when :emit
-  puts engine.emit
-when :cost
-  puts engine.cost
-end
+  engine.validate
+
+puts engine.emitted_data
+
 

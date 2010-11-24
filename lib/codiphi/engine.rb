@@ -1,10 +1,12 @@
 module Codiphi
   class Engine
-
+    Version = [0,1,0]
+    
     attr_accessor :data
     attr_accessor :transformed_data
+    attr_accessor :emitted_data
     attr :syntax_tree
-    attr :context
+    attr :assertions
     
     def initialize(data)
       @data = data
@@ -12,21 +14,43 @@ module Codiphi
     end
     
     def emit
-      run_transform
-      JSON.generate(@transformed_data)
+      @emitted_data = JSON.generate(@transformed_data)
+    end
+    
+    def transform
+      run_completeness_transform
+      emit
+    end
+    
+    def validate
+      run_assertions
+      
+      unless pass_assertions
+        # return the original file with appended errors
+        failclone = @data.clone
+        failclone["list-errors"] = context["list-errors"]
+        @transformed_data = failclone
+      end
+      emit
     end
 
     def apply_cost
       (@transformed_data["list"]["cost"] = cost) if @transformed_data["list"]
     end
 
+    def run_assertions
+      render_tree unless @syntax_tree
+      run_completeness_transform unless @transformed_data
+      @syntax_tree.gather_assertions(@assertions)
+      true
+    end
+
     def pass_assertions
-      assertion_list = context["assertions"]
-      unless (assertion_list.nil? || assertion_list.empty?)
+      unless (@assertions.nil? || @assertions.empty?)
         failures = []
-        assertion_list.each do |asst|
+        @assertions.each do |asst|
           say "checking assertion '#{asst.text_value}' on node <#{asst.parent_declaration}>" do
-            # probably need a loop for each of the assertion operators
+            # probably need a loop for each kind of assertion operator?
             traverse_data_for_key(@transformed_data, asst.name.text_value) do |leaf|
               if (true)
                 # passed
@@ -54,21 +78,13 @@ module Codiphi
       running_cost
     end
 
-    def run_transform
+    def run_completeness_transform
       render_tree
       dataclone = @data.clone
       @syntax_tree.transform(dataclone, @context)
       @transformed_data = dataclone
-      if pass_assertions
-        apply_cost
-      else
-        # return the original file with appended errors
-        failclone = @data.clone
-        failclone["list-errors"] = context["list-errors"]
-        @transformed_data = failclone
-      end
-
-      @transformed_data
+      apply_cost
+      true
     end
 
     def render_tree
