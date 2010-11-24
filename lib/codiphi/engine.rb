@@ -26,6 +26,7 @@ module Codiphi
         failures = []
         assertion_list.each do |asst|
           say "checking assertion '#{asst.text_value}' on node <#{asst.parent_declaration}>" do
+            # probably need a loop for each of the assertion operators
             traverse_data_for_key(@transformed_data, asst.name.text_value) do |leaf|
               if (true)
                 # passed
