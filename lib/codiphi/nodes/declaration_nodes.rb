@@ -12,7 +12,7 @@ class DeclarationNode < CodiphiNode
       match_name = match_node.declared.text_value
       say "placing #{type.text_value} #{declared.text_value} on matching #{match_type} #{match_name} nodes" do
         # find match_node in data
-        traverse_data_for_match(data, match_type, match_name) do |target_hash|
+        Codiphi::Traverse.for_match(data, match_type, match_name) do |target_hash|
           target_hash[type.text_value] = declared.text_value
         end
       end      

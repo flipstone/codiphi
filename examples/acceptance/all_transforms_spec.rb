@@ -16,7 +16,7 @@ Dir["#{BASE_PATH}samples/lists/test/*.json"].each do |file|
     it "validates #{file_ref}" do
       data = Codiphi::Support.read_json(file)
       engine = Codiphi::Engine.new(data)
-      engine.run_assertions
+      engine.run_gather_assertions
       expected_data = read_sample_json("test/expected/#{file_ref}-validate.json")
       engine.transformed_data.should set_match expected_data
     end      

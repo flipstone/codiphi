@@ -1,19 +1,54 @@
 Codiphi protocol
 ---
-Define your own wargame codex in human-readable file structure
+Define your own wargame codex (or use someone else's) in human-readable file structure
 Declare your army list as a simple json construct
-Codiphi will validate and render your list (including its cost)
+Codiphi will complete, validate and price your list
 
-Domain allows for basic army constructs:
-  - Model
-  - Unit
-  - Weapon
-  - Unit Rank [HQ, Elite, etc]
-  - Unit Nature [Infantry, Vehicle]
-  - Special Ability
-  - various attributes, restrictions, etc on each of above.
-  - List
-  - List Variant
+Basic Instructions
+---
+1. Find or write your codiphile
+Setup a codiphi schematic file (a '_codiphile_').  We've tried to make this a very natural structure that's easy to read and manage.  Here's a simple example:
+
+    model :hero {
+      cost 100
+    }
+    list { 
+      cost_measure "points"
+      demands 1 :hero
+    }
+
+This codiphile declares:
+  "A named :hero that costs 100 units"
+  "Any list created under this schematic is priced in points."
+  "Any list created under this schematic requires one :hero model."
+
+You can also ask a friend for theirs.
+
+2. Build out your list
+Write a JSON-formatted file that makes selections for your army.  Every list file must include a "list" root node that contains a "schematic" attribute.  Here's an example list:
+
+  {
+      "list":
+      {
+          "description": "First Man Standing",
+          "schematic": "test/hero1",
+          "author":"Codiphi Developer",
+          "author_email":"development@flipstone.com",
+          "variant": "legal",
+          "version": "1",
+          "model":{
+              "type":"hero",
+              "description":"Neo",
+              "count":1
+          }
+      }
+  }
+
+3. Run codiphi on your list
+
+codiphi my_list_file.json
+
+This will generate a similar json to the one created, but decorated with either attributes from the codiphile or with validation errors describing why the list is not legal under the schematic.
 
 schematics.codiphi.org
 ---

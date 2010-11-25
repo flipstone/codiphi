@@ -10,7 +10,7 @@ module SayLogging
     begin
       yield
     rescue Exception
-      puts "FAIL"
+      puts "FAIL" unless @@suppress
       raise 
     end
     puts "OK" unless @@suppress

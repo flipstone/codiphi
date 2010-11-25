@@ -23,7 +23,7 @@ module Codiphi
     end
     
     def validate
-      run_assertions
+      run_gather_assertions
       
       unless pass_assertions
         # return the original file with appended errors
@@ -38,7 +38,7 @@ module Codiphi
       (@transformed_data["list"]["cost"] = cost) if @transformed_data["list"]
     end
 
-    def run_assertions
+    def run_gather_assertions
       render_tree unless @syntax_tree
       run_completeness_transform unless @transformed_data
       @syntax_tree.gather_assertions(@assertions)

@@ -11,15 +11,9 @@ def options_parse(args)
   options.verbose = false
 
   opts = OptionParser.new do |opts|
-    opts.banner = "Usage: codiphi [options] file"
-
+    opts.banner = "Usage: codiphi [options] JSON_FILE"
     opts.separator ""
     opts.separator "Specific options:"
-
-    opts.on("-f", "--file JSON_FILE",
-                    "Path to input JSON file") do |file|
-              options.json_file = file
-            end
 
     opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
       options.verbose = v
@@ -66,8 +60,11 @@ end
 
 engine = Codiphi::Engine.new(data)
 
-  engine.transform
+if (options.validate)
   engine.validate
+else
+  engine.transform
+end
 
 puts engine.emitted_data
 

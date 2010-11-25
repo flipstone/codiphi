@@ -10,10 +10,10 @@ module Codiphi
       JSON.parse(data)
     end
 
-    def self.read_schematic(path)
+    def self.read_schematic(url)
       data = ""
-      codex_name = path.split('/').last
-      full_path = "samples/schematics/#{path}/#{codex_name}.cdx"
+      codex_name = url.split('/').last
+      full_path = "samples/schematics/#{url}/#{codex_name}.cdx"
       say "reading schematic at #{full_path}" do
         f = File.open(full_path, "r")
         f.each_line do |line|
