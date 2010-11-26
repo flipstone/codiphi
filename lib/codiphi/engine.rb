@@ -20,7 +20,8 @@ module Codiphi
     end
     
     def emit
-      data_to_emit = has_errors? ? @original_data : @data
+      data_to_emit = @data
+      data_to_emit = @original_data if has_errors?
       @emitted_data = JSON.generate(data_to_emit)
     end
     
