@@ -19,5 +19,5 @@ model :hero {
 #
 list { 
   cost_measure "points"
-  expects 1 :hero
+  expects 1 model :hero
 }

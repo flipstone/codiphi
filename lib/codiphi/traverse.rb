@@ -27,12 +27,12 @@ module Codiphi
     def self.count_for_expected_type_on_name(data, expected_type, expected_name)
       count = 0
 
-      data.each do |k,v| 
+      data.each do |k,v|
         # first, count on this child's values
         subcount = 0
         subcount = count_for_expected_type_on_name(v, expected_type, expected_name) if v.class == Hash
 
-        # multiply by my count if any subcounts          
+        # multiply by my count if any subcounts
         if (k == expected_type || subcount > 0)
           # this is our guy, if child "type" == :name 
           if ("list" == k || v.class == Hash || subcount > 0)
@@ -43,14 +43,14 @@ module Codiphi
               if (v.include?("count"))
                 nodecount = v["count"]
               end
-              
+
               nodecount = nodecount * subcount if subcount > 0
               count += nodecount
             end
           end
         end
       end
-      
+
       count
     end
 

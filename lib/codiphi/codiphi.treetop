@@ -19,6 +19,8 @@ grammar Codiphi
     space 
     integer 
     space 
+    type:word 
+    space 
     name 
     <AssertionNode>
   end

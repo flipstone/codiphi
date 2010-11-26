@@ -39,9 +39,12 @@ module Codiphi
     end
 
     def run_gather_assertions
+      @assertions = []
       render_tree unless @syntax_tree
       run_completeness_transform unless @transformed_data
-      @syntax_tree.gather_assertions(@assertions)
+      say_ok "gathering assertions from schematic" do
+        @syntax_tree.gather_assertions(@assertions)
+      end
       true
     end
 
@@ -53,8 +56,9 @@ module Codiphi
       failures = []
       @assertions.each do |asst|
         say_ok "checking assertion '#{asst.text_value}' on node <#{asst.parent_declaration}>" do
-          # probably need a loop for each kind of assertion operator?
-          traverse_data_for_key(@transformed_data, asst.name.text_value) do |leaf|
+          # find node <#{asst.parent_declaration}> and run counts
+          Traverse.matching_key(asst.parent_declaration)
+          Traverse.count_for_expected_type_on_name(@transformed_data, asst.name.text_value) do |leaf|
             if (true)
               # passed
             else
