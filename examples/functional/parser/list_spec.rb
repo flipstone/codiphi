@@ -24,9 +24,5 @@ describe Codiphi::Parser, "list" do
     tree = Codiphi::Parser.parse %{model :hero {\n  cost 100\n} \n list { \ncost_measure "points"\n expects 1 model :hero  \n }\n }
     tree.class.should == CodexNode
     tree.elements.map{ |e| e.class }.should be_include ListNode
-    # list = tree.list.declaration_block.declaration_list
-    # list.class.should == DeclarationListNode
-    # list.declaration.class.should == DeclarationNode
-    # list.declaration_list.class.should == DeclarationListNode
   end
 end

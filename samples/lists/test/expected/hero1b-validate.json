@@ -15,6 +15,5 @@
         }
     },
     "list-errors":
-      [ "At least 1 hero model required in list",
-        "Model hero-godling not permitted in list" ]
+      [ "At least 1 hero model required in list" ]
 }

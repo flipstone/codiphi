@@ -1,6 +1,6 @@
 class CodiphiNode < Treetop::Runtime::SyntaxNode
-  def transform(data, context)
-    elements.each{ |e| e.transform(data, context) if e.respond_to? :transform } unless terminal?
+  def transform(data)
+    elements.each{ |e| e.transform(data) if e.respond_to? :transform } unless terminal?
   end
   
   def gather_assertions(assertion_list)

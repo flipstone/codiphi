@@ -20,7 +20,7 @@ def options_parse(args)
     end
 
     opts.on("-x", "--no-validate", "Run without checking schematic assertions.") do |v|
-      options.no_validate = v
+      options.no_validate = !v
     end
 
     opts.separator ""
@@ -63,6 +63,7 @@ engine = Codiphi::Engine.new(data)
 unless (options.no_validate)
   engine.validate
 else
+  warn "running without validation"
   engine.transform
 end
 
