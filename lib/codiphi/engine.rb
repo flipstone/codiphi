@@ -22,7 +22,7 @@ module Codiphi
     def emit
       data_to_emit = @data
       data_to_emit = @original_data if has_errors?
-      @emitted_data = JSON.generate(data_to_emit)
+      @emitted_data = data_to_emit
     end
     
     def transform
@@ -62,17 +62,38 @@ module Codiphi
       @failures = []
       @assertions.each do |asst|
         target_node = asst.parent_declaration
-        say_ok "checking assertion '#{asst.text_value}' on node <#{target_node}>" do
-          # find node <target_node> and run counts
-          Traverse.matching_key(@data, target_node) do |node|
-            # get counts for matched node
-            target = asst.integer.text_value
-            type = asst.type.text_value
-            type_s =  target > 1 ? type.pluralize : type 
-            name = asst.name.text_value
+        target_type = target_node == "list" ? "" : " #{asst.parent_declaration_node.type.text_value}"
+        say_ok "checking assertion '#{asst.text_value}' on <#{target_type} #{target_node}>" do
+
+          case asst.assertion_operator.text_value
+          when "expects"
+            # find node <target_node> and run counts
+            Traverse.matching_key(@data, target_node) do |node|
+              # get counts for matched node
+              target = asst.integer.text_value
+              type = asst.type.text_value
+              type_s =  target > 1 ? "#{type}s" : type 
+              name = asst.name.text_value
             
-            count = Traverse.count_for_expected_type_on_name(node, type, name)
-            @failures << "At least #{target} #{name} #{type_s} expected in #{target_node}" unless count >= target
+              count = Traverse.count_for_expected_type_on_name(node, type, name)
+              @failures << "At least #{target} #{name} #{type_s} expected on #{target_node}#{target_type}" unless count >= target
+            end
+            break
+          when "permits"
+            # find node <target_node> and run counts
+            Traverse.matching_key(@data, target_node) do |node|
+              # get counts for matched node
+              target = asst.integer.text_value
+              type = asst.type.text_value 
+              type_s =  target > 1 ? "#{type}s" : type 
+              name = asst.name.text_value
+            
+              count = Traverse.count_for_expected_type_on_name(node, type, name)
+              @failures << "At most #{target} #{name} #{type_s} expected on #{target_node}#{target_type}" unless count <= target
+            end
+            break
+          default
+            warn "unknown schematic assertion"
           end
         end
       end

@@ -67,6 +67,6 @@ else
   engine.transform
 end
 
-puts engine.emitted_data
+puts JSON.generate(engine.emitted_data)
 
 

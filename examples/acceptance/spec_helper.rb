@@ -22,12 +22,27 @@ class Array
     self.each{ |i| stringout << i.gsub(/"/, '') + delimeter}
     stringout.chomp(delimeter)
   end
+
+  def pretty_node(append=nil)
+    if empty?
+      if append.nil?
+        out = ""
+      else
+        out = "on <#{append}>"
+      end
+    else
+      out = self.delimited('.')
+      out << ".#{append}" if append
+      out = "on <#{out}>"
+    end
+    out
+  end
 end
 
 class Hash
   def deep_diff(other, difflist, keystack)
     if other.nil?
-      difflist << "Unexpected elements on node <'#{keystack.delimited('.')}'>: #{self.keys.inspect}" 
+      difflist << "Unexpected elements #{keystack.pretty_node}: #{self.keys.inspect}" 
       return
     end
 
@@ -37,8 +52,8 @@ class Hash
 
     if !keydiffs.empty?
       keydiffs.each { |k| 
-        difflist << "Unexpected node <#{k}:#{self[k]}> on node <#{keystack.delimited('.')}>" if self.keys.include?(k)
-        difflist << "Expected node <#{k}:#{other[k]}> on node <#{keystack.delimited('.')}>" if other.keys.include?(k)
+        difflist << "Unexpected node <#{k}:#{self[k]}> on node <#{keystack.pretty_node}>" if self.keys.include?(k)
+        difflist << "Expected node <#{k}:#{other[k]}> on node <#{keystack.pretty_node}>" if other.keys.include?(k)
       }
     end
     self.each do |k,v| 
@@ -46,6 +61,9 @@ class Hash
       if v.class == Hash && other[k].class == Hash
         # puts "deep diffing node #{k}"
         v.deep_diff(other[k], difflist, keystack.push(k))
+      else
+        # compare the values
+        difflist << "Expected value '#{other[k]}' #{keystack.pretty_node(k)}, but got '#{v}'" unless other[k] == v
       end 
     end
     keystack.pop

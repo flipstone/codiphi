@@ -32,6 +32,7 @@ grammar Codiphi
   
   rule assertion_operator
     "expects"
+    / "permits"
     <LiteralNode>
   end
     

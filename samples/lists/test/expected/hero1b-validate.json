@@ -15,5 +15,5 @@
         }
     },
     "list-errors":
-      [ "At least 1 hero model required in list" ]
+      [ "At least 1 hero model expected on list" ]
 }
