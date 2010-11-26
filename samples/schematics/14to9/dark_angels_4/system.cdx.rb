@@ -16,8 +16,8 @@ nature :bike
 
 # force organization
 list { 
-  demands 1 :hq
-  demands 2 :troops
+  expects 1 :hq
+  expects 2 :troops
 
   permits 2 :hq
   permits 6 :troops

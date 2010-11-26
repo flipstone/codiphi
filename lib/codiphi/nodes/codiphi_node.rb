@@ -4,6 +4,7 @@ class CodiphiNode < Treetop::Runtime::SyntaxNode
   end
   
   def gather_assertions(assertion_list)
+    say "gathering #{self}"
     elements.each{ |e| e.gather_assertions(assertion_list) if e.respond_to? :gather_assertions } unless terminal?
   end
   

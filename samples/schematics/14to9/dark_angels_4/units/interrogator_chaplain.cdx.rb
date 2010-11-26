@@ -3,7 +3,7 @@
   with_nature :infantry
   having_special_rules :independent_character, :honour_of_the_chapter, :litanies_of_hate
   costing 120
-  demands 1.model [:interrogator_chaplain, :interrogator_chaplain_terminator, :interrogator_chaplain_jumppack]
+  expects 1.model [:interrogator_chaplain, :interrogator_chaplain_terminator, :interrogator_chaplain_jumppack]
   equipped_with "Wargear", {
     :bolt_pistol,
     :crozius_arcanum

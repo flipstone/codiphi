@@ -54,13 +54,13 @@ SayLogging.suppress_log(!options.verbose)
 # load json_file
 #
 data = {}
-say "loading json file at #{options.json_file}" do
+say_ok "loading json file at #{options.json_file}" do
   data = Codiphi::Support.read_json(options.json_file)
 end
 
 engine = Codiphi::Engine.new(data)
 
-if (options.validate)
+unless (options.no_validate)
   engine.validate
 else
   engine.transform

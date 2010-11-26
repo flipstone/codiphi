@@ -27,22 +27,22 @@ describe CodiphiParser, "declaration" do
   end
   
   it "parses assertions without children" do
-    Codiphi::Parser.should parse %{demands 1 :argle}
-    Codiphi::Parser.should parse %{\ndemands 1 :argle}
-    Codiphi::Parser.should parse %{demands 99 :bargle\n}
-    Codiphi::Parser.should parse %{\ndemands 99 :bargle\n}
+    Codiphi::Parser.should parse %{expects 1 :argle}
+    Codiphi::Parser.should parse %{\nexpects 1 :argle}
+    Codiphi::Parser.should parse %{expects 99 :bargle\n}
+    Codiphi::Parser.should parse %{\nexpects 99 :bargle\n}
   end
   
   it "parses without-children lists" do
     Codiphi::Parser.should parse %{model :foo model :baz}
     Codiphi::Parser.should parse %{model :foo\nargle "bargle"}
-    Codiphi::Parser.should parse %{model :foo\nargle "bargle"\neasy "peasy"\n demands 1 :argle }
+    Codiphi::Parser.should parse %{model :foo\nargle "bargle"\neasy "peasy"\n expects 1 :argle }
   end
 
   it "parses assertion-mixed, without-children lists" do
-    Codiphi::Parser.should parse %{model :foo\n demands 1 :argle }
-    Codiphi::Parser.should parse %{model :foo demands 1 :argle}
-    Codiphi::Parser.should parse %{demands 1 :argle\nargle "bargle"}
+    Codiphi::Parser.should parse %{model :foo\n expects 1 :argle }
+    Codiphi::Parser.should parse %{model :foo expects 1 :argle}
+    Codiphi::Parser.should parse %{expects 1 :argle\nargle "bargle"}
   end
 
   it "parses with block" do
@@ -65,7 +65,7 @@ describe CodiphiParser, "declaration" do
     tree.declaration_list.class.should == DeclarationListNode
     tree.declaration_list.declaration_list.class.should == DeclarationListNode
 
-    tree = Codiphi::Parser.parse %{model :foo\n demands 1 :argle }
+    tree = Codiphi::Parser.parse %{model :foo\n expects 1 :argle }
     tree.class.should == CodexNode
     tree.declaration_list.class.should == DeclarationListNode
     tree.declaration_list.declaration_list.class.should == DeclarationListNode

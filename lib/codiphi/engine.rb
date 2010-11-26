@@ -24,8 +24,8 @@ module Codiphi
     
     def validate
       run_gather_assertions
-      
-      unless pass_assertions
+      passed = pass_assertions
+      unless passed
         # return the original file with appended errors
         failclone = @data.clone
         failclone["list-errors"] = context["list-errors"]
@@ -46,32 +46,34 @@ module Codiphi
     end
 
     def pass_assertions
-      unless (@assertions.nil? || @assertions.empty?)
-        failures = []
-        @assertions.each do |asst|
-          say "checking assertion '#{asst.text_value}' on node <#{asst.parent_declaration}>" do
-            # probably need a loop for each kind of assertion operator?
-            traverse_data_for_key(@transformed_data, asst.name.text_value) do |leaf|
-              if (true)
-                # passed
-              else
-                failures << "ARGLE"
-              end
+      if (@assertions.nil? || @assertions.empty?)
+        warn "no assertions in schematic"
+        return true
+      end
+      failures = []
+      @assertions.each do |asst|
+        say_ok "checking assertion '#{asst.text_value}' on node <#{asst.parent_declaration}>" do
+          # probably need a loop for each kind of assertion operator?
+          traverse_data_for_key(@transformed_data, asst.name.text_value) do |leaf|
+            if (true)
+              # passed
+            else
+              failures << "ARGLE"
             end
           end
         end
-        unless failures.empty?        
-          context["list-errors"] = failures 
-          return false
-        end
+      end
+      unless failures.empty?        
+        context["list-errors"] = failures 
+        return false
       end
       return true
     end
 
     def cost
       running_cost = 0
-      say "calculating cost" do
-        traverse_data_for_key(@transformed_data, "cost") do |target_value|
+      say_ok "calculating cost" do
+        Traverse.matching_key(@transformed_data, "cost") do |target_value|
           running_cost += target_value
         end
       end      
@@ -90,7 +92,7 @@ module Codiphi
     def render_tree
       raise "List file must include a root-level 'list' element." unless @data["list"]   
 
-      say "inspecting list for schematic" do
+      say_ok "inspecting list for schematic" do
         raise "List element must include a 'schematic' element." unless @data["list"]["schematic"]
       end
   
@@ -98,18 +100,5 @@ module Codiphi
       schematic_data = Support.read_schematic(schematic_path)
       @syntax_tree = Parser.parse(schematic_data)
     end
-
-    def traverse_data_for_key(data, key, &block)
-      data.each do |k,v|
-        if (k == key)
-          # do the block
-          block.call(v)
-        else
-          # check this node's children
-          traverse_data_for_key(v, key, &block) if v.class == Hash
-        end
-      end
-    end
-
   end
 end

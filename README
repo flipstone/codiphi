@@ -14,7 +14,7 @@ Setup a codiphi schematic file (a '_codiphile_').  We've tried to make this a ve
     }
     list { 
       cost_measure "points"
-      demands 1 :hero
+      expects 1 :hero
     }
 
 This codiphile declares:

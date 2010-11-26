@@ -3,8 +3,8 @@ unit :tactical_squad, {
   nature :infantry
   has_special_rules :and_they_shall_know_no_fear, :combat_squads
   costs 75
-  demands 1.model :veteran
-  demands 4.models :space_marine
+  expects 1.model :veteran
+  expects 4.models :space_marine
   permits 9.models :space_marine
   equipped_with "Wargear", {
     :bolt_pistol,

@@ -14,10 +14,10 @@ model :hero {
 
 # list requirement
 # the list element is required
-# list block allows one or more (demands/permits) instructions
+# list block allows one or more (expects/permits) instructions
 # allows one or more attribute declarations
 #
 list { 
   cost_measure "points"
-  demands 1 :hero
+  expects 1 :hero
 }

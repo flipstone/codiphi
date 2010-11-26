@@ -9,8 +9,8 @@ unit :scout_squad, {
   }
   cost 80
 
-  demands 1 :scout_sergeant
-  demands 4 :scout
+  expects 1 :scout_sergeant
+  expects 4 :scout
   permits 9 :scout
 
   weapon {

@@ -14,7 +14,7 @@ module Codiphi
       data = ""
       codex_name = url.split('/').last
       full_path = "samples/schematics/#{url}/#{codex_name}.cdx"
-      say "reading schematic at #{full_path}" do
+      say_ok "reading schematic at #{full_path}" do
         f = File.open(full_path, "r")
         f.each_line do |line|
             data += line
