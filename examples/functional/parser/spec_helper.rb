@@ -1,4 +1,4 @@
-require_relative '../spec_helper.rb'
+require_relative '../../spec_helper.rb'
 
 RSpec::Matchers.define :parse do |a_string|
   match do |parser|
