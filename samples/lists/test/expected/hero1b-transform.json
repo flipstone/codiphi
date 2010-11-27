@@ -10,10 +10,10 @@
         "version": "1",
         "cost":0,
         "cost_measure":"points",
-        "model":{
+        "model":[{
             "type":"hero-godling",
             "description":"Neo",
             "count":1
-        }
+        }]
     }
 }

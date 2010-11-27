@@ -52,8 +52,8 @@ class Hash
 
     if !keydiffs.empty?
       keydiffs.each { |k| 
-        difflist << "Unexpected node <#{k}:#{self[k]}> on node <#{keystack.pretty_node}>" if self.keys.include?(k)
-        difflist << "Expected node <#{k}:#{other[k]}> on node <#{keystack.pretty_node}>" if other.keys.include?(k)
+        difflist << "Unexpected <#{k}:#{self[k]}> #{keystack.pretty_node}" if self.keys.include?(k)
+        difflist << "Expected <#{k}:#{other[k]}> #{keystack.pretty_node}" if other.keys.include?(k)
       }
     end
     self.each do |k,v| 

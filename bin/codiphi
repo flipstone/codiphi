@@ -61,6 +61,7 @@ end
 engine = Codiphi::Engine.new(data)
 
 unless (options.no_validate)
+  engine.transform
   engine.validate
 else
   warn "running without validation"

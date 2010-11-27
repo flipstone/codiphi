@@ -1,10 +1,12 @@
 class CodiphiNode < Treetop::Runtime::SyntaxNode
   def transform(data)
-    elements.each{ |e| e.transform(data) if e.respond_to? :transform } unless terminal?
+    # puts "xform #{self}"
+    unless (terminal?)
+      elements.each{ |e| e.transform(data) if e.respond_to? :transform } 
+    end
   end
   
   def gather_assertions(assertion_list)
-    # say "gathering #{self}"
     elements.each{ |e| e.gather_assertions(assertion_list) if e.respond_to? :gather_assertions } unless terminal?
   end
   
@@ -18,7 +20,7 @@ class CodiphiNode < Treetop::Runtime::SyntaxNode
 
   def parent_declaration_node
     upnode = parent
-    while !upnode.nil? do
+    while test_upnode(upnode) do
       if upnode.declarative?
         return upnode
       else
@@ -26,5 +28,14 @@ class CodiphiNode < Treetop::Runtime::SyntaxNode
       end
     end
     nil
-  end  
+  end
+  
+  def test_upnode(upnode)
+    if (!upnode.nil? &&
+        upnode != self &&
+        upnode.class != CodexNode)
+      return true
+    end
+    false
+  end
 end

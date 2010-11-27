@@ -6,18 +6,21 @@
         "author":"Codiphi Developer",
         "author_email":"development@flipstone.com",
         "variant": "nested legal",
-        "cost_measure":"points",
         "notes":"hero should qualify even under the unit node",
         "version": "1",
-        "unit":[{
+        "units":[{
           "type":"hero-squad",
-          "model":[{
-              "type":"hero",
-              "description":"Neo",
-              "count":2,
-              "cost":100
-          }]
-        }],
-        "cost":200
+          "models":[
+            {
+                "type":"hero",
+                "description":"Neo",
+                "count":2
+            },
+            {
+                "type":"hero",
+                "description":"Trinity",
+                "count":3
+            }]
+        }]
     }
 }

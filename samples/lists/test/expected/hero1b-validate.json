@@ -8,11 +8,11 @@
         "variant": "illegal",
         "notes":"bad model id",
         "version": "1",
-        "model":{
+        "model":[{
             "type":"hero-godling",
             "description":"Neo",
             "count":1
-        }
+        }]
     },
     "list-errors":
       [ "At least 1 hero model expected on list" ]

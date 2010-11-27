@@ -23,7 +23,7 @@ module SayLogging
       yield if block
     rescue Exception
       puts "FAIL" unless @@suppress
-      raise 
+      raise
     end
     puts "OK" unless @@suppress
   end

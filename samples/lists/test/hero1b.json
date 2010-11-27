@@ -8,11 +8,10 @@
         "variant": "illegal",
         "notes":"bad model id",
         "version": "1",
-        "model":{
+        "model":[{
             "type":"hero-godling",
             "description":"Neo",
             "count":1
-        }
-
+        }]
     }
 }

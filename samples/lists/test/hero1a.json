@@ -7,10 +7,10 @@
         "author_email":"development@flipstone.com",
         "variant": "legal",
         "version": "1",
-        "model":{
+        "model":[{
             "type":"hero",
             "description":"Neo",
             "count":1
-        }
+        }]
     }
 }

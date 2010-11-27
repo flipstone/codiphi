@@ -8,12 +8,12 @@
         "variant": "legal",
         "version": "1",
         "cost_measure":"points",
-        "model":{
+        "model":[{
             "type":"hero",
             "cost":100,
             "description":"Neo",
             "count":1
-        },
+        }],
         "cost":100
     }
 }
