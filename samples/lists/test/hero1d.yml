@@ -1,0 +1,18 @@
+--- 
+list: 
+  description: First Man Standing
+  schematic: test/hero1
+  author: Codiphi Developer
+  author_email: development@flipstone.com
+  variant: nested legal
+  notes: hero should qualify even under the unit node
+  version: "1"
+  unit: 
+  - type: hero-squad
+    model: 
+    - type: hero
+      description: Neo
+      count: 2
+    - type: hero
+      description: Trinity
+      count: 3

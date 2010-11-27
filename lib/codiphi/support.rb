@@ -10,6 +10,15 @@ module Codiphi
       JSON.parse(data)
     end
 
+    def self.read_yaml(path)
+      data = ""
+      f = File.open(path, "r")
+      f.each_line do |line|
+          data += line
+      end
+      YAML::load(data)
+    end
+
     def self.read_schematic(url)
       data = ""
       codex_name = url.split('/').last

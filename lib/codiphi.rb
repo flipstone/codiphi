@@ -2,6 +2,7 @@ bin_path = File.expand_path(File.dirname(__FILE__))
 BASE_PATH = File.join(bin_path, '../')
 
 require 'json'
+require 'yaml'
 require 'polyglot'
 require 'treetop'
 

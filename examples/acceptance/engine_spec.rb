@@ -6,19 +6,19 @@ Dir["#{BASE_PATH}samples/lists/test/*.json"].each do |file|
     file_ref = File.basename(file, ".json")
   
     it "transforms #{file_ref}" do
-      data = Codiphi::Support.read_json(file)
+      data = Codiphi::Support.read_yaml(file)
       engine = Codiphi::Engine.new(data)
       engine.transform
-      expected_data = read_sample_json("test/expected/#{file_ref}-transform.json")
+      expected_data = read_sample_yaml("test/expected/#{file_ref}-transform.yml")
       engine.emitted_data.should set_match expected_data
     end
 
     it "validates #{file_ref}" do
-      data = Codiphi::Support.read_json(file)
+      data = Codiphi::Support.read_yaml(file)
       engine = Codiphi::Engine.new(data)
       engine.transform
       engine.validate
-      expected_data = read_sample_json("test/expected/#{file_ref}-validate.json")
+      expected_data = read_sample_yaml("test/expected/#{file_ref}-validate.yml")
       engine.emitted_data.should set_match expected_data
     end      
   end

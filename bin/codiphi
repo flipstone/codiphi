@@ -11,7 +11,7 @@ def options_parse(args)
   options.verbose = false
 
   opts = OptionParser.new do |opts|
-    opts.banner = "Usage: codiphi [options] JSON_FILE"
+    opts.banner = "Usage: codiphi [options] YAML_FILE"
     opts.separator ""
     opts.separator "Specific options:"
 
@@ -47,16 +47,15 @@ end
 #
 ARGV << "-h" if ARGV.empty?
 options, PARGV = options_parse(ARGV)
-puts PARGV.inspect
-options.json_file = PARGV[0] if PARGV[0]
+options.yaml_file = PARGV[0] if PARGV[0]
 SayLogging.suppress_log(!options.verbose)
 
 #
 # load json_file
 #
 data = {}
-say_ok "loading json file at #{options.json_file}" do
-  data = Codiphi::Support.read_json(options.json_file)
+say_ok "loading yaml file at #{options.yaml_file}" do
+  data = Codiphi::Support.read_yaml(options.yaml_file)
 end
 
 engine = Codiphi::Engine.new(data)
@@ -69,6 +68,6 @@ else
   engine.transform
 end
 
-puts JSON.generate(engine.emitted_data)
+puts YAML::dump(engine.emitted_data)
 
 

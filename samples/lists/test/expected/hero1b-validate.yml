@@ -1,0 +1,15 @@
+--- 
+list: 
+  description: First Man Standing
+  schematic: test/hero1
+  author: Codiphi Developer
+  author_email: development@flipstone.com
+  variant: illegal
+  notes: bad model id
+  version: "1"
+  model: 
+  - type: hero-godling
+    description: Neo
+    count: 1
+list-errors: 
+- At least 1 hero model expected on list
