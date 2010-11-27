@@ -72,6 +72,42 @@ module Codiphi
       count
     end
 
+    def self.for_cost(data)
+      subcost= 0
+      cost = 0
+      mymult = 1
+
+      case data
+      when Hash
+        data.each do |k,v|
+          # first, get this child's costs
+          if [Hash, Array].include? v.class
+            subcount += for_cost(v)
+          end
+        end
+        
+        # see if I have a user-declared count
+        if (data.keys.include?("count"))
+          mymult = data["count"]
+        end
+
+        # test this hash for type to increments
+        if data.keys.include?("cost")
+          subcost += data["cost"]
+        end
+
+      when Array
+        data.each do |v|
+          childcost = for_cost(v) 
+          subcost += childcost
+        end
+      end
+      
+      cost = (subcost * mymult)
+      cost
+    end
+
+
     # matches all <key> nodes 
     def self.matching_key(data, key, &block)
       data.each do |k,v|
