@@ -8,13 +8,13 @@
         "variant": "nested legal",
         "notes":"hero should qualify even under the unit node",
         "version": "1",
-        "unit":{
+        "unit":[{
           "type":"hero-squad",
-          "model":{
+          "model":[{
               "type":"hero",
               "description":"Neo",
               "count":2
-          }
-        }
+          }]
+        }]
     }
 }

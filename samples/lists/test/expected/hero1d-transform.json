@@ -9,21 +9,21 @@
         "cost_measure":"points",
         "notes":"hero should qualify even under the unit node",
         "version": "1",
-        "unit":{
-          "type":"hero-squad",
-          "model":{
-              "type":"hero",
-              "description":"Neo",
-              "count":2,
-              "cost":100
-          },
-          "model":{
-              "type":"hero",
-              "description":"Trinity",
-              "count":3,
-              "cost":100
-          }
-        },
+        "unit":[{
+            "type":"hero-squad",
+            "model":[{
+                "type":"hero",
+                "description":"Neo",
+                "count":2,
+                "cost":100
+            },
+            {
+                "type":"hero",
+                "description":"Trinity",
+                "count":3,
+                "cost":100
+            }]
+          }],
         "cost":500
     }
 }

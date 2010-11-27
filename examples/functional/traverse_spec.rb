@@ -29,10 +29,12 @@ describe Codiphi::Traverse do
         }
       }
       
-      Codiphi::Traverse.matching_named_type(indata, "list", "list") do
-        matches += 1
+      Codiphi::Traverse.matching_named_type(indata, "list", "list") do |node|
+        node["erkle"] = 999
       end
-      matches.should == 1
+      
+      indata["list"].keys.should be_include("erkle")
+      indata["list"]["erkle"].should == 999
     end
 
     it "finds a single case" do

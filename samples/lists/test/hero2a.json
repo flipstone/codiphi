@@ -8,13 +8,13 @@
         "variant": "nested legal",
         "notes":"exceeds permits",
         "version": "1",
-        "unit":{
+        "unit":[{
           "type":"hero-squad",
-          "model":{
+          "model":[{
               "type":"hero",
               "description":"Neo",
               "count":5
-          }
-        }
+          }]
+        }]
     }
 }

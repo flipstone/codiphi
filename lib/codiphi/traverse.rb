@@ -7,8 +7,13 @@ module Codiphi
       matched_parent = 0 if (matched_parent > 2)
       case data
       when Hash
+        # special case for list
+        if ("list" == schematic_type && data.keys.include?("list"))
+          block.call(data["list"])
+        end
+
         # test this hash for type to match
-        if ((data.keys.include?("type") && data["type"] == schematic_name) || "list" == schematic_type)
+        if (data.keys.include?("type") && data["type"] == schematic_name)
           block.call(data) if (matched_parent > 1)
         end
         # recurse on the attributes, looking for <schematic_type>
