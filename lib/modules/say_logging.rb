@@ -19,13 +19,14 @@ module SayLogging
       print " - #{string} .. "
       STDOUT.flush
     end
+
     begin
       yield if block
+      puts "OK" unless @@suppress
     rescue Exception
       puts "FAIL" unless @@suppress
-      raise
+    raise
     end
-    puts "OK" unless @@suppress
   end
   
   def suppress_log(hide=true)

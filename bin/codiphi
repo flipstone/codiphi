@@ -47,6 +47,7 @@ end
 #
 ARGV << "-h" if ARGV.empty?
 options, PARGV = options_parse(ARGV)
+puts PARGV.inspect
 options.json_file = PARGV[0] if PARGV[0]
 SayLogging.suppress_log(!options.verbose)
 
