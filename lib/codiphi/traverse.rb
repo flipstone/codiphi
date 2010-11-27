@@ -82,7 +82,7 @@ module Codiphi
         data.each do |k,v|
           # first, get this child's costs
           if [Hash, Array].include? v.class
-            subcount += for_cost(v)
+            subcost += for_cost(v)
           end
         end
         

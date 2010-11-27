@@ -102,9 +102,7 @@ module Codiphi
     def cost
       running_cost = 0
       say_ok "calculating cost" do
-        Traverse.matching_key(@data, "cost") do |target_value|
-          running_cost += target_value
-        end
+        running_cost = Traverse.for_cost(@data)
       end      
       running_cost
     end
