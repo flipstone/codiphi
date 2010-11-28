@@ -1,5 +1,6 @@
 module Codiphi
   class Engine
+    include R18n::Helpers
     Version = [0,1,0]
     
     attr_accessor :data
@@ -11,12 +12,13 @@ module Codiphi
       !@failures.empty?
     end
     
-    def initialize(data)
+    def initialize(data, locale='en')
       @data = data
       # poor man's clone
       @original_data = Marshal.load( Marshal.dump(@data))
       @context = Hash.new
       @failures = []
+      R18n.set(R18n::I18n.new(locale, "#{BASE_PATH}/r18n"))
     end
     
     def emit
@@ -25,7 +27,7 @@ module Codiphi
       @emitted_data = data_to_emit
     end
     
-    def transform
+    def completion_transform
       # scrub list-errors if present
       run_completeness_transform
       emit
@@ -36,7 +38,7 @@ module Codiphi
       check_assertions
       if has_errors?
         # decorate the original file with appended errors
-        original_data["list-errors"] = @failures
+        original_data["list-errors"] = @failures.map{ |f| f.to_s }
       end
       emit
     end
@@ -48,7 +50,7 @@ module Codiphi
     def run_gather_assertions
       @assertions = []
       render_tree unless @syntax_tree
-      say_ok "gathering assertions from schematic" do
+      say_ok t.assertions.gathering do
         @syntax_tree.gather_assertions(@assertions)
       end
       true
@@ -56,14 +58,14 @@ module Codiphi
 
     def check_assertions
       if (@assertions.nil? || @assertions.empty?)
-        warn "no assertions in schematic"
+        warn t.assertions.none
         return true
       end
       @failures = []
       @assertions.each do |asst|
         target_node = asst.parent_declaration
         target_type = target_node == "list" ? "" : " #{asst.parent_declaration_node.type.text_value}"
-        say_ok "checking assertion '#{asst.text_value}' on <#{target_type} #{target_node}>" do
+        say_ok t.assertions.checking(asst.text_value,target_type,target_node) do
 
           case asst.assertion_operator.text_value
           when "expects"
@@ -72,11 +74,10 @@ module Codiphi
               # get counts for matched node
               target = asst.integer.text_value
               type = asst.type.text_value
-              type_s =  target > 1 ? "#{type}s" : type 
               name = asst.name.text_value
             
               count = Traverse.count_for_expected_type_on_name(node, type, name)
-              @failures << "At least #{target} #{name} #{type_s} expected on #{target_node}#{target_type}" unless count >= target
+              @failures << t.assertions.fail.expects(target,name,type,target_node,target_type) unless count >= target
             end
             break
           when "permits"
@@ -85,15 +86,14 @@ module Codiphi
               # get counts for matched node
               target = asst.integer.text_value
               type = asst.type.text_value 
-              type_s =  target > 1 ? "#{type}s" : type 
               name = asst.name.text_value
             
               count = Traverse.count_for_expected_type_on_name(node, type, name)
-              @failures << "At most #{target} #{name} #{type_s} expected on #{target_node}#{target_type}" unless count <= target
+              @failures << t.assertions.fail.permits(target,name,type,target_node,target_type) unless count <= target
             end
             break
           default
-            warn "unknown schematic assertion"
+            warn t.assertions.unknown_operator
           end
         end
       end
@@ -101,7 +101,7 @@ module Codiphi
 
     def cost
       running_cost = 0
-      say_ok "calculating cost" do
+      say_ok t.bin.calculating do
         running_cost = Traverse.for_cost(@data)
       end      
       running_cost
@@ -109,16 +109,16 @@ module Codiphi
 
     def run_completeness_transform
       render_tree
-      @syntax_tree.transform(@data)
+      @syntax_tree.completion_transform(@data)
       apply_cost
       true
     end
 
     def render_tree
-      raise "List file must include a root-level 'list' element." unless @data["list"]   
+      raise t.assertions.no_list unless @data["list"]   
 
-      say_ok "inspecting list for schematic" do
-        raise "List element must include a 'schematic' element." unless @data["list"]["schematic"]
+      say_ok t.bin.inspecting do
+        raise t.bin.no_schematic unless @data["list"]["schematic"]
       end
   
       schematic_path = @data["list"]["schematic"]

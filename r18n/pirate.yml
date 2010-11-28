@@ -1,0 +1,24 @@
+ok: Aye!
+fail: Arrrr
+warn: Ahoy!
+
+bin:
+    loading: grabbing ye yaml at %1
+    no_validation: thar be no validations
+    no_schematic: ye List element need have a 'schematic' bit
+    calculating: summing the booty, mate!
+    inspecting: see ye schematic element? Arr, it be required
+
+assertions:
+    gathering: see ye assertions?
+    no_list: ye List element need have a 'list' bit
+    none: thar be no assertions in schematic
+    checking: arrr checking yer assertion '%1' on <%2 %3>
+    unknown_operator: thar be a mystery assertion
+    fail:
+        expects: !!pl
+            1: Ye need 1 hearty %2 %3 aboard %4 %5
+            n: Ye need %1 hearty %2 %3s aboard %4 %5
+        permits: !!pl
+            1: But 1 %2 %3 allowed aboard node %4 %5
+            n: No more than %1 %2 %3s allowed aboard %4 %5

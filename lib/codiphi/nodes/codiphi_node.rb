@@ -1,8 +1,8 @@
 class CodiphiNode < Treetop::Runtime::SyntaxNode
-  def transform(data)
+  def completion_transform(data)
     # puts "xform #{self}"
     unless (terminal?)
-      elements.each{ |e| e.transform(data) if e.respond_to? :transform } 
+      elements.each{ |e| e.completion_transform(data) if e.respond_to? :completion_transform } 
     end
   end
   

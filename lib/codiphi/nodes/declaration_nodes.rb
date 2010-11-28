@@ -1,7 +1,7 @@
 require_relative './codiphi_node'
 
 class DeclarationNode < CodiphiNode
-  def transform(data)
+  def completion_transform(data)
     super(data)
     match_node = parent_declaration_node
     

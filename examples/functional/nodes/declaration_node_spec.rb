@@ -12,7 +12,7 @@ describe DeclarationNode do
     }
     node.type.text_value.should == "foo"
     
-    node.transform(indata)
+    node.completion_transform(indata)
     indata["fum"][0].keys.should be_include "foo"
     indata["fum"][0]["foo"].should == "foopants"
   end

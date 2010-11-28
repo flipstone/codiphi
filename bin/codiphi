@@ -2,6 +2,7 @@
 require_relative '../lib/codiphi.rb'
 require 'optparse'
 require 'ostruct'
+include R18n::Helpers
 
 def options_parse(args)
   # The options specified on the command line will be collected in *options*.
@@ -9,11 +10,16 @@ def options_parse(args)
   options = OpenStruct.new
   options.no_validate = false
   options.verbose = false
+  options.locale = 'en'
 
   opts = OptionParser.new do |opts|
     opts.banner = "Usage: codiphi [options] YAML_FILE"
     opts.separator ""
     opts.separator "Specific options:"
+
+    opts.on("-l", "--locale LOCALE", "Use messages localized to LOCALE") do |l|
+      options.locale = l
+    end
 
     opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
       options.verbose = v
@@ -48,24 +54,26 @@ end
 ARGV << "-h" if ARGV.empty?
 options, PARGV = options_parse(ARGV)
 options.yaml_file = PARGV[0] if PARGV[0]
+
+R18n.set(R18n::I18n.new(options.locale, "#{BASE_PATH}/r18n"))
 SayLogging.suppress_log(!options.verbose)
 
 #
 # load json_file
 #
 data = {}
-say_ok "loading yaml file at #{options.yaml_file}" do
+say_ok t.bin.loading(options.yaml_file) do
   data = Codiphi::Support.read_yaml(options.yaml_file)
 end
 
-engine = Codiphi::Engine.new(data)
+engine = Codiphi::Engine.new(data, options.locale)
 
 unless (options.no_validate)
-  engine.transform
+  engine.completion_transform
   engine.validate
 else
-  warn "running without validation"
-  engine.transform
+  warn t.bin.no_validation
+  engine.completion_transform
 end
 
 puts YAML::dump(engine.emitted_data)

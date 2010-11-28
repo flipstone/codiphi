@@ -1,5 +1,6 @@
 module SayLogging
-
+  include R18n::Helpers
+  
   @@suppress = false
 
   def say(string)
@@ -10,7 +11,7 @@ module SayLogging
 
   def warn(string)
     unless @@suppress
-      puts " ! Warning: #{string}"
+      puts " ! #{t.log.warn}: #{string}"
     end
   end
 
@@ -22,9 +23,9 @@ module SayLogging
 
     begin
       yield if block
-      puts "OK" unless @@suppress
+      puts "#{t.ok}" unless @@suppress
     rescue Exception
-      puts "FAIL" unless @@suppress
+      puts "#{t.fail}" unless @@suppress
     raise
     end
   end

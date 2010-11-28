@@ -1,0 +1,25 @@
+ok: OK
+fail: FAIL
+warn: Warning
+
+bin:
+    loading: loading yaml file at %1
+    schematic: reading schematic at %1
+    no_schematic: List element must include a 'schematic' element.
+    calculating: calculating cost
+    no_validation: running without validation
+    inspecting: inspecting list for schematic
+    
+assertions:
+    gathering: gathering assertions from schematic
+    no_list: List file must include a root-level 'list' element
+    none: no assertions in schematic
+    checking: checking assertion '%1' on <%2 %3>
+    unknown_operator: unknown schematic assertion
+    fail:
+        expects: !!pl
+            1: At least 1 %2 %3 expected on %4 %5
+            n: At least %1 %2 %3s expected on %4 %5
+        permits: !!pl
+            1: At most 1 %2 %3 expected on %4 %5
+            n: At most %1 %2 %3s expected on %4 %5
