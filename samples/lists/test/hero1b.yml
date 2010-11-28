@@ -4,7 +4,8 @@ list:
   schematic: test/hero1
   author: Codiphi Developer
   author_email: development@flipstone.com
-  variant: legal
+  variant: illegal
+  notes: bad model id
   version: "1"
   model: 
   - type: hero-godling

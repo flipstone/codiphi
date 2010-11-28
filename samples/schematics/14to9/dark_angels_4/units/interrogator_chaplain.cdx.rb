@@ -1,7 +1,7 @@
   unit :interrogator_chaplain, {
-  ranked_as :hq
-  with_nature :infantry
-  having_special_rules :independent_character, :honour_of_the_chapter, :litanies_of_hate
+  + rank :hq
+  + nature :infantry
+  + special_rules :independent_character, :honour_of_the_chapter, :litanies_of_hate
   costing 120
   expects 1.model [:interrogator_chaplain, :interrogator_chaplain_terminator, :interrogator_chaplain_jumppack]
   equipped_with "Wargear", {

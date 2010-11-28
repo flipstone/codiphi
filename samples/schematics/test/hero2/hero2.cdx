@@ -1,8 +1,8 @@
 model :hero {
-  cost 100
+  + cost 100
 }
 list { 
-  cost_measure :points
+  + cost_measure :points
   expects 1 model :hero
   permits 3 model :hero
 }

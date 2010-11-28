@@ -3,9 +3,7 @@ module Codiphi
     include R18n::Helpers
     Version = [0,1,0]
     
-    attr_accessor :data
-    attr_accessor :original_data
-    attr_accessor :emitted_data    
+    attr_accessor :namespace, :data, :original_data, :emitted_data    
     attr :syntax_tree, :assertions, :failures
     
     def has_errors?
@@ -17,6 +15,7 @@ module Codiphi
       # poor man's clone
       @original_data = Marshal.load( Marshal.dump(@data))
       @context = Hash.new
+      @namespace = Hash.new
       @failures = []
       R18n.set(R18n::I18n.new(locale, "#{BASE_PATH}/r18n"))
     end
@@ -66,7 +65,7 @@ module Codiphi
         target_node = asst.parent_declaration
         target_type = target_node == "list" ? "" : " #{asst.parent_declaration_node.type.text_value}"
         say_ok t.assertions.checking(asst.text_value,target_type,target_node) do
-
+          target_str = "#{target_node}" + ( target_type == "" ? target_type : " #{target_type}")
           case asst.assertion_operator.text_value
           when "expects"
             # find node <target_node> and run counts
@@ -77,7 +76,7 @@ module Codiphi
               name = asst.name.text_value
             
               count = Traverse.count_for_expected_type_on_name(node, type, name)
-              @failures << t.assertions.fail.expects(target,name,type,target_node,target_type) unless count >= target
+              @failures << t.assertions.fail.expected(target,name,type,target_str) unless count >= target
             end
             break
           when "permits"
@@ -89,7 +88,7 @@ module Codiphi
               name = asst.name.text_value
             
               count = Traverse.count_for_expected_type_on_name(node, type, name)
-              @failures << t.assertions.fail.permits(target,name,type,target_node,target_type) unless count <= target
+              @failures << t.assertions.fail.permitted(target,name,type,target_str) unless count <= target
             end
             break
           default
@@ -109,7 +108,7 @@ module Codiphi
 
     def run_completeness_transform
       render_tree
-      @syntax_tree.completion_transform(@data)
+      @syntax_tree.completion_transform(@data, @namespace)
       apply_cost
       true
     end

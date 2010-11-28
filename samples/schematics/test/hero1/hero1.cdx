@@ -9,7 +9,7 @@
 # list cost if list includes model
 #
 model :hero {
-  cost 100
+  + cost 100
 }
 
 # list requirement
@@ -18,6 +18,6 @@ model :hero {
 # allows one or more attribute declarations
 #
 list { 
-  cost_measure :points
+  + cost_measure :points
   expects 1 model :hero
 }

@@ -1,19 +1,13 @@
 require_relative './spec_helper.rb'
 
 describe DeclarationNode do 
-  it "decorates data on transform" do
-    parentnode = declaration_mock("fum", "baz")
-    node = declaration_mock("foo", "foopants", parentnode)
+  it "registers name into passed namespace" do
+    node = declaration_mock("unit", "foo_squad", nil)
+    namespace = {}
 
-    indata = {
-      "fum" => [{
-        "type" => "baz"
-      }]
-    }
-    node.type.text_value.should == "foo"
+    node.gather_declarations(namespace)
     
-    node.completion_transform(indata)
-    indata["fum"][0].keys.should be_include "foo"
-    indata["fum"][0]["foo"].should == "foopants"
+    namespace.keys.should be_include "foo_squad"
+    namespace["foo_squad"].should == "unit"
   end
 end

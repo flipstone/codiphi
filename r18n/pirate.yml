@@ -17,8 +17,8 @@ assertions:
     unknown_operator: thar be a mystery assertion
     fail:
         expects: !!pl
-            1: Ye need 1 hearty %2 %3 aboard %4 %5
-            n: Ye need %1 hearty %2 %3s aboard %4 %5
+            1: Ye need 1 hearty %2 %3 aboard %4
+            n: Ye need %1 hearty %2 %3s aboard %4
         permits: !!pl
-            1: But 1 %2 %3 allowed aboard node %4 %5
-            n: No more than %1 %2 %3s allowed aboard %4 %5
+            1: But 1 %2 %3 allowed aboard node %4
+            n: No more than %1 %2 %3s allowed aboard %4

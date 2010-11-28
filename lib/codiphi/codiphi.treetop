@@ -39,7 +39,7 @@ grammar Codiphi
   rule declaration
     type:word
     space
-    declared:(name / string / integer / word)
+    name
     space? 
     declaration_block:declaration_block?
     <DeclarationNode>
@@ -55,10 +55,23 @@ grammar Codiphi
   end
 
   rule declaration_list
-    declaration:(assertion / declaration)
+    declaration:(assertion / declaration / assignment)
     space?
     declaration_list:declaration_list?
     <DeclarationListNode>
+  end
+
+  rule assignment
+    assignment_operator
+    space
+    type:word
+    space
+    value:(name / integer / word / string)
+    <AssignmentNode>
+  end
+
+  rule assignment_operator
+    '+'
   end
 
   rule word

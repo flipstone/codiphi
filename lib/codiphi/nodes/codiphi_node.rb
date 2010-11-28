@@ -1,13 +1,21 @@
 class CodiphiNode < Treetop::Runtime::SyntaxNode
-  def completion_transform(data)
-    # puts "xform #{self}"
-    unless (terminal?)
-      elements.each{ |e| e.completion_transform(data) if e.respond_to? :completion_transform } 
+
+  def recurse_to_children(method, args)
+    unless terminal?
+      elements.each{ |e| e.send(method, *args) if e.respond_to? method }
     end
+  end
+
+  def gather_declarations(namespace)
+    recurse_to_children(:gather_declarations, [namespace])
+  end
+
+  def completion_transform(data, namespace)
+    recurse_to_children(:completion_transform, [data, namespace])
   end
   
   def gather_assertions(assertion_list)
-    elements.each{ |e| e.gather_assertions(assertion_list) if e.respond_to? :gather_assertions } unless terminal?
+    recurse_to_children(:gather_assertions, [assertion_list])
   end
   
   def declarative?
@@ -15,7 +23,7 @@ class CodiphiNode < Treetop::Runtime::SyntaxNode
   end
 
   def parent_declaration
-    parent_declaration_node.declared.text_value
+    parent_declaration_node.name.text_value
   end
 
   def parent_declaration_node

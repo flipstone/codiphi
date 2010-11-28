@@ -9,7 +9,10 @@ bin:
     calculating: calculating cost
     no_validation: running without validation
     inspecting: inspecting list for schematic
-    
+
+declarations:
+    declare: schematic declaring %1 %2
+
 assertions:
     gathering: gathering assertions from schematic
     no_list: List file must include a root-level 'list' element
@@ -17,9 +20,9 @@ assertions:
     checking: checking assertion '%1' on <%2 %3>
     unknown_operator: unknown schematic assertion
     fail:
-        expects: !!pl
-            1: At least 1 %2 %3 expected on %4 %5
-            n: At least %1 %2 %3s expected on %4 %5
-        permits: !!pl
-            1: At most 1 %2 %3 expected on %4 %5
-            n: At most %1 %2 %3s expected on %4 %5
+        expected: !!pl
+            1: At least 1 %2 %3 expected on %4
+            n: At least %1 %2 %3s expected on %4
+        permitted: !!pl
+            1: At most 1 %2 %3 expected on %4
+            n: At most %1 %2 %3s expected on %4

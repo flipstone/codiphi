@@ -1,9 +1,9 @@
-require_relative './spec_helper.rb'
+require_relative 'spec_helper.rb'
 
-Dir["#{BASE_PATH}samples/lists/test/*.json"].each do |file|
+Dir["#{BASE_PATH}samples/lists/test/*.yml"].each do |file|
   
-  describe "engine" do
-    file_ref = File.basename(file, ".json")
+  describe Codiphi::Engine do
+    file_ref = File.basename(file, ".yml")
   
     it "transforms #{file_ref}" do
       data = Codiphi::Support.read_yaml(file)

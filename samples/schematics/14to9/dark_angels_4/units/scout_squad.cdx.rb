@@ -1,25 +1,25 @@
 unit :scout_squad, {
-  rank :elites
-  nature :infantry
-  special_rule {
+  + rank :elites
+  + nature :infantry
+  + special_rule [
     :and_they_shall_know_no_fear
     :combat_squads
     :infiltrate
     :move_through_cover
-  }
-  cost 80
+  ]
+  + cost 80
 
   expects 1 :scout_sergeant
   expects 4 :scout
   permits 9 :scout
 
-  weapon {
+  + weapon [
     :bolt_pistol
     :boltgun
     :chainsword
     :combat_blade
     :shotgun
-  }
+  ]
 }
 
 #

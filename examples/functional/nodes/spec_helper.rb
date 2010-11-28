@@ -12,12 +12,21 @@ def literal_node(value, parent=nil)
   node
 end
 
+def assignment_mock(typeval, valueval, parent=nil)
+  input = "#{typeval}#{valueval}"
+  node = AssignmentNode.new(input, 0..input.length)
+  node.parent = parent
+  node.stubs(:type).returns(literal_node(typeval, node))
+  node.stubs(:value).returns(literal_node(valueval, node))
+  node
+end
+
 def declaration_mock(typeval, nameval, parent=nil)
   input = "#{typeval}#{nameval}"
   node = DeclarationNode.new(input, 0..input.length)
   node.parent = parent
   node.stubs(:type).returns(literal_node(typeval, node))
-  node.stubs(:declared).returns(literal_node(nameval, node))
+  node.stubs(:name).returns(literal_node(nameval, node))
   node
 end
 

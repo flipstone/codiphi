@@ -5,7 +5,7 @@ class ListNode < CodiphiNode
     true
   end
 
-  def declared
+  def name
     type
   end
 
