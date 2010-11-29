@@ -55,7 +55,7 @@ grammar Codiphi
   end
 
   rule declaration_list
-    declaration:(assertion / declaration / assignment)
+    declaration:(assertion / declaration / cost_assignment / assignment)
     space?
     declaration_list:declaration_list?
     <DeclarationListNode>
@@ -67,6 +67,15 @@ grammar Codiphi
     type:word
     space
     value:(name / integer / word / string)
+    <AssignmentNode>
+  end
+
+  rule cost_assignment
+    assignment_operator
+    space
+    type:"cost"
+    space
+    value:integer
     <AssignmentNode>
   end
 

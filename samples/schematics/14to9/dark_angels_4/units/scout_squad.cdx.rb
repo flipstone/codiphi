@@ -1,4 +1,47 @@
-unit :scout_squad, {
+model :scout {
+  if weapon :sniper_rifle {
+    - weapon :boltgun
+    + cost 5
+  }
+
+  if weapon :missile_launcher {
+    - weapon :boltgun
+    + cost 15
+    permits 0 weapon :heavy_bolter on unit :scout_squad
+  }
+
+  if weapon :heavy_bolter {
+    - weapon :boltgun
+    + cost 15
+  }
+
+}
+
+model :scout_sergeant {
+  if weapon :plasma_pistol {
+    - weapon :bolt_pistol
+    + cost 15
+  }
+  
+  if weapon :power_weapon {
+    - weapon :boltgun
+    - weapon :power_fist
+    + cost 15
+  }
+
+  if weapon :power_fist {
+    - weapon :boltgun
+    - weapon :power_weapon
+    + cost 25
+  }
+
+  if weapon :meltabombs {
+    + cost 5
+  }
+
+}
+
+unit :scout_squad {
   + rank :elites
   + nature :infantry
   + special_rule [
@@ -9,10 +52,12 @@ unit :scout_squad, {
   ]
   + cost 80
 
-  expects 1 :scout_sergeant
-  expects 4 :scout
-  permits 9 :scout
-
+  expects 1 model :scout_sergeant
+  expects 4 model :scout
+  permits 1 weapon :heavy_bolter
+  permits 1 weapon :missile_launcher
+  permits 1 unit :drop_pod
+  
   + weapon [
     :bolt_pistol
     :boltgun
@@ -20,39 +65,9 @@ unit :scout_squad, {
     :combat_blade
     :shotgun
   ]
-}
-
-#
-# Options
-#
-
-unit_option :scout_squad, "Additional scouts", {
-  model_addition 5 :scout {
-    cost 65
-  }
-}
-unit_option :scout_squad, "Sniper rifles", :scout, {
-  weapon_replacement :boltgun, :sniper_rifle, 5
-}
-unit_option :scout_squad, "Squad heavy weapon", :scout, {
-  unique
-  weapon_replacement [
-    [ :boltgun, :heavy_bolter, 15 ],
-    [ :boltgun, :missile_launcher, 20 ],
-  ]
-}
-unit_option :scout_squad, "Sergeant pistol upgrade", :scout_sergeant, {
-  weapon_replacement :bolt_pistol, :plasma_pistol, 15
-}
-unit_option :scout_squad, "Sergeant bolter upgrade", :scout_sergeant, {
-  weapon_replacement [
-    [ :boltgun, :power_weapon, 15 ],
-    [ :boltgun, :power_fist, 25 ]
-  ]
-}
-unit_option :scout_squad, "Sergeant meltabombs", :scout_sergeant, {
-  weapon_addition :meltabombs, 5 
-}
-unit_option :scout_squad, "Dedicated Transport" { 
-  unit_addition :drop_pod
+  
+   if count(model :scout) > 4 {
+    + cost 65
+    expects 9 model :scout
+  } 
 }
