@@ -12,6 +12,14 @@ def literal_node(value, parent=nil)
   node
 end
 
+def cost_assignment_mock(valueval, parent=nil)
+  input = "#{valueval}"
+  node = CostAssignmentNode.new(input, 0..input.length)
+  node.parent = parent
+  node.stubs(:value).returns(literal_node(valueval, node))
+  node
+end
+
 def assignment_mock(typeval, valueval, parent=nil)
   input = "#{typeval}#{valueval}"
   node = AssignmentNode.new(input, 0..input.length)

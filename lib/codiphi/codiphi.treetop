@@ -76,7 +76,7 @@ grammar Codiphi
     type:"cost"
     space
     value:integer
-    <AssignmentNode>
+    <CostAssignmentNode>
   end
 
   rule assignment_operator

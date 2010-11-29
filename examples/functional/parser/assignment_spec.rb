@@ -23,7 +23,7 @@ describe CodiphiParser, "assignment" do
     decl.parent_declaration_node.should be_nil
     
     assn = decl.declaration_block.declaration_list.declaration
-    assn.class.should == AssignmentNode
+    assn.class.should == CostAssignmentNode
     assn.parent_declaration_node.name.text_value.should == "pants"
   end
 
