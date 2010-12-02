@@ -2,10 +2,18 @@ require_relative './codiphi_node'
 
 class AssignmentNode < CodiphiNode
   
+  # any named type assigned should have been previously declared 
+  # in the schematic
+  def gather_declarations(namespace)
+    goodtype = namespace.keys.include?(value.text_value) && 
+               namespace[value.text_value].include?(type.text_value)
+    unless goodtype
+      namespace.add_error(Codiphi::NoSuchNameException.new(self))
+    end
+  end
+  
   def completion_transform(data, namespace)
     super(data, namespace)
-
-    # sc: todo: verify that assignment is legal
 
     match_node = parent_declaration_node
     
@@ -15,11 +23,9 @@ class AssignmentNode < CodiphiNode
     else
       match_type = match_node.type.text_value
       match_name = match_node.name.text_value
-      say_ok "placing #{type.text_value} #{value.text_value} on matching #{match_type} #{match_name} nodes" do
-        # find match_node in data
-        Codiphi::Traverse.matching_named_type(data, match_type, match_name, 0) do |target_hash|
-          target_hash[type.text_value] = value.text_value
-        end
+      # find match_node in data
+      Codiphi::Traverse.matching_named_type(data, match_type, match_name, 0) do |target_hash|
+        target_hash[type.text_value] = value.text_value
       end      
     end
   end

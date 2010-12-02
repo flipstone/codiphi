@@ -26,3 +26,6 @@ assertions:
         permitted: !!pl
             1: At most 1 %2 %3 expected on %4
             n: At most %1 %2 %3s expected on %4
+
+exc:
+    no_such_name: Schematic must declare '%2 :%1' before assignment.

@@ -15,7 +15,7 @@ module Codiphi
       # poor man's clone
       @original_data = Marshal.load( Marshal.dump(@data))
       @context = Hash.new
-      @namespace = Hash.new
+      @namespace = Namespace.new
       @failures = []
       R18n.set(R18n::I18n.new(locale, "#{BASE_PATH}/r18n"))
     end
@@ -123,6 +123,7 @@ module Codiphi
       schematic_path = @data["list"]["schematic"]
       schematic_data = Support.read_schematic(schematic_path)
       @syntax_tree = Parser.parse(schematic_data)
+      @syntax_tree.gather_declarations(namespace)
     end
   end
 end

@@ -55,7 +55,7 @@ grammar Codiphi
   end
 
   rule declaration_list
-    declaration:(assertion / declaration / cost_assignment / assignment)
+    declaration:(assertion / declaration / cost_measure_assignment / cost_assignment / assignment)
     space?
     declaration_list:declaration_list?
     <DeclarationListNode>
@@ -70,6 +70,15 @@ grammar Codiphi
     <AssignmentNode>
   end
 
+  rule cost_measure_assignment
+    assignment_operator
+    space
+    type:"cost_measure"
+    space
+    value:name
+    <CostMeasureAssignmentNode>
+  end
+  
   rule cost_assignment
     assignment_operator
     space

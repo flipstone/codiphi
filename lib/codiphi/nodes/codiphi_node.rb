@@ -1,5 +1,5 @@
 class CodiphiNode < Treetop::Runtime::SyntaxNode
-
+  
   def recurse_to_children(method, args)
     unless terminal?
       elements.each{ |e| e.send(method, *args) if e.respond_to? method }
