@@ -1,0 +1,2 @@
+#!/bin/bash
+saikuro -c -t -i lib/codiphi -o cyclo/

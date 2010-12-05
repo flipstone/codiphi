@@ -16,6 +16,7 @@ list:
       cost: 100
       weapon: 
       - type: sword
+        cool_thing: magical
         cost: -50
   cost: 150
   cost_measure: points

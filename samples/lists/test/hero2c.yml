@@ -15,4 +15,6 @@ list:
       count: 3
       weapon: 
       - type: sword
+        cool_thing: magical
       - type: shotgun
+        ammunition: hellfire_rounds
