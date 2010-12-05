@@ -1,4 +1,6 @@
 require_relative './codiphi_node.rb'
 
-class CodexNode < CodiphiNode
+module Codiphi
+  class CodexNode < CodiphiNode
+  end
 end

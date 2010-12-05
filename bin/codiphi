@@ -72,7 +72,7 @@ unless (options.no_validate)
   engine.completion_transform
   engine.validate
 else
-  warn t.bin.no_validation
+  say t.bin.no_validation
   engine.completion_transform
 end
 

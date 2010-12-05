@@ -20,6 +20,13 @@ module Codiphi
         data.each do |k,v|
           if (k == schematic_type)
             matched_parent += 1
+            if (v == schematic_name)
+              # create a hash with type if a (key == schematic_type)
+              match = Hash.new
+              match["type"] = schematic_name
+              data[k] = match
+              block.call(data[k])
+            end
           end
           if ([Hash, Array].include? v.class)
             matching_named_type(v, schematic_type, schematic_name, matched_parent, &block) 

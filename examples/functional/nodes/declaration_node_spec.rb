@@ -1,6 +1,6 @@
 require_relative './spec_helper.rb'
 
-describe DeclarationNode do 
+describe Codiphi::DeclarationNode do 
   it "registers name into passed namespace" do
     node = declaration_mock("unit", "foo_squad", nil)
     namespace = {}

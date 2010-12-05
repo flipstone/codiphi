@@ -35,14 +35,14 @@ describe CodiphiParser, "declaration" do
 
   it "returns declaration_list nodes" do
     tree = Codiphi::Parser.parse %{model :foo\nargle :bargle}
-    tree.class.should == CodexNode
-    tree.declaration_list.class.should == DeclarationListNode
-    tree.declaration_list.declaration_list.class.should == DeclarationListNode
+    tree.class.should == Codiphi::CodexNode
+    tree.declaration_list.class.should == Codiphi::DeclarationListNode
+    tree.declaration_list.declaration_list.class.should == Codiphi::DeclarationListNode
 
     tree = Codiphi::Parser.parse %{model :foo\n expects 1 foo :argle }
-    tree.class.should == CodexNode
-    tree.declaration_list.class.should == DeclarationListNode
-    tree.declaration_list.declaration_list.class.should == DeclarationListNode
+    tree.class.should == Codiphi::CodexNode
+    tree.declaration_list.class.should == Codiphi::DeclarationListNode
+    tree.declaration_list.declaration_list.class.should == Codiphi::DeclarationListNode
   end
   
 end

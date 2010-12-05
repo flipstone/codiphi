@@ -22,7 +22,7 @@ describe Codiphi::Parser, "list" do
   
   it "parses block" do
     tree = Codiphi::Parser.parse %{model :hero {\n+ cost 100\n} \n list { \n+ cost_measure "points"\n expects 1 model :hero  \n }\n }
-    tree.class.should == CodexNode
-    tree.elements.map{ |e| e.class }.should be_include ListNode
+    tree.class.should == Codiphi::CodexNode
+    tree.elements.map{ |e| e.class }.should be_include Codiphi::ListNode
   end
 end

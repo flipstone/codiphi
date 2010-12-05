@@ -1,6 +1,19 @@
+ammunition :hellfire_rounds
+
+weapon :sword {
+  - cost 50
+}
+
+weapon :shotgun {
+  + ammunition :hellfire_rounds
+  - cost 50
+}
+
 model :hero {
   + cost 100
+  - weapon :shotgun
 }
+
 list { 
   + cost_measure :points
   expects 1 model :hero

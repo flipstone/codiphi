@@ -18,6 +18,35 @@ describe Codiphi::Traverse do
       indata["fum"][0]["erkle"].should == 999
     end
 
+    it "yields to multiple matches" do
+      indata = {
+        "foo" => {
+          "fum" => [{
+            "type" => "baz",
+            "attr" => "aaa"
+          },
+          {
+            "type" => "baz",
+            "attr" => "bbb"
+          }]
+        }
+      }
+      
+      indata = {
+        "fum"=>[{"type"=>"baz", "description"=>"Neo", "count"=>2}, {"type"=>"baz", "description"=>"Trinity", "count"=>3}]
+      }
+      
+      Codiphi::Traverse.matching_named_type(indata, "fum", "baz") do |node|
+        node["erkle"] = 999
+      end
+
+      indata["fum"][0].keys.should be_include("erkle")
+      indata["fum"][0]["erkle"].should == 999
+      indata["fum"][1].keys.should be_include("erkle")
+      indata["fum"][1]["erkle"].should == 999
+    end
+
+
     it "matches list node parent declaration" do
       matches = 0
       indata = {

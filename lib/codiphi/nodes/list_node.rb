@@ -1,15 +1,17 @@
 require_relative './codiphi_node.rb'
 
-class ListNode < CodiphiNode
-  def declarative?
-    true
+module Codiphi
+  class ListNode < CodiphiNode
+    def declarative?
+      true
+    end
+
+    def name
+      type
+    end
+
   end
 
-  def name
-    type
+  class ListAssertionBlockNode < CodiphiNode
   end
-
-end
-
-class ListAssertionBlockNode < CodiphiNode
 end
