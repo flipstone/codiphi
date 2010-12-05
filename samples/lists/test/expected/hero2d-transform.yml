@@ -1,0 +1,24 @@
+--- 
+list: 
+  description: First Man Standing
+  schematic: test/hero2
+  author: Codiphi Developer
+  author_email: development@flipstone.com
+  variant: nested legal
+  notes: removing node
+  version: "1"
+  unit: 
+  - type: hero-squad
+    model: 
+    - type: hero
+      description: Neo
+      count: 3
+      cost: 100
+      weapon: 
+      - type: sword
+        cool_thing: magical
+        cost: -50
+      - type: super_atom_bomb
+        ammunition: untracked_attribute
+  cost: 150
+  cost_measure: points
