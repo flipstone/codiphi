@@ -69,47 +69,56 @@ module Codiphi
       true
     end
 
-    def check_assertions
+    def no_assertions?
       if (@assertions.nil? || @assertions.empty?)
         warn t.assertions.none
         return true
       end
+      false
+    end
+
+    def check_assertions
       @failures = []
+      return true if no_assertions?
       @assertions.each do |asst|
         target_node = asst.parent_declaration
-        target_type = target_node == "list" ? "" : " #{asst.parent_declaration_node.type.text_value}"
+        target_type = _type_helper_for_assertion(asst)
+        
         say_ok t.assertions.checking(asst.text_value,target_type,target_node) do
-          target_str = "#{target_node}" + ( target_type == "" ? target_type : " #{target_type}")
-          case asst.assertion_operator.text_value
-          when "expects"
-            # find node <target_node> and run counts
-            Traverse.matching_key(@data, target_node) do |node|
-              # get counts for matched node
-              target = asst.integer.text_value
-              type = asst.type.text_value
-              name = asst.name.text_value
-            
-              count = Traverse.count_for_expected_type_on_name(node, type, name)
-              @failures << t.assertions.fail.expected(target,name,type,target_str) unless count >= target
-            end
-            break
-          when "permits"
-            # find node <target_node> and run counts
-            Traverse.matching_key(@data, target_node) do |node|
-              # get counts for matched node
-              target = asst.integer.text_value
-              type = asst.type.text_value 
-              name = asst.name.text_value
-            
-              count = Traverse.count_for_expected_type_on_name(node, type, name)
-              @failures << t.assertions.fail.permitted(target,name,type,target_str) unless count <= target
-            end
-            break
-          default
-            warn t.assertions.unknown_operator
+ 
+          Traverse.matching_key(@data, target_node) do |node|
+            # get counts for matched node
+            type = asst.type.text_value
+            name = asst.name.text_value
+
+            count = Traverse.count_for_expected_type_on_name(node, type, name)
+
+            parent_string = _namedtype_helper_for_assertion(target_node, target_type)
+            _do_count_assertion(asst, count, name, type, parent_string)
           end
         end
       end
+    end
+
+    def _do_count_assertion(a, count, name, type, parent_string)
+      target = a.integer.text_value
+      case a.assertion_operator.text_value
+        when Tokens::Expects then
+          @failures << t.assertions.fail.expected(target,name,type,parent_string) unless count >= target
+        when Tokens::Permits then
+          @failures << t.assertions.fail.permitted(target,name,type,parent_string) unless count <= target
+        else
+          warn t.assertions.unknown_operator
+      end
+    end
+    
+    def _type_helper_for_assertion(a)
+      a.parent_declaration == Tokens::List ? "" : " #{a.parent_declaration_node.type.text_value}"
+    end
+
+    def _namedtype_helper_for_assertion(node, type)
+      type == "" ? type : " #{type}"
+      "#{node}#{type}"
     end
 
     def cost

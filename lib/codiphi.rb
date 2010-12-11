@@ -14,6 +14,8 @@ module Codiphi
     Cost = "cost"
     List = "list"
     Count = "count"
+    Permits = "permits"
+    Expects = "expects"
   end
 end
 
