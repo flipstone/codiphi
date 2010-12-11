@@ -10,6 +10,8 @@ require 'r18n-core'
 module Codiphi 
   SchematicTypeKey = :schematic_type
   SchematicNameKey = "type"
+  SchematicCostKey = "cost"
+  SchematicListKey = "list"
 end
 
 Dir["#{BASE_PATH}lib/codiphi/*.rb"].each {|file| require file }

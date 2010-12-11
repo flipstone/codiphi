@@ -3,8 +3,6 @@ require_relative './codiphi_node'
 module Codiphi
   class CostAssignmentNode < CodiphiNode
   
-    Token = "cost"
-  
     def completion_transform(data, namespace)
       super(data, namespace)
 
@@ -24,12 +22,8 @@ module Codiphi
           else value.text_value
         end
         Codiphi::Traverse.matching_named_type(data, match_type, match_name) do |target_hash|
-          say "placing cost #{value.text_value} on #{target_hash.inspect}"
-          if (target_hash.keys.include? (Token))
-            target_hash[Token] += delta
-          else
-            target_hash[Token] = delta
-          end
+          say "placing cost #{delta} on #{match_type} #{match_name}"
+          target_hash.add_to_cost(delta)
         end
       end
     end

@@ -133,6 +133,22 @@ module Codiphi
         matches.should == 2
       end
 
+      it "doesn't yield when no matches" do
+        matches = 0
+        indata = {
+          "list" => [{
+            SchematicNameKey => "baz",
+            SchematicTypeKey => "list"
+          }]
+        }
+      
+        Codiphi::Traverse.matching_named_type(indata, "foo", "baz") do
+          matches += 1
+        end
+        matches.should == 0
+        
+      end
+
       it "finds multiple matches" do
         matches = 0
         indata = {

@@ -5,8 +5,8 @@ module Codiphi
       case data
       when Hash
         # special case for list
-        if ("list" == schematic_type && data.keys.include?("list"))
-          block.call(data["list"])
+        if schematic_type == SchematicListKey && data.is_list_node?
+          block.call(data)
         end
 
         # test this hash for type to match

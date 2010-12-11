@@ -19,7 +19,7 @@ module Codiphi
     
       if (match_node.nil?)
         # has no parent declaration, don't do anything just now.
-        say "no parent for assignment #{type.text_value} #{value.text_value}"
+        warn "no target for assignment #{type.text_value} #{value.text_value}"
       else
         match_type = match_node.type.text_value
         match_name = match_node.name.text_value
