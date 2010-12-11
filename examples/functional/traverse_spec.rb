@@ -173,16 +173,16 @@ module Codiphi
     describe "matching_key" do
       it "matches in Arrays" do
         indata = {
-          "bar" => {
-            Tokens::Name => "baz",
-            Tokens::Type => "bar"
+          "foo" => {
+            Tokens::Name => "bar",
+            Tokens::Type => "foo"
           },
           "foo" => [{
-            Tokens::Name => "foo",
-            Tokens::Type => "bar",
-            "fum" => [{
+            Tokens::Name => "bar",
+            Tokens::Type => "foo",
+            "foo" => [{
               Tokens::Name => "baz",
-              Tokens::Type => "fum"
+              Tokens::Type => "foo"
             }]
           }]
         }
@@ -192,7 +192,7 @@ module Codiphi
           count += 1
         end
         
-        count.should == 1
+        count.should == 3
       end
     end
 
