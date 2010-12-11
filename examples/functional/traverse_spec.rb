@@ -7,12 +7,12 @@ module Codiphi
       it "yields proper hash reference to passed block" do
         indata = {
           "fum" => [{
-            SchematicNameKey => "baz",
-            SchematicTypeKey => "fum"
+            Tokens::Name => "baz",
+            Tokens::Type => "fum"
           }]
         }
 
-        Codiphi::Traverse.matching_named_type(indata, "fum", "baz") do |node|
+        Traverse.matching_named_type(indata, "fum", "baz") do |node|
           node["erkle"] = 999
         end
       
@@ -24,14 +24,14 @@ module Codiphi
         indata = {
           "foo" => {
             "fum" => [{
-              SchematicNameKey => "baz",
+              Tokens::Name => "baz",
               "attr" => "aaa",
-              SchematicTypeKey => "fum"
+              Tokens::Type => "fum"
             },
             {
-              SchematicNameKey => "baz",
+              Tokens::Name => "baz",
               "attr" => "bbb",
-              SchematicTypeKey => "fum"
+              Tokens::Type => "fum"
             }]
           }
         }
@@ -53,10 +53,10 @@ module Codiphi
           "list" => {
             "model" => [{
               "type" => "baz",
-               SchematicTypeKey => "model"
+               Tokens::Type => "model"
             }],
             "attr1" => "attr1val",
-            SchematicTypeKey => "list"
+            Tokens::Type => "list"
           }
         }
       
@@ -72,12 +72,12 @@ module Codiphi
         matches = 0
         indata = {
           "fum" => [{
-            SchematicNameKey => "baz",
-            SchematicTypeKey => "fum"
+            Tokens::Name => "baz",
+            Tokens::Type => "fum"
           }]
         }
       
-        Codiphi::Traverse.matching_named_type(indata, "fum", "baz") do
+        Traverse.matching_named_type(indata, "fum", "baz") do
           matches += 1
         end
         matches.should == 1
@@ -87,22 +87,22 @@ module Codiphi
         matches = 0
         indata = {
           "fum" => [{
-            SchematicNameKey => "baz",
-            SchematicTypeKey => "fum"
+            Tokens::Name => "baz",
+            Tokens::Type => "fum"
           },
           {
             "fum" => [{
               "fum" => [{
                 "fie" => [{
-                  SchematicNameKey => "baz",
-                  SchematicTypeKey => "fie"
+                  Tokens::Name => "baz",
+                  Tokens::Type => "fie"
                 }]
               }]
             }]
           }]
         }
       
-        Codiphi::Traverse.matching_named_type(indata, "fum", "baz") do
+        Traverse.matching_named_type(indata, "fum", "baz") do
           matches += 1
         end
         matches.should == 1
@@ -112,22 +112,22 @@ module Codiphi
         matches = 0
         indata = {
           "fum" => [{
-            SchematicNameKey => "baz",
-            SchematicTypeKey => "fum"
+            Tokens::Name => "baz",
+            Tokens::Type => "fum"
           },
           {
             "fie" => [{
               "big" => [{
                 "fum" => [{
-                  SchematicNameKey => "baz",
-                  SchematicTypeKey => "fum"
+                  Tokens::Name => "baz",
+                  Tokens::Type => "fum"
                 }]
               }]
             }]
           }]
         }
       
-        Codiphi::Traverse.matching_named_type(indata, "fum", "baz") do
+        Traverse.matching_named_type(indata, "fum", "baz") do
           matches += 1
         end
         matches.should == 2
@@ -137,12 +137,12 @@ module Codiphi
         matches = 0
         indata = {
           "list" => [{
-            SchematicNameKey => "baz",
-            SchematicTypeKey => "list"
+            Tokens::Name => "baz",
+            Tokens::Type => "list"
           }]
         }
       
-        Codiphi::Traverse.matching_named_type(indata, "foo", "baz") do
+        Traverse.matching_named_type(indata, "foo", "baz") do
           matches += 1
         end
         matches.should == 0
@@ -153,16 +153,16 @@ module Codiphi
         matches = 0
         indata = {
           "fum" => [{
-            SchematicNameKey => "baz",
-            SchematicTypeKey => "fum"
+            Tokens::Name => "baz",
+            Tokens::Type => "fum"
           },
           {
-            SchematicNameKey => "baz",
-            SchematicTypeKey => "fum"
+            Tokens::Name => "baz",
+            Tokens::Type => "fum"
           }]
         }
       
-        Codiphi::Traverse.matching_named_type(indata, "fum", "baz") do
+        Traverse.matching_named_type(indata, "fum", "baz") do
           matches += 1
         end
         matches.should == 2
@@ -175,109 +175,109 @@ module Codiphi
       it "counts 3-level case" do
         indata = {
           "bar" => {
-            SchematicNameKey => "baz",
-            SchematicTypeKey => "bar",
+            Tokens::Name => "baz",
+            Tokens::Type => "bar",
             "count" => 3
           },
           "foo" => [{
-            SchematicNameKey => "foo",
-            SchematicTypeKey => "bar",
+            Tokens::Name => "foo",
+            Tokens::Type => "bar",
             "count" => 3,
             "fum" => [{
-              SchematicNameKey => "baz",
-              SchematicTypeKey => "fum",
+              Tokens::Name => "baz",
+              Tokens::Type => "fum",
               "count" => 2
             }]
           }]
         }
-        Codiphi::Traverse.count_for_expected_type_on_name(indata, "fum", "baz").should == 6
+        Traverse.count_for_expected_type_on_name(indata, "fum", "baz").should == 6
       end
 
       it "ignores counts on no match 2-level case" do
         indata = {
           "foo" => [{
-            SchematicNameKey => "foo",
-            SchematicTypeKey => "bar",
+            Tokens::Name => "foo",
+            Tokens::Type => "bar",
             "count" => 3,
             "fum" => [{
-              SchematicNameKey => "fum",
-              SchematicTypeKey => "bar",
+              Tokens::Name => "fum",
+              Tokens::Type => "bar",
               "count" => 2
             }]
           }]
         }
         # node expects 2 fum baz
-        Codiphi::Traverse.count_for_expected_type_on_name(indata, "fum", "baz").should == 0
+        Traverse.count_for_expected_type_on_name(indata, "fum", "baz").should == 0
       end
 
       it "counts 2-level case" do
         indata = {
           "foo" => [{
-            SchematicNameKey => "bar",
-            SchematicTypeKey => "foo",
+            Tokens::Name => "bar",
+            Tokens::Type => "foo",
             "count" => 3,
             "fum" => [{
-              SchematicNameKey => "baz",
-              SchematicTypeKey => "fum",
+              Tokens::Name => "baz",
+              Tokens::Type => "fum",
               "count" => 2
             }]
           }]
         }
         # node expects 2 fum baz
-        Codiphi::Traverse.count_for_expected_type_on_name(indata, "fum", "baz").should == 6
+        Traverse.count_for_expected_type_on_name(indata, "fum", "baz").should == 6
       end
 
       it "counts 2-sibling 2-level case" do
         indata = {
           "beedle" => [
             {
-              SchematicNameKey => "beedle",
-              SchematicTypeKey => "bar",
+              Tokens::Name => "beedle",
+              Tokens::Type => "bar",
               "count" => 3,
               "fum" => [{
-                SchematicNameKey => "baz",
-                SchematicTypeKey => "fum",
+                Tokens::Name => "baz",
+                Tokens::Type => "fum",
                 "count" => 2
               }]
             },
             {
-              SchematicNameKey => "beedle",
-              SchematicTypeKey => "bar",
+              Tokens::Name => "beedle",
+              Tokens::Type => "bar",
               "count" => 3,
               "fum" => [{
-                SchematicNameKey => "baz",
-                SchematicTypeKey => "fum",
+                Tokens::Name => "baz",
+                Tokens::Type => "fum",
                 "count" => 2
               }]
             }
           ]
         }
         # (beedle) node expects 12 fum baz
-        Codiphi::Traverse.count_for_expected_type_on_name(indata, "fum", "baz").should == 12
+        Traverse.count_for_expected_type_on_name(indata, "fum", "baz").should == 12
       end
 
       it "counts simple case" do
         indata = {
           "foo" => [{
-            SchematicNameKey => "bar",
-            SchematicTypeKey => "foo",
+            Tokens::Name => "bar",
+            Tokens::Type => "foo",
             "count" => 2
           }]
         }
         # node expects 2 foo bar
-        Codiphi::Traverse.count_for_expected_type_on_name(indata, "foo", "bar").should == 2
+        Traverse.count_for_expected_type_on_name(indata, "foo", "bar").should == 2
       end
 
       it "counts implicitly to 1" do
         indata = {
           "fum" => [{
-            SchematicNameKey => "baz",
-            SchematicTypeKey => "fum"
+            Tokens::Name => "baz",
+            Tokens::Type => "fum"
           }]
         }
 
         # node expects 1 fum baz
-        Codiphi::Traverse.count_for_expected_type_on_name(indata, "fum", "baz").should == 1
+        Traverse.count_for_expected_type_on_name(indata, "fum", "baz").should == 1
       end
     
     end

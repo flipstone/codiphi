@@ -5,13 +5,13 @@ module Codiphi
       case data
       when Hash
         # special case for list
-        if schematic_type == SchematicListKey && data.is_list_node?
+        if schematic_type == Tokens::List && data.is_list_node?
           block.call(data)
         end
 
         # test this hash for type to match
-        if (data[SchematicNameKey] == schematic_name &&
-            data[SchematicTypeKey] == schematic_type )
+        if (data[Tokens::Name] == schematic_name &&
+            data[Tokens::Type] == schematic_type )
           block.call(data)
         end
 
@@ -45,12 +45,10 @@ module Codiphi
           end
         end
         
-        # see if I have a user-provided count
-        if (data.keys.include?("count"))
-          mymult = data["count"]
+        if (data.has_count?)
+          mymult = data[Tokens::Count]
         end
 
-        # test this hash for type to increments
         if (data.is_named_type?(expected_name, expected_type))
           subcount += 1
         end
@@ -80,14 +78,12 @@ module Codiphi
           end
         end
         
-        # see if I have a user-declared count
-        if (data.keys.include?("count"))
-          mymult = data["count"]
+        if (data.has_count?)
+          mymult = data.count_value
         end
 
-        # test this hash for type to increments
-        if data.keys.include?("cost")
-          subcost += data["cost"]
+        if data.has_cost?
+          subcost += data.cost_value
         end
 
       when Array

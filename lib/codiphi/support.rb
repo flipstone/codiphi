@@ -1,17 +1,17 @@
 module Codiphi
   module Support
     include R18n::Helpers
-    CanonicalKeys = [SchematicTypeKey]
+    CanonicalKeys = [Tokens::Type]
         
     def self.expand_to_canonical(input, namespace, schematic_type=nil)
       case input
       when Hash then
-        input[SchematicTypeKey] = schematic_type unless schematic_type.nil?
+        input[Tokens::Type] = schematic_type unless schematic_type.nil?
         input.each do |k,v|
           if (namespace.named_type?(v, k))
             name_value = v
             input[k] = v = Hash.new
-            v[SchematicNameKey] = name_value
+            v[Tokens::Name] = name_value
           end
           expand_to_canonical(v, namespace, k) if [Hash, Array].include?(v.class)
         end

@@ -7,11 +7,14 @@ require 'polyglot'
 require 'treetop'
 require 'r18n-core'
 
-module Codiphi 
-  SchematicTypeKey = :schematic_type
-  SchematicNameKey = "type"
-  SchematicCostKey = "cost"
-  SchematicListKey = "list"
+module Codiphi
+  module Tokens
+    Type = :schematic_type
+    Name = "type"
+    Cost = "cost"
+    List = "list"
+    Count = "count"
+  end
 end
 
 Dir["#{BASE_PATH}lib/codiphi/*.rb"].each {|file| require file }

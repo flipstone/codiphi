@@ -8,18 +8,18 @@ module Codiphi
           "a" => "b",
           "c" => [
             {
-              SchematicNameKey => "foo",
-              SchematicTypeKey => "c"
+              Tokens::Name => "foo",
+              Tokens::Type => "c"
             },
             {
-              SchematicNameKey => "bar",
-              SchematicTypeKey => "c"
+              Tokens::Name => "bar",
+              Tokens::Type => "c"
             }]
         }
         
         Support.remove_canonical_keys(input)
         input["c"].each do |e|
-          e.keys.should_not be_include(SchematicTypeKey)
+          e.keys.should_not be_include(Tokens::Type)
         end
       end
     end
@@ -36,34 +36,34 @@ module Codiphi
         Support.expand_to_canonical(input, namespace)
         
         input["unit"].class.should == Hash
-        input["unit"][SchematicNameKey].should == "foo"
-        input["unit"][SchematicTypeKey].should == "unit"
+        input["unit"][Tokens::Name].should == "foo"
+        input["unit"][Tokens::Type].should == "unit"
       end
 
-      it "applies SchematicTypeKey to Hash" do
+      it "applies Tokens::Type to Hash" do
         input = {
           "a" => "b",
           "c" => {
-            SchematicNameKey => "foo"
+            Tokens::Name => "foo"
           }        
         }
       
         Support.expand_to_canonical(input, Namespace.new)
       
         input["a"].should == "b"
-        input["c"].keys.should include(SchematicTypeKey)
-        input["c"][SchematicTypeKey].should == "c"
+        input["c"].keys.should include(Tokens::Type)
+        input["c"][Tokens::Type].should == "c"
       end
 
-      it "applies SchematicTypeKey to Array of Hash" do
+      it "applies Tokens::Type to Array of Hash" do
         input = {
           "a" => "b",
           "c" => [
             {
-              SchematicNameKey => "foo"
+              Tokens::Name => "foo"
             },
             {
-              SchematicNameKey => "bar"
+              Tokens::Name => "bar"
             }]
         }
       
@@ -71,20 +71,20 @@ module Codiphi
       
         input["a"].should == "b"
         input["c"].each do |e|
-          e.keys.should include(SchematicTypeKey)
-          e[SchematicTypeKey].should == "c"
+          e.keys.should include(Tokens::Type)
+          e[Tokens::Type].should == "c"
         end
       end
 
-      it "applies SchematicTypeKey to nested Hash" do
+      it "applies Tokens::Type to nested Hash" do
         input = {
           "a" => [
             {
-              SchematicNameKey => "foo",
+              Tokens::Name => "foo",
               "weapon" => {
-                SchematicNameKey => "weapon_type",
+                Tokens::Name => "weapon_type",
                 "ammunition" => {
-                  SchematicNameKey => "hellfire_rounds"
+                  Tokens::Name => "hellfire_rounds"
                 }
               }
             }]
@@ -92,11 +92,11 @@ module Codiphi
       
         Support.expand_to_canonical(input,Namespace.new)
       
-        input["a"][0][SchematicTypeKey].should == "a"
+        input["a"][0][Tokens::Type].should == "a"
         weapon = input["a"][0]["weapon"]
-        weapon[SchematicTypeKey].should == "weapon"
+        weapon[Tokens::Type].should == "weapon"
         ammo = weapon["ammunition"]
-        ammo[SchematicTypeKey].should == "ammunition"
+        ammo[Tokens::Type].should == "ammunition"
       end
 
     end

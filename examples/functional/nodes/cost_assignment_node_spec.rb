@@ -9,8 +9,8 @@ module Codiphi
 
       indata = {
         "fum" => {
-          SchematicNameKey => "baz",
-          SchematicTypeKey => "fum"
+          Tokens::Name => "baz",
+          Tokens::Type => "fum"
         }
       }
     
@@ -26,8 +26,8 @@ module Codiphi
 
         indata = {
           "fum" => [{
-            SchematicNameKey => "baz",
-            SchematicTypeKey => "fum",
+            Tokens::Name => "baz",
+            Tokens::Type => "fum",
             "cost" => 111
           }]
         }
@@ -43,8 +43,8 @@ module Codiphi
 
         indata = {
           "fum" => [{
-            SchematicNameKey => "baz",
-            SchematicTypeKey => "fum",
+            Tokens::Name => "baz",
+            Tokens::Type => "fum",
             "cost" => 666
           }]
         }
