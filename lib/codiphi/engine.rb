@@ -93,15 +93,18 @@ module Codiphi
 
             count = Traverse.count_for_expected_type_on_name(node, type, name)
             parent_string = _namedtype_helper_for_assertion(target_node, target_type)
-            _do_count_assertion(asst, count, name, type, parent_string)
+            _do_count_assertion(asst, count, parent_string)
           end
         end
       end
     end
 
-    def _do_count_assertion(a, count, name, type, parent_string)
-      target = a.integer.text_value
-      case a.assertion_operator.text_value
+    def _do_count_assertion(assertion, count, parent_string)
+      target = assertion.integer.text_value
+      type = assertion.type.text_value
+      name = assertion.name.text_value
+      
+      case assertion.assertion_operator.text_value
         when Tokens::Expects then
           @failures << t.assertions.fail.expected(target,name,type,parent_string) unless count >= target
         when Tokens::Permits then
