@@ -170,6 +170,32 @@ module Codiphi
 
     end
 
+    describe "matching_key" do
+      it "matches in Arrays" do
+        indata = {
+          "bar" => {
+            Tokens::Name => "baz",
+            Tokens::Type => "bar"
+          },
+          "foo" => [{
+            Tokens::Name => "foo",
+            Tokens::Type => "bar",
+            "fum" => [{
+              Tokens::Name => "baz",
+              Tokens::Type => "fum"
+            }]
+          }]
+        }
+
+        count = 0
+        Traverse.matching_key(indata, "foo") do |match|
+          count += 1
+        end
+        
+        count.should == 1
+      end
+    end
+
 
     describe "count_for_named_type simple" do
       it "counts 3-level case" do
