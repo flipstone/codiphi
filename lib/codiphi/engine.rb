@@ -7,10 +7,10 @@ module Codiphi
     Version = [0,1,0]
     
     attr_accessor :namespace, :data, :original_data, :emitted_data
-    attr :syntax_tree, :assertions, :failures
+    attr :syntax_tree, :assertions
     
     def has_errors?
-      !@failures.empty?
+      @namespace.has_errors?
     end
     
     def initialize(data, locale='en')
@@ -49,12 +49,12 @@ module Codiphi
     end
     
     def validate
-      expand_data
+      expand_data 
       run_gather_assertions
       check_assertions
       if has_errors?
         # decorate the original file with appended errors
-        original_data["list-errors"] = @failures.map{ |f| f.to_s }
+        original_data[Tokens::ListErrors] = @namespace.errors.map{ |f| f.to_s }
       end
       emit
     end
@@ -81,7 +81,6 @@ module Codiphi
     end
 
     def check_assertions
-      @failures = []
       return true if no_assertions?
       @assertions.each do |asst|
         target_node = asst.parent_declaration
@@ -104,26 +103,14 @@ module Codiphi
 
     def _do_count_assertion(assertion, count, parent_string)
       target = assertion.integer_val
-      type = assertion.type_val
-      name = assertion.name_val
-      msg_root = t.assertions.fail
       
-      case assertion.op_val
+      error = case assertion.op_val
         when Tokens::Expects then
-          @failures << msg_root.expected(
-                          target,
-                          name,
-                          type,
-                          parent_string) unless count >= target
+          ExpectedNotMetException.new(assertion,parent_string) unless count >= target
         when Tokens::Permits then
-          @failures << msg_root.permitted(
-                          target,
-                          name,
-                          type,
-                          parent_string) unless count <= target
-        else
-          warn t.assertions.unknown_operator
+          PermittedExceededException.new(assertion, parent_string) unless count <= target
       end
+      @namespace.add_error(error) if error
     end
     
     def _type_helper_for_assertion(a)

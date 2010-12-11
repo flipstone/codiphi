@@ -1,12 +1,8 @@
 require_relative './codiphi_node'
 module Codiphi
   class AssignmentNode < CodiphiNode
-    # any named type assigned should have been previously declared 
-    # in the schematic
     def gather_declarations(namespace)
-      goodtype = namespace.keys.include?(value_val) && 
-                 namespace[value_val].include?(type_val)
-      unless goodtype
+      unless namespace.named_type?(value_val, type_val)
         namespace.add_error(NoSuchNameException.new(self))
       end
     end

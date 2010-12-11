@@ -14,6 +14,7 @@ module Codiphi
     Name = "type"
     Cost = "cost"
     List = "list"
+    ListErrors = "list-errors"
     Count = "count"
     Permits = "permits"
     Expects = "expects"
