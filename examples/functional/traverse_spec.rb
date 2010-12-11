@@ -173,8 +173,8 @@ module Codiphi
     describe "matching_key" do
       it "matches in Arrays" do
         indata = {
-          "foo" => {
-            Tokens::Name => "bar",
+          "fee" => {
+            Tokens::Name => "bim",
             Tokens::Type => "foo"
           },
           "foo" => [{

@@ -101,17 +101,16 @@ module Codiphi
     def self.matching_key(data, key, &block)
       case data
         when Hash then
+          if (data[Tokens::Type] == key)
+            block.call(data)
+          end
+          
           data.each do |k,v|
-            if (k == key)
-              # do the block
-              block.call(v)
-            else
-              matching_key(v, key, &block)
-            end
+            matching_key(v, key, &block)
           end
         when Array then
           data.each do |e| 
-            e.matching_key(e, key, &block)
+            matching_key(e, key, &block)
           end
         else
           # ignore this element
