@@ -3,6 +3,7 @@ module Codiphi
   class AssignmentNode < CodiphiNode
     def gather_declarations(namespace)
       unless namespace.named_type?(value_val, type_val)
+        puts "NO SUCH NAME #{type_val} #{value_val}"
         namespace.add_error(NoSuchNameException.new(self))
       end
     end
@@ -36,10 +37,10 @@ module Codiphi
 
     def _do_completion(target_hash, namespace)
       case assignment_operator.text_value
-        when Tokens::Assignment then
-          _do_assignment(target_hash, namespace)
         when Tokens::Removal then
           _do_removal(target_hash)
+        else
+          _do_assignment(target_hash, namespace)
       end
     end
     

@@ -18,6 +18,11 @@ module Codiphi
   end
   
   class NoSuchNameException < NodeException
+    def to_s
+      t.assignment.no_such_name(
+          node.type_val,
+          node.value_val)
+    end
   end
 
   class ExpectedNotMetException < AssertionException

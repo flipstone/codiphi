@@ -48,7 +48,8 @@ module Codiphi
       end
     end
     
-    def validate
+    def validate(run_completion=true)
+      run_completeness_transform if run_completion
       expand_data 
       run_gather_assertions
       check_assertions

@@ -27,13 +27,9 @@ module Codiphi
         match_type = match_node.type_val
         match_name = match_node.name_val
 
-        # find match_node in data
-        delta = value_val
-        delta = -(value_val) if op_val == Tokens::Removal
-
         Codiphi::Traverse.matching_named_type(data, match_type, match_name) do |target_hash|
-          say "placing cost #{delta} on #{match_type} #{match_name}"
-          target_hash.add_to_cost(delta)
+          say "placing cost #{value_val} on #{match_type} #{match_name}"
+          target_hash.add_to_cost(value_val, op_val)
         end
       end
     end

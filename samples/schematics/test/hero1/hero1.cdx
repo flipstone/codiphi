@@ -9,7 +9,7 @@
 # list cost if list includes model
 #
 model :hero {
-  + cost 100
+  = cost 100
 }
 
 # list requirement

@@ -15,9 +15,16 @@ module Codiphi
       self[Tokens::Type] == Tokens::List
     end
 
-    def add_to_cost(delta)
+    def add_to_cost(delta, token)
       self[Tokens::Cost] ||= 0
-      self[Tokens::Cost] += delta
+      case token
+        when Tokens::Assignment
+          self[Tokens::Cost] += delta
+        when Tokens::Removal
+          self[Tokens::Cost] -= delta
+        else
+          self[Tokens::Cost] = delta
+      end
     end
     
     def has_count?

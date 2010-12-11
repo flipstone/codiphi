@@ -90,7 +90,8 @@ grammar Codiphi
 
   rule assignment_operator
     '+' /
-    '-'
+    '-' /
+	'='
     <LiteralNode>
   end
 
