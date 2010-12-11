@@ -3,7 +3,7 @@ module Codiphi
     include R18n::Helpers
     Version = [0,1,0]
     
-    attr_accessor :namespace, :data, :original_data, :emitted_data    
+    attr_accessor :namespace, :data, :original_data, :emitted_data
     attr :syntax_tree, :assertions, :failures
     
     def has_errors?
@@ -89,8 +89,8 @@ module Codiphi
           Traverse.matching_key(@data, target_node) do |node|
             count = Traverse.count_for_expected_type_on_name(
                                 node, 
-                                asst.type.text_value, 
-                                asst.name.text_value)
+                                asst.type_val, 
+                                asst.name_val)
                                 
             parent_string = _namedtype_helper_for_assertion(target_node, target_type)
             _do_count_assertion(asst, count, parent_string)
@@ -100,19 +100,20 @@ module Codiphi
     end
 
     def _do_count_assertion(assertion, count, parent_string)
-      target = assertion.integer.text_value
-      type = assertion.type.text_value
-      name = assertion.name.text_value
+      target = assertion.integer_val
+      type = assertion.type_val
+      name = assertion.name_val
+      msg_root = t.assertions.fail
       
-      case assertion.assertion_operator.text_value
+      case assertion.op_val
         when Tokens::Expects then
-          @failures << t.assertions.fail.expected(
+          @failures << msg_root.expected(
                           target,
                           name,
                           type,
                           parent_string) unless count >= target
         when Tokens::Permits then
-          @failures << t.assertions.fail.permitted(
+          @failures << msg_root.permitted(
                           target,
                           name,
                           type,

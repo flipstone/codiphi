@@ -4,13 +4,20 @@ module Codiphi
   class DeclarationNode < CodiphiNode
     def gather_declarations(namespace)
       super(namespace)
-      namespace[name.text_value] = type.text_value
+      namespace[name_val] = type_val
     end
       
     def declarative?
       true
     end
   
+    def name_val 
+      name.text_value
+    end
+
+    def type_val
+      type.text_value
+    end  
   end
 
   class DeclarationListNode < CodiphiNode

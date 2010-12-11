@@ -4,13 +4,25 @@ module Codiphi
     # any named type assigned should have been previously declared 
     # in the schematic
     def gather_declarations(namespace)
-      goodtype = namespace.keys.include?(value.text_value) && 
-                 namespace[value.text_value].include?(type.text_value)
+      goodtype = namespace.keys.include?(value_val) && 
+                 namespace[value_val].include?(type_val)
       unless goodtype
         namespace.add_error(NoSuchNameException.new(self))
       end
     end
-  
+
+    def op_val 
+      assignment_operator.text_value
+    end
+
+    def value_val 
+      value.text_value
+    end
+    
+    def type_val
+      type.text_value
+    end
+    
     def completion_transform(data, namespace)
       super(data, namespace)
       match_node = parent_declaration_node
@@ -37,23 +49,27 @@ module Codiphi
     
     def _do_assignment(target_hash, namespace)
       say _descriptive_string_for_hash(target_hash,"placing")
-      if namespace.is_named_type?(value.text_value, type.text_value)
-        target_hash.add_named_type(value.text_value, type.text_value)
+
+      if namespace.is_named_type?(value_val, type_val)
+        target_hash.add_named_type(value_val, type_val)
       else
-        target_hash[type.text_value] = value.text_value
+        target_hash[type_val] = value_val
       end
     end
 
     def _do_removal(target_hash)
       say _descriptive_string_for_hash(target_hash,"removing")
-      case target_hash[type.text_value]
+      
+      child = target_hash[type_val]
+      
+      case child
         when Array then
-          target_hash[type.text_value].delete_if { |child|
-            child.is_named_type?(value.text_value, type.text_value)
+          child.delete_if { |child_element|
+            child_element.is_named_type?(value_val, type_val)
           }
         when Hash then 
-          if target_hash[type.text_value].is_named_type?(value.text_value, type.text_value)
-            target_hash.delete(type.text_value) 
+          if child.is_named_type?(value_val, type_val)
+            target_hash.delete(type_val) 
           end
       end
     end
@@ -61,7 +77,7 @@ module Codiphi
     def _descriptive_string_for_hash(target_hash, verb_to_use)
       match_type = target_hash[Tokens::Type]
       match_name = target_hash[Tokens::Name]
-      "#{verb_to_use} #{type.text_value} #{value.text_value} on #{match_type} :#{match_name}"
+      "#{verb_to_use} #{type_val} #{value_val} on #{match_type} :#{match_name}"
     end
     
   end
