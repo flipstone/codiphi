@@ -92,7 +92,6 @@ module Codiphi
             name = asst.name.text_value
 
             count = Traverse.count_for_expected_type_on_name(node, type, name)
-
             parent_string = _namedtype_helper_for_assertion(target_node, target_type)
             _do_count_assertion(asst, count, name, type, parent_string)
           end

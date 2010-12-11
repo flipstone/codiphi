@@ -5,6 +5,12 @@ module Codiphi
       type == self[Tokens::Type] 
     end
 
+    def add_named_type(name, type)
+      self[type] = new_child = Hash.new
+      new_child[Tokens::Name] = name
+      new_child[Tokens::Type] = type
+    end
+    
     def is_list_node?
       self[Tokens::Type] == Tokens::List
     end

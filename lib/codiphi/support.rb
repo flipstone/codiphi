@@ -8,10 +8,8 @@ module Codiphi
       when Hash then
         input[Tokens::Type] = schematic_type unless schematic_type.nil?
         input.each do |k,v|
-          if (namespace.named_type?(v, k))
-            name_value = v
-            input[k] = v = Hash.new
-            v[Tokens::Name] = name_value
+          if namespace.named_type?(v, k)
+            input.add_named_type(v, k)
           end
           expand_to_canonical(v, namespace, k) if [Hash, Array].include?(v.class)
         end
