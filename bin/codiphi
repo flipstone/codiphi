@@ -59,7 +59,7 @@ R18n.set(R18n::I18n.new(options.locale, "#{BASE_PATH}/r18n"))
 SayLogging.suppress_log(!options.verbose)
 
 #
-# load json_file
+# load file
 #
 data = {}
 say_ok t.bin.loading(options.yaml_file) do

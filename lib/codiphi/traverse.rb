@@ -99,23 +99,20 @@ module Codiphi
 
     # matches all <key> nodes
     def self.matching_key(data, key, &block)
-      case data
+      children = case data
         when Hash then
+          data.values
           if (data[Tokens::Type] == key)
             block.call(data)
           end
-          
-          data.each do |k,v|
-            matching_key(v, key, &block)
-          end
-        when Array then
-          data.each do |e| 
-            matching_key(e, key, &block)
-          end
-        else
-          # ignore this element
+          data.values
+        when Array then data
+        else []
       end
+
+      children.each { |e| matching_key(e, key, &block) }
+
     end
-    
+
   end
 end

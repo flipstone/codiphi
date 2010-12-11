@@ -9,6 +9,7 @@ require 'r18n-core'
 
 module Codiphi
   module Tokens
+    Schematic = "schematic"
     Type = :schematic_type
     Name = "type"
     Cost = "cost"

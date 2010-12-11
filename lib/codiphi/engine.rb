@@ -1,4 +1,7 @@
 module Codiphi
+  #
+  # Engine coordinates transformations against schematics
+  #
   class Engine
     include R18n::Helpers
     Version = [0,1,0]
@@ -151,15 +154,16 @@ module Codiphi
     end
 
     def render_tree
-      raise t.assertions.no_list unless @data["list"]   
+      list_node = @data[Tokens::List]
+      raise t.assertions.no_list unless list_node
 
-      say_ok t.bin.inspecting do
-        raise t.bin.no_schematic unless @data["list"]["schematic"]
+      schematic_path = list_node[Tokens::Schematic]
+      bin_msg = t.bin
+      say_ok bin_msg.inspecting do
+        raise bin_msg.no_schematic unless schematic_path
       end
-  
-      schematic_path = @data["list"]["schematic"]
-      schematic_data = Support.read_schematic(schematic_path)
-      @syntax_tree = Parser.parse(schematic_data)
+
+      @syntax_tree = Parser.parse(Support.read_schematic(schematic_path))
       @syntax_tree.gather_declarations(@namespace)
     end
   end
