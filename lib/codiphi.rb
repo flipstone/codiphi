@@ -7,8 +7,14 @@ require 'polyglot'
 require 'treetop'
 require 'r18n-core'
 
+module Codiphi 
+  SchematicTypeKey = :schematic_type
+  SchematicNameKey = "type"
+end
+
 Dir["#{BASE_PATH}lib/codiphi/*.rb"].each {|file| require file }
 Dir["#{BASE_PATH}lib/modules/*.rb"].each {|file| require file }
 Dir["#{BASE_PATH}lib/codiphi/**/*.rb"].each {|file| require file }
+Dir["#{BASE_PATH}lib/hacks/*.rb"].each {|file| require file }
 
 include SayLogging

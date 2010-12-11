@@ -75,7 +75,6 @@ else
   say t.bin.no_validation
   engine.completion_transform
 end
-
 puts YAML::dump(engine.emitted_data)
 
 

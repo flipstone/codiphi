@@ -23,7 +23,7 @@ module Codiphi
           when '-' then -(value.text_value)
           else value.text_value
         end
-        Codiphi::Traverse.matching_named_type(data, match_type, match_name, 0) do |target_hash|
+        Codiphi::Traverse.matching_named_type(data, match_type, match_name) do |target_hash|
           say "placing cost #{value.text_value} on #{target_hash.inspect}"
           if (target_hash.keys.include? (Token))
             target_hash[Token] += delta

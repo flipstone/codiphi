@@ -21,6 +21,7 @@ module Codiphi
     end
     
     def emit
+      cleanup_data
       data_to_emit = @data
       data_to_emit = @original_data if has_errors?
       @emitted_data = data_to_emit
@@ -32,7 +33,20 @@ module Codiphi
       emit
     end
     
+    def expand_data
+      say_ok "expanding input to canonical structure" do
+        Support.expand_to_canonical(@data, @namespace)
+      end
+    end
+
+    def cleanup_data
+      say_ok "cleaning output of canonical artifacts" do
+        Support.remove_canonical_keys(@data)
+      end
+    end
+    
     def validate
+      expand_data
       run_gather_assertions
       check_assertions
       if has_errors?
@@ -108,6 +122,7 @@ module Codiphi
 
     def run_completeness_transform
       render_tree
+      expand_data
       @syntax_tree.completion_transform(@data, @namespace)
       apply_cost
       true
@@ -123,7 +138,7 @@ module Codiphi
       schematic_path = @data["list"]["schematic"]
       schematic_data = Support.read_schematic(schematic_path)
       @syntax_tree = Parser.parse(schematic_data)
-      @syntax_tree.gather_declarations(namespace)
+      @syntax_tree.gather_declarations(@namespace)
     end
   end
 end

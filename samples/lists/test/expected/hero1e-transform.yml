@@ -1,0 +1,13 @@
+--- 
+list: 
+  description: First Man Standing
+  schematic: test/hero1
+  author: Codiphi Developer
+  author_email: development@flipstone.com
+  variant: legal
+  version: "1"
+  model: 
+      type: hero
+      cost: 100
+  cost: 100
+  cost_measure: points

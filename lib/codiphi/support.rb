@@ -1,10 +1,46 @@
 module Codiphi
   module Support
     include R18n::Helpers
+    CanonicalKeys = [SchematicTypeKey]
+        
+    def self.expand_to_canonical(input, namespace, schematic_type=nil)
+      case input
+      when Hash then
+        input[SchematicTypeKey] = schematic_type unless schematic_type.nil?
+        input.each do |k,v|
+          if (namespace.named_type?(v, k))
+            name_value = v
+            input[k] = v = Hash.new
+            v[SchematicNameKey] = name_value
+          end
+          expand_to_canonical(v, namespace, k) if [Hash, Array].include?(v.class)
+        end
+      when Array then
+        input.each do |v|
+          expand_to_canonical(v, namespace, schematic_type) if [Hash, Array].include?(v.class)
+        end
+      end
+    end
+    
+    def self.remove_canonical_keys(input)
+      case input
+      when Hash then
+        input.each do |k,v|
+        if (CanonicalKeys.include?(k))
+          input.delete(k)
+        end
+        remove_canonical_keys(v) if [Hash, Array].include?(v.class)
+        end
+      when Array then
+        input.each do |v|
+          remove_canonical_keys(v) if [Hash, Array].include?(v.class)
+        end
+      end
+    end
     
     def self.read_json(path)
       data = ""
-      f = File.open(path, "r")
+      f = File.open(path, 'r')
       f.each_line do |line|
           data += line
       end
@@ -13,7 +49,7 @@ module Codiphi
 
     def self.read_yaml(path)
       data = ""
-      f = File.open(path, "r")
+      f = File.open(path, 'r')
       f.each_line do |line|
           data += line
       end
