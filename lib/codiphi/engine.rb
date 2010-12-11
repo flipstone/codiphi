@@ -87,11 +87,11 @@ module Codiphi
         say_ok t.assertions.checking(asst.text_value,target_type,target_node) do
  
           Traverse.matching_key(@data, target_node) do |node|
-            # get counts for matched node
-            type = asst.type.text_value
-            name = asst.name.text_value
-
-            count = Traverse.count_for_expected_type_on_name(node, type, name)
+            count = Traverse.count_for_expected_type_on_name(
+                                node, 
+                                asst.type.text_value, 
+                                asst.name.text_value)
+                                
             parent_string = _namedtype_helper_for_assertion(target_node, target_type)
             _do_count_assertion(asst, count, parent_string)
           end
@@ -106,16 +106,26 @@ module Codiphi
       
       case assertion.assertion_operator.text_value
         when Tokens::Expects then
-          @failures << t.assertions.fail.expected(target,name,type,parent_string) unless count >= target
+          @failures << t.assertions.fail.expected(
+                          target,
+                          name,
+                          type,
+                          parent_string) unless count >= target
         when Tokens::Permits then
-          @failures << t.assertions.fail.permitted(target,name,type,parent_string) unless count <= target
+          @failures << t.assertions.fail.permitted(
+                          target,
+                          name,
+                          type,
+                          parent_string) unless count <= target
         else
           warn t.assertions.unknown_operator
       end
     end
     
     def _type_helper_for_assertion(a)
-      a.parent_declaration == Tokens::List ? "" : " #{a.parent_declaration_node.type.text_value}"
+      a.parent_declaration == Tokens::List ? 
+        "" : 
+        " #{a.parent_declaration_node.type.text_value}"
     end
 
     def _namedtype_helper_for_assertion(node, type)
