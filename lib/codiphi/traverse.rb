@@ -32,7 +32,7 @@ module Codiphi
     end # def
 
     # return sum of <count> for all <name> nodes with a child of type:<name>
-    def self.count_for_expected_type_on_name(data, expected_type, expected_name, matched_parent=false)
+    def self.count_for_expected_type_on_name(data, expected_type, expected_name)
       subcount = 0
       count = 0
       mymult = 1
@@ -40,9 +40,8 @@ module Codiphi
       when Hash
         data.each do |k,v|
           # first, get this child's counts
-          previous_match = matched_parent || k==expected_type
           if [Hash, Array].include? v.class
-            subcount += count_for_expected_type_on_name(v, expected_type, expected_name, previous_match)
+            subcount += count_for_expected_type_on_name(v, expected_type, expected_name)
           end
         end
         
@@ -52,14 +51,14 @@ module Codiphi
         end
 
         # test this hash for type to increments
-        if (data.keys.include?("type") && data["type"] == expected_name)
-          subcount += 1 if matched_parent
+        if (data.is_named_type?(expected_name, expected_type))
+          subcount += 1
         end
 
       when Array
         data.each do |v|
-          childcount = count_for_expected_type_on_name(v, expected_type, expected_name, matched_parent) 
-          subcount += childcount if (matched_parent || subcount)
+          childcount = count_for_expected_type_on_name(v, expected_type, expected_name) 
+          subcount += childcount if (v.is_named_type?(expected_name, expected_type) || subcount)
         end
       end
       

@@ -172,32 +172,36 @@ module Codiphi
 
 
     describe "count_for_named_type simple" do
-      it "ignores counts on no match 2-level case" do
+      it "counts 3-level case" do
         indata = {
-          "bar" => [{
-            "type" => "baz",
+          "bar" => {
+            SchematicNameKey => "baz",
+            SchematicTypeKey => "bar",
             "count" => 3
-          }],
+          },
           "foo" => [{
-            "type" => "bar",
+            SchematicNameKey => "foo",
+            SchematicTypeKey => "bar",
             "count" => 3,
             "fum" => [{
-              "type" => "bar",
+              SchematicNameKey => "baz",
+              SchematicTypeKey => "fum",
               "count" => 2
             }]
           }]
         }
-        # node expects 2 fum baz
-        Codiphi::Traverse.count_for_expected_type_on_name(indata, "fum", "baz").should == 0
+        Codiphi::Traverse.count_for_expected_type_on_name(indata, "fum", "baz").should == 6
       end
 
       it "ignores counts on no match 2-level case" do
         indata = {
           "foo" => [{
-            "type" => "bar",
+            SchematicNameKey => "foo",
+            SchematicTypeKey => "bar",
             "count" => 3,
             "fum" => [{
-              "type" => "bar",
+              SchematicNameKey => "fum",
+              SchematicTypeKey => "bar",
               "count" => 2
             }]
           }]
@@ -209,10 +213,12 @@ module Codiphi
       it "counts 2-level case" do
         indata = {
           "foo" => [{
-            "type" => "bar",
+            SchematicNameKey => "bar",
+            SchematicTypeKey => "foo",
             "count" => 3,
             "fum" => [{
-              "type" => "baz",
+              SchematicNameKey => "baz",
+              SchematicTypeKey => "fum",
               "count" => 2
             }]
           }]
@@ -225,18 +231,22 @@ module Codiphi
         indata = {
           "beedle" => [
             {
-              "type" => "bar",
+              SchematicNameKey => "beedle",
+              SchematicTypeKey => "bar",
               "count" => 3,
               "fum" => [{
-                "type" => "baz",
+                SchematicNameKey => "baz",
+                SchematicTypeKey => "fum",
                 "count" => 2
               }]
             },
             {
-              "type" => "bar",
+              SchematicNameKey => "beedle",
+              SchematicTypeKey => "bar",
               "count" => 3,
               "fum" => [{
-                "type" => "baz",
+                SchematicNameKey => "baz",
+                SchematicTypeKey => "fum",
                 "count" => 2
               }]
             }
@@ -249,7 +259,8 @@ module Codiphi
       it "counts simple case" do
         indata = {
           "foo" => [{
-            "type" => "bar",
+            SchematicNameKey => "bar",
+            SchematicTypeKey => "foo",
             "count" => 2
           }]
         }
@@ -260,7 +271,8 @@ module Codiphi
       it "counts implicitly to 1" do
         indata = {
           "fum" => [{
-            "type" => "baz"
+            SchematicNameKey => "baz",
+            SchematicTypeKey => "fum"
           }]
         }
 
