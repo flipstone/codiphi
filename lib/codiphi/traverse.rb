@@ -97,17 +97,24 @@ module Codiphi
       cost
     end
 
-
-    # matches all <key> nodes 
+    # matches all <key> nodes
     def self.matching_key(data, key, &block)
-      data.each do |k,v|
-        if (k == key)
-          # do the block
-          block.call(v)
+      case data
+        when Hash then
+          data.each do |k,v|
+            if (k == key)
+              # do the block
+              block.call(v)
+            else
+              matching_key(v, key, &block)
+            end
+          end
+        when Array then
+          data.each do |e| 
+            e.matching_key(e, key, &block)
+          end
         else
-          # check this node's children
-          matching_key(v, key, &block) if v.class == Hash
-        end
+          # ignore this element
       end
     end
     
