@@ -40,6 +40,31 @@ module Codiphi
         input["unit"][Tokens::Type].should == "unit"
       end
 
+      it "doesn't expand existing Hashes" do
+        namespace = Namespace.new
+        namespace.add_named_type("foo", "unit")
+        
+        input = {
+          "c" =>
+            {
+              Tokens::Name => "foo",
+              Tokens::Type => "c"
+            }
+        }
+        
+        input_copy = {
+          "c" =>
+            {
+              Tokens::Name => "foo",
+              Tokens::Type => "c"
+            }
+        }
+        
+        Support.expand_to_canonical(input, namespace)
+        
+        input.should == input_copy
+      end
+
       it "applies Tokens::Type to Hash" do
         input = {
           "a" => "b",

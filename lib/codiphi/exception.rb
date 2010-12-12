@@ -19,7 +19,7 @@ module Codiphi
   
   class NoSuchNameException < NodeException
     def to_s
-      t.assignment.no_such_name(*@node.named_type_values)
+      t.assignment.no_such_name(*@node.named_type_values).to_s
     end
   end
 
@@ -29,7 +29,7 @@ module Codiphi
                 @node.integer_val,
                 @node.name_val,
                 @node.type_val,
-                @target_description)    
+                @target_description).to_s
     end
   end
 
@@ -39,7 +39,7 @@ module Codiphi
                 @node.integer_val,
                 @node.name_val,
                 @node.type_val,
-                @target_description)    
+                @target_description).to_s
     end
   end
 

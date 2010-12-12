@@ -8,7 +8,7 @@ module Codiphi
       when Hash then
         input[Tokens::Type] = schematic_type unless schematic_type.nil?
         input.each do |k,v|
-          if namespace.named_type?(v, k)
+          if namespace.declared_type?(k) && !([Array, Hash].include?(v.class))
             input.add_named_type(v, k)
           end
 
