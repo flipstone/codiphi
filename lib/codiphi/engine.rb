@@ -48,9 +48,10 @@ module Codiphi
       end
     end
     
-    def validate(run_completion=true)
-      run_completeness_transform if run_completion
-      expand_data 
+    def validate
+      render_tree unless @syntax_tree
+      @syntax_tree.gather_declarations(@namespace) unless @namespace
+      expand_data
       run_gather_assertions
       check_assertions
       if has_errors?
@@ -61,12 +62,13 @@ module Codiphi
     end
 
     def apply_cost
-      (@data["list"]["cost"] = cost) if @data["list"]
+      list_node = @data[Tokens::List]
+      list_node.set_cost(0) if list_node
+      list_node.set_cost(cost) if list_node
     end
 
     def run_gather_assertions
       @assertions = []
-      render_tree unless @syntax_tree
       say_ok t.assertions.gathering do
         @syntax_tree.gather_assertions(@assertions)
       end
@@ -135,6 +137,7 @@ module Codiphi
 
     def run_completeness_transform
       render_tree
+      @syntax_tree.gather_declarations(@namespace)
       expand_data
       @syntax_tree.completion_transform(@data, @namespace)
       apply_cost
@@ -152,7 +155,6 @@ module Codiphi
       end
 
       @syntax_tree = Parser.parse(Support.read_schematic(schematic_path))
-      @syntax_tree.gather_declarations(@namespace)
     end
   end
 end

@@ -1,6 +1,14 @@
 module Codiphi
   class Namespace < Hash
     
+    def add_to_runlist(node_as_string)
+      _set_arrayed_value(:runlist, node_as_string)
+    end
+    
+    def has_run?(node_as_string)
+      _includes_value_for_key?(:runlist, node_as_string)
+    end
+    
     def has_errors?
       !self[:errors].nil? && !self[:errors].empty?
     end

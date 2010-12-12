@@ -18,8 +18,9 @@ module Codiphi
     Count = "count"
     Permits = "permits"
     Expects = "expects"
-    Assignment = '+'
+    Addition = '+'
     Removal = '-'
+    Assignment = '='
   end
 end
 

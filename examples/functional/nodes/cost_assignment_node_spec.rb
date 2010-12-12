@@ -51,7 +51,7 @@ module Codiphi
 
         node.completion_transform(indata, {})
         indata["fum"][0].keys.should be_include "cost"
-        indata["fum"][0]["cost"].should == 666
+        indata["fum"][0]["cost"].should == 555
     end
 
     it "decrements data on -" do
@@ -68,7 +68,7 @@ module Codiphi
 
         node.completion_transform(indata, {})
         indata["fum"][0].keys.should be_include "cost"
-        indata["fum"][0]["cost"].should == 111
+        indata["fum"][0]["cost"].should == -555
     end
 
   end
