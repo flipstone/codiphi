@@ -305,7 +305,70 @@ module Codiphi
         # node expects 1 fum baz
         Traverse.count_for_expected_type_on_name(indata, "fum", "baz").should == 1
       end
-    
     end
+    
+    describe "verify_named_types" do
+      it "is quiet on declared type" do
+        indata = {
+          "fum" => [{
+            Tokens::Name => "baz",
+            Tokens::Type => "fum"
+          }]
+        }
+
+        namespace = Namespace.new
+        namespace.add_named_type("baz","fum")
+        
+        Traverse.verify_named_types(indata, namespace)
+        namespace.should_not have_errors
+      end
+
+      it "errors on bad name for declared type" do
+        indata = {
+          "qee" => [{
+            Tokens::Name => "baz",
+            Tokens::Type => "qee"
+          }]
+        }
+
+        namespace = Namespace.new
+        namespace.add_named_type("boo","qee")
+        
+        Traverse.verify_named_types(indata, namespace)
+        namespace.should have_errors
+        namespace.errors[0].class.should == NoSuchNameException
+      end
+
+      it "errors on nested bad names" do
+        indata = {
+          "qee" => [{
+            Tokens::Name => "bam",
+            Tokens::Type => "qee"
+          }],
+          "qoo" => {
+            Tokens::Name => "baz",
+            Tokens::Type => "qee",
+            "gom" => {
+              "qee" => [{
+                Tokens::Name => "buf",
+                Tokens::Type => "qee"
+              }]
+              
+            }
+          }
+          
+        }
+
+        namespace = Namespace.new
+        namespace.add_named_type("boo","qee")
+        namespace.add_named_type("baz","qee")
+        
+        Traverse.verify_named_types(indata, namespace)
+        namespace.should have_errors
+        namespace.errors.count.should == 2
+      end
+
+    end
+    
   end
 end

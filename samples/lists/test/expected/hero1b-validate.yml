@@ -12,4 +12,5 @@ list:
     description: Neo
     count: 1
 list-errors: 
-- At least 1 hero model expected on list
+    - No 'hero-godling' model type defined in schematic.
+    - At least 1 hero model expected on list

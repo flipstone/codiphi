@@ -10,4 +10,5 @@ describe Hash do
     somehash.should be_is_named_type("foo", "bar")
     
   end
+
 end

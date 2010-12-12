@@ -11,6 +11,7 @@ module Codiphi
           if namespace.named_type?(v, k)
             input.add_named_type(v, k)
           end
+
           expand_to_canonical(v, namespace, k) if [Hash, Array].include?(v.class)
         end
       when Array then

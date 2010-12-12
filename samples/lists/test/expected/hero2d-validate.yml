@@ -21,5 +21,5 @@ list:
       - type: shotgun
         ammunition: hellfire_rounds
 list-errors:
-  - Weapon type 'super_atom_bomb' not defined in schematic.
-  - Ammunition type 'untracked_attribute' not defined in schematic.
+  - No 'super_atom_bomb' weapon type defined in schematic.
+  - No 'untracked_attribute' ammunition type defined in schematic.

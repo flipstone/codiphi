@@ -19,9 +19,7 @@ module Codiphi
   
   class NoSuchNameException < NodeException
     def to_s
-      t.assignment.no_such_name(
-          node.type_val,
-          node.value_val)
+      t.assignment.no_such_name(*@node.named_type_values)
     end
   end
 

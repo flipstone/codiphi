@@ -14,7 +14,7 @@ declarations:
     declare: schematic declaring %1 %2
 
 assignment:
-    no_such_name: %1 type '%2' not defined in schematic.
+    no_such_name: No '%1' %2 type defined in schematic.
 
 assertions:
     gathering: gathering assertions from schematic

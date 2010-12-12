@@ -4,7 +4,7 @@ module Codiphi
   class DeclarationNode < CodiphiNode
     def gather_declarations(namespace)
       super(namespace)
-      namespace[name_val] = type_val
+      namespace.add_named_type(name_val, type_val)
     end
       
     def declarative?

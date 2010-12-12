@@ -6,6 +6,7 @@ describe Codiphi::Namespace do
     n = Codiphi::Namespace.new
     n.add_named_type("foo", "unit")
     n["foo"].should_not be_nil
+    n.should be_declared_type("unit")
     n.should be_named_type("foo", "unit")
   end
 
@@ -17,7 +18,6 @@ describe Codiphi::Namespace do
     n.should be_named_type("foo", "quarzle")
     n.should_not be_named_type("foo", "zingbat")
   end
-
   
   it "adds error" do
     n = Codiphi::Namespace.new

@@ -5,6 +5,10 @@ module Codiphi
       type == self[Tokens::Type] 
     end
 
+    def named_type_values
+      return self[Tokens::Name], self[Tokens::Type] 
+    end
+
     def add_named_type(name, type)
       self[type] = new_child = Hash.new
       new_child[Tokens::Name] = name

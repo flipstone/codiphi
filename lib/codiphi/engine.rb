@@ -49,11 +49,16 @@ module Codiphi
     end
     
     def validate
+      @namespace.clear_errors
       render_tree unless @syntax_tree
       @syntax_tree.gather_declarations(@namespace) unless @namespace
+      # puts "AAAA Has errors? #{has_errors?} #{@namespace.errors.inspect}"
       expand_data
+      Traverse.verify_named_types(@data, @namespace)
+      # puts "BBBB Has errors? #{has_errors?} #{@namespace.errors.inspect}"
       run_gather_assertions
       check_assertions
+      # puts "CCCC Has errors? #{has_errors?} #{@namespace.errors.inspect}"
       if has_errors?
         # decorate the original file with appended errors
         original_data[Tokens::ListErrors] = @namespace.errors.map{ |f| f.to_s }
@@ -85,7 +90,6 @@ module Codiphi
 
     def check_assertions
       return true if no_assertions?
-      @namespace.clear_errors
       @assertions.each do |asst|
         target_node = asst.parent_declaration
         target_type = _type_helper_for_assertion(asst)

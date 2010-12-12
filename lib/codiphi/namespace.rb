@@ -24,13 +24,18 @@ module Codiphi
     def errors
       self[:errors]
     end
+
+    def declared_type?(type)
+      _includes_value_for_key?(:types_list, type)
+    end
     
     def named_type?(name, type)
       _includes_value_for_key?(name, type)
     end
-    
+
     def add_named_type(name, type)
       _set_arrayed_value(name, type)
+      _set_arrayed_value(:types_list, type)
     end
     
     def _set_arrayed_value(key, value)

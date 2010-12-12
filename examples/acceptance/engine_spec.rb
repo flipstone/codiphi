@@ -34,16 +34,6 @@ Dir["#{BASE_PATH}samples/lists/test/*.yml"].each do |file|
         engine.emitted_data.should set_match expected_data
       end      
 
-      it "repeatedly validates to input #{file_ref}" do
-        data = read_sample_yaml("test/expected/#{file_ref}-validate.yml")
-        data = Codiphi::Support.read_yaml(file)
-        engine = Codiphi::Engine.new(data)
-        engine.completion_transform
-        engine.validate
-        engine.validate
-        expected_data = read_sample_yaml("test/expected/#{file_ref}-validate.yml")
-        engine.emitted_data.should set_match expected_data
-      end
     end
   end
 
