@@ -85,6 +85,7 @@ module Codiphi
 
     def check_assertions
       return true if no_assertions?
+      @namespace.clear_errors
       @assertions.each do |asst|
         target_node = asst.parent_declaration
         target_type = _type_helper_for_assertion(asst)

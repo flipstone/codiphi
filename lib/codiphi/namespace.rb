@@ -17,6 +17,10 @@ module Codiphi
       _set_arrayed_value(:errors, error)
     end
     
+    def clear_errors
+      self[:errors] = nil
+    end
+
     def errors
       self[:errors]
     end
