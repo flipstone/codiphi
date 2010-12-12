@@ -13,7 +13,8 @@ module Codiphi
       @namespace.has_errors?
     end
     
-    def initialize(data, locale='en')
+    def initialize(data, schematic=nil,locale='en')
+      @schematic = schematic
       @data = data
       # poor man's clone
       @original_data = Marshal.load( Marshal.dump(@data))
@@ -52,13 +53,10 @@ module Codiphi
       @namespace.clear_errors
       render_tree unless @syntax_tree
       @syntax_tree.gather_declarations(@namespace) unless @namespace
-      # puts "AAAA Has errors? #{has_errors?} #{@namespace.errors.inspect}"
       expand_data
       Traverse.verify_named_types(@data, @namespace)
-      # puts "BBBB Has errors? #{has_errors?} #{@namespace.errors.inspect}"
       run_gather_assertions
       check_assertions
-      # puts "CCCC Has errors? #{has_errors?} #{@namespace.errors.inspect}"
       if has_errors?
         # decorate the original file with appended errors
         original_data[Tokens::ListErrors] = @namespace.errors.map{ |f| f.to_s }
@@ -149,7 +147,7 @@ module Codiphi
       true
     end
 
-    def render_tree
+    def load_schematic_from_data
       list_node = @data[Tokens::List]
       raise t.assertions.no_list unless list_node
 
@@ -159,7 +157,12 @@ module Codiphi
         raise bin_msg.no_schematic unless schematic_path
       end
 
-      @syntax_tree = Parser.parse(Support.read_schematic(schematic_path))
+      @schematic = Support.read_schematic(schematic_path)
+    end
+
+    def render_tree
+      load_schematic_from_data unless @schematic
+      @syntax_tree = Parser.parse(@schematic)
     end
   end
 end

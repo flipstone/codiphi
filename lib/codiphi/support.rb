@@ -56,9 +56,13 @@ module Codiphi
     end
 
     def self.read_schematic(url)
-      data = ""
       codex_name = url.split('/').last
       full_path = "samples/schematics/#{url}/#{codex_name}.cdx"
+      read_schematic_data(full_path)
+    end
+
+    def self.read_schematic_data(full_path)
+      data = ""
       say_ok t.bin.schematic(full_path) do
         f = File.open(full_path, "r")
         f.each_line do |line|

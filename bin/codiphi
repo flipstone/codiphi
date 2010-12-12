@@ -21,6 +21,10 @@ def options_parse(args)
       options.locale = l
     end
 
+    opts.on("-s", "--schematic PHI_FILE", "Process against PHI_FILE (ignoring schematic tag in list)") do |s|
+      options.schematic = s
+    end
+
     opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
       options.verbose = v
     end
@@ -66,7 +70,11 @@ say_ok t.bin.loading(options.yaml_file) do
   data = Codiphi::Support.read_yaml(options.yaml_file)
 end
 
-engine = Codiphi::Engine.new(data, options.locale)
+if (options.schematic)
+  schematic = Codiphi::Support.read_schematic_data(options.schematic)
+end
+
+engine = Codiphi::Engine.new(data, schematic, options.locale)
 
 unless (options.no_validate)
   engine.completion_transform
