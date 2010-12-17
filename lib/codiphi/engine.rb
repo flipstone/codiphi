@@ -32,7 +32,6 @@ module Codiphi
     end
     
     def completion_transform
-      # scrub list-errors if present
       run_completeness_transform
       emit
     end
