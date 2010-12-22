@@ -11,4 +11,20 @@ describe Hash do
     
   end
 
+  describe "count_value" do
+    it "returns the value of 'count'" do
+      {'count' => 2}.count_value.should == 2
+    end
+
+    it "returns the value of 'count' as integer if it is a string" do
+      {'count' => '2'}.count_value.should == 2
+    end
+
+    it "raises an error if count is not a valid number" do
+      lambda do
+        {'count' => 'ambd'}.count_value
+      end.should raise_error
+    end
+  end
+
 end

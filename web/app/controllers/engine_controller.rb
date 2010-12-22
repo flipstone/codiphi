@@ -1,11 +1,16 @@
 class EngineController < ApplicationController
   def create
-    list = params[:list]
-    schematic = Codiphi::SupportSchematic.find_by_name list[:schematic]
-    
-    engine = Codiphi::Engine.new(list, schematic.body)
-    engine.completion_transform
+    list = params[:list].to_hash
 
-    render json: engine.emitted_data
+    schematic = Schematic.find_by_name list["schematic"]
+
+    if schematic
+      engine = Codiphi::Engine.new({"list" => list}, schematic.body)
+      engine.completion_transform
+
+      render json: engine.emitted_data
+    else
+      render json: {}
+    end
   end
 end

@@ -43,7 +43,7 @@ module Codiphi
     end
 
     def count_value
-      self[Tokens::Count]
+      Integer(self[Tokens::Count])
     end
 
     def has_cost?

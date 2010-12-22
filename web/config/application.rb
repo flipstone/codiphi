@@ -1,7 +1,6 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
-require_relative '../../engine/lib/codiphi'
 
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
@@ -39,5 +38,9 @@ module CodiphiWeb
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+    config.after_initialize do
+      require_relative '../../engine/lib/codiphi'
+      SayLogging.class_variable_set :@@suppress, true
+    end
   end
 end
