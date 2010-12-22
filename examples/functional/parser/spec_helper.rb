@@ -20,9 +20,10 @@ end
 def read_sample_codex(path)
   data = ""
   full_path = "samples/schematics/test/#{path}"
-  f = File.open(full_path, "r")
-  f.each_line do |line|
-      data += line
+  File.open(full_path, "r") do |f|
+    f.each_line do |line|
+        data += line
+    end
   end
   data
 end

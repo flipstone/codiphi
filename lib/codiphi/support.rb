@@ -37,22 +37,22 @@ module Codiphi
       end
     end
     
-    def self.read_json(path)
+    def self.read_file(path)
       data = ""
-      f = File.open(path, 'r')
-      f.each_line do |line|
+      File.open(path, 'r') do |f|
+        f.each_line do |line|
           data += line
+        end
       end
-      JSON.parse(data)
+      data
+    end
+    
+    def self.read_json(path)
+      JSON.parse(read_file(path))
     end
 
     def self.read_yaml(path)
-      data = ""
-      f = File.open(path, 'r')
-      f.each_line do |line|
-          data += line
-      end
-      YAML::load(data)
+      YAML::load(read_file(path))
     end
 
     def self.read_schematic(url)
@@ -62,14 +62,8 @@ module Codiphi
     end
 
     def self.read_schematic_data(full_path)
-      data = ""
-      say_ok t.bin.schematic(full_path) do
-        f = File.open(full_path, "r")
-        f.each_line do |line|
-            data += line
-        end
-      end
-      data
+      say t.bin.schematic(full_path)
+      read_file(full_path)
     end
     
   end
