@@ -1,0 +1,10 @@
+%h1 Codiphi Engine
+
+= form_tag do
+  = text_area_tag :list
+  = submit_tag "Run Engine"
+
+- if @engine
+  %pre.emitted_data
+    = YAML.dump @engine.emitted_data
+
