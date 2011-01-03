@@ -1,0 +1,34 @@
+html, body {
+  height: 100%;
+}
+
+h2 {
+  margin: 0.2em;
+}
+
+form {
+  float: left;
+  padding: 0;
+  width: 45%;
+  height: 80%;
+  margin: 0em 0.5em;
+}
+
+textarea {
+  font-family: monospace;
+  font-size: 1em;
+  width: 100%;
+  height: 70%;
+  display: block;
+}
+
+.emitted_data {
+  float: left;
+  margin: 0em 0.5em;
+  width: 45%;
+}
+
+pre {
+  margin: 0;
+  padding: 0;
+}
