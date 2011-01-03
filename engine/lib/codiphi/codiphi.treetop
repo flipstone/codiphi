@@ -126,7 +126,7 @@ grammar Codiphi
   end
   
   rule space
-    ([ \t\n] / comment)+
+    ([ \t\r\n] / comment)+
   end
   
 end

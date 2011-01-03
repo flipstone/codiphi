@@ -44,5 +44,8 @@ describe CodiphiParser, "declaration" do
     tree.declaration_list.class.should == Codiphi::DeclarationListNode
     tree.declaration_list.declaration_list.class.should == Codiphi::DeclarationListNode
   end
-  
+
+  it "parses with carriage returns" do
+    Codiphi::Parser.should parse %{model :pants\r\n}
+  end
 end

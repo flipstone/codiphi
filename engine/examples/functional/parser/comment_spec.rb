@@ -5,6 +5,7 @@ describe Codiphi::Parser, "comments" do
   it "accepts whole line comment" do
     Codiphi::Parser.should parse %{# this is allowed\n}
     Codiphi::Parser.should parse %{#\n}
+    Codiphi::Parser.should parse %{# with carriage return\r\n}
     Codiphi::Parser.should parse %{#this too}
   end
 
