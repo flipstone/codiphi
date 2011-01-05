@@ -6,8 +6,8 @@ Codiphi will complete, validate and price your list
 
 Basic Instructions
 ---
-1. Find or write your codiphile
-Setup a codiphi schematic file (a '_codiphile_').  We've tried to make this a very natural structure that's easy to read and manage.  Here's a simple example:
+1. Find or write your schematic file
+The schematic describes what makes a list legal or illegal.  We've tried to make this a very natural structure that's easy to read and manage.  Here's a simple example:
 
     model :hero {
       cost 100
@@ -17,15 +17,15 @@ Setup a codiphi schematic file (a '_codiphile_').  We've tried to make this a ve
       expects 1 :hero
     }
 
-This codiphile declares:
+This schematic declares:
   "A named :hero that costs 100 units"
   "Any list created under this schematic is priced in points."
-  "Any list created under this schematic requires one :hero model."
+  "Any list created under this schematic requires at least one :hero model."
 
 You can also ask a friend for theirs.
 
 2. Build out your list
-Write a JSON-formatted file that makes selections for your army.  Every list file must include a "list" root node that contains a "schematic" attribute.  Here's an example list:
+Write a YAML-formatted file that makes selections for your army.  Every list file must include a "list" root node that contains a "schematic" attribute.  Here's an example list:
 
   {
       "list":

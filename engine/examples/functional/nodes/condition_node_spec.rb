@@ -3,23 +3,6 @@ require_relative './spec_helper.rb'
 module Codiphi
 
   describe ConditionNode do 
-    
-    describe "_check_presence_in" do 
-      it "finds correctly" do
-        indata = {
-          "weapon" => {
-            Tokens::Name => "supergun",
-            Tokens::Type => "weapon"
-          }
-        }
-        parentnode = declaration_mock("sergeant", "model")
-        assertion_node = assertion_mock('permits', 0, "ammunition", "bullets")
-        node = condition_mock('?',"weapon", "supergun", assertion_node, parentnode)
-        
-        node._check_presence_in(indata).should == true
-      end
-    end
-
     describe "gathering expected assertions" do
 
       xit "collects multiple assertions" do end
@@ -55,7 +38,7 @@ module Codiphi
       end
         
       it "collects single assertions" do
-        parentnode = declaration_mock("model", "sergeant")
+        parentnode = declaration_mock("sergeant", "model")
         assertion_node = assertion_mock('permits', 0, "ammunition", "bullets")
         node = condition_mock('?',"weapon", "supergun", assertion_node, parentnode)
 
