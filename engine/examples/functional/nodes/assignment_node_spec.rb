@@ -11,7 +11,7 @@ module Codiphi
         node = assignment_mock('+',"unit", "foopants", parentnode)
 
         namespace = Namespace.new
-        namespace.add_named_type("foopants", "foo")
+        namespace.add_named_type("foopants", "unit")
 
         indata = {
           "fum" => [{

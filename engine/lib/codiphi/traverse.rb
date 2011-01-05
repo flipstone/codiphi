@@ -1,7 +1,7 @@
 module Codiphi
   module Traverse
 
-    def self.matching_named_type(data, schematic_type, schematic_name, &block)
+    def self.matching_named_type(data, schematic_name, schematic_type, &block)
       case data
       when Hash
         # special case for list
@@ -17,14 +17,14 @@ module Codiphi
         # recurse on the attributes, looking for <schematic_type>
         data.each do |k,v|
           if ([Hash, Array].include? v.class)
-            matching_named_type(v, schematic_type, schematic_name, &block) 
+            matching_named_type(v, schematic_name, schematic_type, &block) 
           end
         end
         
       when Array
         data.each do |k|
           if ([Hash, Array].include? k.class)
-            matching_named_type(k, schematic_type, schematic_name, &block) 
+            matching_named_type(k, schematic_name, schematic_type, &block) 
           end
         end # each
       end # case 

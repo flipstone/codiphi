@@ -12,7 +12,7 @@ module Codiphi
           }]
         }
 
-        Traverse.matching_named_type(indata, "fum", "baz") do |node|
+        Traverse.matching_named_type(indata, "baz", "fum") do |node|
           node["erkle"] = 999
         end
       
@@ -36,7 +36,7 @@ module Codiphi
           }
         }
 
-        Traverse.matching_named_type(indata, "fum", "baz") do |node|
+        Traverse.matching_named_type(indata, "baz", "fum") do |node|
           node["erkle"] = 999
         end
         fumnode = indata["foo"]["fum"]
@@ -77,7 +77,7 @@ module Codiphi
           }]
         }
       
-        Traverse.matching_named_type(indata, "fum", "baz") do
+        Traverse.matching_named_type(indata, "baz", "fum") do
           matches += 1
         end
         matches.should == 1
@@ -102,7 +102,7 @@ module Codiphi
           }]
         }
       
-        Traverse.matching_named_type(indata, "fum", "baz") do
+        Traverse.matching_named_type(indata, "baz", "fum") do
           matches += 1
         end
         matches.should == 1
@@ -127,7 +127,7 @@ module Codiphi
           }]
         }
       
-        Traverse.matching_named_type(indata, "fum", "baz") do
+        Traverse.matching_named_type(indata, "baz", "fum") do
           matches += 1
         end
         matches.should == 2
@@ -142,7 +142,7 @@ module Codiphi
           }]
         }
       
-        Traverse.matching_named_type(indata, "foo", "baz") do
+        Traverse.matching_named_type(indata, "baz", "foo") do
           matches += 1
         end
         matches.should == 0
@@ -162,7 +162,7 @@ module Codiphi
           }]
         }
       
-        Traverse.matching_named_type(indata, "fum", "baz") do
+        Traverse.matching_named_type(indata, "baz", "fum") do
           matches += 1
         end
         matches.should == 2
