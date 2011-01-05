@@ -25,52 +25,36 @@ This schematic declares:
 You can also ask a friend for theirs.
 
 2. Build out your list
-Write a YAML-formatted file that makes selections for your army.  Every list file must include a "list" root node that contains a "schematic" attribute.  Here's an example list:
+Write a YAML-formatted file that makes selections for your army.  YAML files are plainly formatted text that's intended to be easy to read and edit.  
 
-  {
-      "list":
-      {
-          "description": "First Man Standing",
-          "schematic": "test/hero1",
-          "author":"Codiphi Developer",
-          "author_email":"development@flipstone.com",
-          "variant": "legal",
-          "version": "1",
-          "model":{
-              "type":"hero",
-              "description":"Neo",
-              "count":1
-          }
-      }
-  }
+Every list file must include a "list" root node that contains a "schematic" attribute.  Here's an example list:
+
+--- 
+list: 
+  description: First Man Standing
+  schematic: test/hero2
+  author: Codiphi Developer
+  author_email: development@flipstone.com
+  variant: nested legal
+  notes: removing node
+  version: "1"
+  unit: 
+  - type: hero-squad
+    model: 
+    - type: hero
+      description: Neo
+      count: 3
+      weapon: 
+      - type: sword
+        cool_thing: magical
+      - type: super_atom_bomb
+        ammunition: untracked_attribute
+      - type: shotgun
+        ammunition: hellfire_rounds
+
 
 3. Run codiphi on your list
 
-codiphi my_list_file.json
+codiphi my_list_file.yml
 
-This will generate a similar json to the one created, but decorated with either attributes from the codiphile or with validation errors describing why the list is not legal under the schematic.
-
-schematics.codiphi.org
----
-think rubygems.org for codiphi: People can share and trade Codex implementations- maybe fork, but importantly, reference public schematics in list jsons.
-Open account
-Upload Codiphi schematics
-Server Validates schematics
-Server tracks downloads
-Server allows rating
-
-Codiphi Adjutant
----
-Tabletop wargaming assistant application (tablet delivered)
-
-View Codiphi lists
-Build/Edit Codiphi lists
-Richly rendered Codiphi lists
-Manage Codiphi lists
-Light codiphi.org integration
-Generate battle reports
-
-Relevant domains to pursue:
- - adjutant.codiphi.org
- - Codiphi.org codiphile.org codiphi.com
- - batrep.org
+This will generate yml output that is very similar to the one created, but decorated with either attributes from the schematic or with validation errors describing why the list is not legal under the schematic.
