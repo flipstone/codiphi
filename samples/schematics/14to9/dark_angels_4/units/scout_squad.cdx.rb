@@ -1,20 +1,19 @@
 model :scout {
-  if weapon :sniper_rifle {
-    - weapon :boltgun
+  ? weapon :sniper_rifle {
+    permits 0 weapon :boltgun
     + cost 5
   }
 
-  if weapon :missile_launcher {
-    - weapon :boltgun
+  ? weapon :missile_launcher {
+    permits 0 weapon :boltgun
     + cost 15
     permits 0 weapon :heavy_bolter on unit :scout_squad
   }
 
   if weapon :heavy_bolter {
-    - weapon :boltgun
+    permits 0 weapon :boltgun
     + cost 15
   }
-
 }
 
 model :scout_sergeant {
@@ -66,7 +65,7 @@ unit :scout_squad {
     :shotgun
   ]
   
-   if count(model :scout) > 4 {
+   ? count(model :scout) > 4 {
     + cost 65
     expects 9 model :scout
   } 

@@ -10,8 +10,8 @@ module Codiphi
         parentnode = declaration_mock("fum", "baz")
         node = assignment_mock('+',"unit", "foopants", parentnode)
 
-        namespace = Hash.new
-        namespace["foopants"] = "foo"
+        namespace = Namespace.new
+        namespace.add_named_type("foopants", "foo")
 
         indata = {
           "fum" => [{

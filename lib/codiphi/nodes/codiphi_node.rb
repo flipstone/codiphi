@@ -14,8 +14,9 @@ module Codiphi
       recurse_to_children(:completion_transform, [data, namespace])
     end
   
-    def gather_assertions(assertion_list)
-      recurse_to_children(:gather_assertions, [assertion_list])
+    def gather_assertions(data, namespace, assertion_list, enclosing_condition)
+      recurse_to_children(:gather_assertions, 
+        [data, namespace, assertion_list, enclosing_condition])
     end
   
     def declarative?

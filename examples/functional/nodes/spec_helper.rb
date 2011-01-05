@@ -40,6 +40,27 @@ def declaration_mock(typeval, nameval, parent=nil)
   node
 end
 
+def condition_mock(opval, typeval, nameval, assertion_node, parent=nil)
+  input = "#{opval}#{typeval}#{nameval}"
+  opnode = literal_node(opval)
+  typenode = literal_node(typeval)
+  namenode = literal_node(nameval)
+
+  node = Codiphi::ConditionNode.new(input, 0..input.length, 
+    [opnode, typenode, namenode, assertion_node])
+
+  opnode.parent = node
+  typenode.parent = node
+  namenode.parent = node
+  assertion_node.parent = node
+
+  node.parent = parent
+  node.stubs(:assignment_operator).returns(opnode)
+  node.stubs(:type).returns(typenode)
+  node.stubs(:name).returns(namenode)
+  node
+end
+
 def assertion_mock(opval, intval, typeval, nameval, parent=nil)
   input = "#{opval}#{intval}#{nameval}"
   node = Codiphi::AssertionNode.new(input, 0..input.length)

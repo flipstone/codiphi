@@ -10,8 +10,7 @@ module Codiphi
         end
 
         # test this hash for type to match
-        if (data[Tokens::Name] == schematic_name &&
-            data[Tokens::Type] == schematic_type )
+        if (data.is_named_type?(schematic_name, schematic_type))
           block.call(data)
         end
 

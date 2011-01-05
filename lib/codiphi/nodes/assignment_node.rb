@@ -28,8 +28,8 @@ module Codiphi
       else
         Traverse.matching_named_type(
           data, 
-          match_node.type.text_value, 
-          match_node.name.text_value
+          match_node.name.text_value, 
+          match_node.type.text_value
         ) { |target_hash| _do_completion(target_hash, namespace) }
       end
     end

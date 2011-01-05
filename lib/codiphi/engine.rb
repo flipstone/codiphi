@@ -72,7 +72,7 @@ module Codiphi
     def run_gather_assertions
       @assertions = []
       say_ok t.assertions.gathering do
-        @syntax_tree.gather_assertions(@assertions)
+        @syntax_tree.gather_assertions(@data, @namespace, @assertions, true)
       end
       true
     end
