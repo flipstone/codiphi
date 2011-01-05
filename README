@@ -27,7 +27,9 @@ You can also ask a friend for theirs.
 2. Build out your list
 Write a YAML-formatted file that makes selections for your army.  YAML files are plainly formatted text that's intended to be easy to read and edit.  
 
-Every list file must include a "list" root node that contains a "schematic" attribute.  Here's an example list:
+Every list file must include a "list" root node that contains a "schematic" attribute.  The schematic attribute is expected to be a reference to the schematic that's used to validate the file.
+
+Here's an example list:
 
 --- 
 list: 
@@ -55,6 +57,9 @@ list:
 
 3. Run codiphi on your list
 
-codiphi my_list_file.yml
+  engine/bin/codiphi my_list_file.yml
 
 This will generate yml output that is very similar to the one created, but decorated with either attributes from the schematic or with validation errors describing why the list is not legal under the schematic.
+
+For additional help running the command-line engine, ask it for help:
+  engine/bin/codiphi -h 
