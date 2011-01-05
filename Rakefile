@@ -1,19 +1,11 @@
-require 'metric_fu'
-require 'rake'
-require 'rspec/core'
-require 'rspec/core/rake_task'
+task default: :all
+task all: [:engine, :web]
 
-desc "Run all specs in spec directory"
-
-RSpec::Core::RakeTask.new(:spec) do |t|
-  t.pattern = "examples/**/*_spec.rb"
+task :engine do
+  sh "cd engine && rake"
 end
 
-MetricFu::Configuration.run do |config|
-  config.churn    = { :start_date => "1 year ago", :minimum_churn_count => 10}
-  config.hotspots = { :start_date => "1 year ago", :minimum_churn_count => 10}
+task :web do
+  sh "cd web && rake"
 end
 
-task :default => :spec
-
-task :metrics => :"metrics:all"

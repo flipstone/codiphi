@@ -1,0 +1,132 @@
+grammar Codiphi
+  rule codex
+    space?
+    declaration_list:declaration_list?
+    space?
+    list:list?
+    space? <CodexNode>
+  end
+  
+  rule list
+    type:"list"
+    space?
+    declaration_block
+    <ListNode>
+  end
+      
+  rule assertion
+    assertion_operator 
+    space 
+    integer 
+    space 
+    type:word 
+    space 
+    name 
+    <AssertionNode>
+  end
+  
+  rule integer
+    '-'? [0-9]+
+    <IntegerNode>
+  end
+  
+  rule assertion_operator
+    "expects"
+    / "permits"
+    <LiteralNode>
+  end
+    
+  rule declaration
+    type:word
+    space
+    name
+    space? 
+    declaration_block:declaration_block?
+    <DeclarationNode>
+  end
+
+  rule declaration_block
+    "{" 
+    space* 
+    declaration_list
+    space* 
+    "}"
+    <DeclarationBlockNode>
+  end
+
+  rule declaration_list
+    declaration:(assertion / declaration / cost_measure_assignment / cost_assignment / assignment)
+    space?
+    declaration_list:declaration_list?
+    <DeclarationListNode>
+  end
+
+  rule assignment
+    assignment_operator
+    space
+    type:word
+    space
+    value:(name / integer / word / string)
+    <AssignmentNode>
+  end
+
+  rule cost_measure_assignment
+    assignment_operator
+    space
+    type:"cost_measure"
+    space
+    value:name
+    <CostMeasureAssignmentNode>
+  end
+  
+  rule cost_assignment
+    assignment_operator
+    space
+    type:"cost"
+    space
+    value:integer
+    <CostAssignmentNode>
+  end
+
+  rule assignment_operator
+    '+' /
+    '-' /
+	'='
+    <LiteralNode>
+  end
+
+  rule word
+    !reserved [a-zA-Z0-9_]+ 
+  end
+  
+  rule reserved
+    "list" /
+    "expects"
+  end
+  
+  rule comment
+    '#' (!eoc .)* eoc
+  end
+  
+  rule name
+    ':' word 
+    <NameNode>
+  end
+  
+  rule string
+    '"' (!'"' .)+ '"'
+  end
+    
+  rule eoc
+    [\n] / eof
+  end
+    
+  rule eof
+    !.
+  end
+  
+  rule space
+    ([ \t\r\n] / comment)+
+  end
+  
+end

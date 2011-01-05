@@ -1,0 +1,14 @@
+# Typus Models Configuration File
+#
+# Use the README file as a reference to customize settings.
+
+Schematic:
+  fields:
+    default: name
+    form: name, body
+  order_by: 
+  relationships: 
+  filters: 
+  search: name
+  application: web
+
