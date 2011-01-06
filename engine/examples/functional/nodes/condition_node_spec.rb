@@ -38,7 +38,7 @@ module Codiphi
       end
         
       it "collects single assertions" do
-        parentnode = declaration_mock("sergeant", "model")
+        parentnode = declaration_mock("model", "sergeant")
         assertion_node = assertion_mock('permits', 0, "ammunition", "bullets")
         node = condition_mock('?',"weapon", "supergun", assertion_node, parentnode)
 
