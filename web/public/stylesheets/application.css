@@ -32,3 +32,13 @@ pre {
   margin: 0;
   padding: 0;
 }
+
+.list-tree {
+  clear: both;
+}
+
+.list-tree .leaf .name {
+  margin-right: 1em;
+  padding-right: 0.25em;
+  border-right: 0.1em solid gray;
+}

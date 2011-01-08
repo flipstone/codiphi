@@ -4,12 +4,19 @@ class EngineController < ApplicationController
   end
 
   def create
-    list = YAML.load params[:list]
+    list_param = params[:list]
 
-    schematic = Schematic.find_by_name list["list"]["schematic"]
+    if list_param.is_a?(String)
+      data = YAML.load list_param
+    else
+      data = {"list" => list_param}
+    end
+
+
+    schematic = Schematic.find_by_name data["list"]["schematic"]
 
     if schematic
-      @engine = Codiphi::Engine.new(list, schematic.body)
+      @engine = Codiphi::Engine.new(data, schematic.body)
       @engine.completion_transform
     end
 
