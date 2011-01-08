@@ -5,9 +5,66 @@ module Codiphi
   describe ConditionNode do 
     describe "gathering expected assertions" do
 
-      xit "collects multiple assertions" do end
+      it "ignores declaration children" do 
+        parentnode = declaration_mock("model", "sergeant")
+        declaration_node = declaration_mock("model", "gray_warden")
+        node = condition_mock('?',"weapon", "supergun", declaration_node, parentnode)
+
+        namespace = Namespace.new
+        namespace.add_named_type("supergun", "weapon")
+
+        indata = {
+          "unit" => {
+            Tokens::Name => "scount_squad",
+            Tokens::Type => "unit",
+            "model" => [{
+              Tokens::Name => "sergeant",
+              Tokens::Type => "model",
+              "weapon" => {
+                Tokens::Name => "supergun",
+                Tokens::Type => "weapon"
+              }
+            }]
+          }
+        }
+
+        list = []
+        node.gather_assertions(indata, namespace, list, true)
+        list.should be_empty
+      end
+      
       xit "errors on bad name reference" do end
-      xit "collects and applies cost assignments" do end
+
+      xit "performs completion on assignments" do
+        parentnode = declaration_mock("model", "sergeant")
+        assignment_node = assignment_mock('+',"weapon", "death_bombs")
+        node = condition_mock('?',"weapon", "supergun", assignment_node, parentnode)
+
+        namespace = Namespace.new
+        namespace.add_named_type("death_bombs", "weapon")
+        namespace.add_named_type("supergun", "weapon")
+
+        indata = {
+          "unit" => {
+            Tokens::Name => "scount_squad",
+            Tokens::Type => "unit",
+            "model" => [{
+              Tokens::Name => "sergeant",
+              Tokens::Type => "model",
+              "weapon" => {
+                Tokens::Name => "supergun",
+                Tokens::Type => "weapon"
+              }
+            }]
+          }
+        }
+
+        list = []
+        node.gather_assertions(indata, namespace, list, true)
+        indata["unit"]["model"][0]["weapon"].should be_is_named_type("death_bombs", "weapon")
+        
+      end
+      xit "collects cost assignments" do end
       
       it "doesn't add children on negative condition" do 
         parentnode = declaration_mock("sergeant", "model")
