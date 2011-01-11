@@ -1,20 +1,56 @@
 %h1 Codiphi Engine
 
-= form_tag do
+.error-dialog
+:javascript
+  $('.error-dialog').dialog({autoOpen: false, width: "80%"});
+
+.input
   %h2 Input
-  = text_area_tag :list, params[:list]
-  = submit_tag "Run Engine"
+  .tabs
+    %ul
+      %li= link_to "Text Editor", "#text_editor"
+      %li= link_to "Tree Editor", "#tree_editor"
+
+    #text_editor.tab
+      = form_tag nil, class: 'text-editor-form' do
+        = text_area_tag :list, params[:list]
+        = submit_tag "Run Engine"
+
+    #tree_editor.tab
+      = form_tag do
+        = submit_tag "Run Engine"
+
+      .list-tree
+
+    :javascript
+      $(function() {
+        $('.tabs').tabs();
+        $('.list-tree').tree();
+        $('#tree_editor form').submit(function(e) {
+          e.preventDefault();
+          $.ajax({
+            type: 'POST',
+            url: $(this).action,
+            data: {list: $('.list-tree').data('tree').treeData()},
+            dataType: 'html',
+            error: function(request, status) {
+              var page = $(request.responseText)
+              $('.error-dialog').html(page);
+              $('.error-dialog').dialog('open');
+            },
+            success: function(data) {
+              var emitted_data = $(data).find('pre');
+              window.console.log(emitted_data);
+              $('pre').replaceWith(emitted_data);
+            }
+          });
+        });
+      });
 
 .emitted_data
   %h2 Output
-  - if @engine
-    %pre
+  %pre
+    - if @engine
       = YAML.dump @engine.emitted_data
 
-.list-tree
-
-:javascript
-  $(function() {
-    $('.list-tree').tree();
-  });
 
