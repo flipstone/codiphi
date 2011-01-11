@@ -13,7 +13,7 @@
   <script>
   $(document).ready(function(){
 
-module("Tree");
+module("Tree Data");
 
 test("treeData of empty tree is empty", function() {
   $('#test-tree').tree();
@@ -29,7 +29,29 @@ test("adding a node is reflected in treeData", function() {
   deepEqual($('#test-tree').data('tree').treeData(), {foo: 'bar'});
 });
 
-test("is reflected in view", function() {
+test("adding a branch is reflected in treeData", function() {
+  $('#test-tree').tree();
+  $('#test-tree .add-branch .name').val('foo');
+  $('#test-tree .add-branch').trigger("submit");
+
+  deepEqual($('#test-tree').data('tree').treeData(), {foo: {}});
+});
+
+test("adding a node to a sub-branch is reflected in treeData", function() {
+  $('#test-tree').tree();
+  $('#test-tree .add-branch .name').val('foo');
+  $('#test-tree .add-branch').trigger("submit");
+
+  $('#test-tree .branch .add-node .name').val('bar');
+  $('#test-tree .branch .add-node .value').val('baz');
+  $('#test-tree .branch .add-node').trigger("submit");
+
+  deepEqual($('#test-tree').data('tree').treeData(), {foo: {bar: 'baz'}});
+});
+
+module("Tree View");
+
+test("adding a node is reflected in view", function() {
   $('#test-tree').tree();
   $('#test-tree .add-node .name').val('foo');
   $('#test-tree .add-node .value').val('bar');
@@ -37,6 +59,15 @@ test("is reflected in view", function() {
 
   equal($('#test-tree .branch .leaf .name').html(), 'foo');
   equal($('#test-tree .branch .leaf .value').html(), 'bar');
+});
+
+test("adding a branch is reflected in view", function() {
+  $('#test-tree').tree();
+  $('#test-tree .add-branch .name').val('foo');
+  $('#test-tree .add-branch').trigger("submit");
+
+  equal($('#test-tree .branch .leaf .name').html(), 'foo');
+  equal($('#test-tree .branch .leaf .branch').size(), 1);
 });
 
   });

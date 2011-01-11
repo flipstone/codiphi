@@ -42,3 +42,8 @@ pre {
   padding-right: 0.25em;
   border-right: 0.1em solid gray;
 }
+
+.list-tree form {
+  float: none;
+  display: block;
+}
