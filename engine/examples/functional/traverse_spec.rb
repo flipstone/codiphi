@@ -2,7 +2,6 @@ require_relative '../spec_helper.rb'
 
 module Codiphi
   describe Traverse do
-
     describe "matching_named_type" do
       it "yields proper hash reference to passed block" do
         indata = {

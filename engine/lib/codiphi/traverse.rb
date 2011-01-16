@@ -1,5 +1,8 @@
 module Codiphi
   module Traverse
+    def self.recurseable?(v)
+      Support.recurseable?(v)
+    end
 
     def self.matching_named_type(data, schematic_name, schematic_type, &block)
       case data
@@ -16,15 +19,15 @@ module Codiphi
 
         # recurse on the attributes, looking for <schematic_type>
         data.each do |k,v|
-          if ([Hash, Array].include? v.class)
-            matching_named_type(v, schematic_name, schematic_type, &block) 
+          if recurseable?(v)
+            matching_named_type(v, schematic_name, schematic_type, &block)
           end
         end
-        
+
       when Array
         data.each do |k|
-          if ([Hash, Array].include? k.class)
-            matching_named_type(k, schematic_name, schematic_type, &block) 
+          if recurseable?(k)
+            matching_named_type(k, schematic_name, schematic_type, &block)
           end
         end # each
       end # case 
@@ -39,11 +42,11 @@ module Codiphi
       when Hash
         data.each do |k,v|
           # first, get this child's counts
-          if [Hash, Array].include? v.class
+          if recurseable?(v)
             subcount += count_for_expected_type_on_name(v, expected_type, expected_name)
           end
         end
-        
+
         if (data.has_count?)
           mymult = data[Tokens::Count]
         end
@@ -58,7 +61,7 @@ module Codiphi
           subcount += childcount if (v.is_named_type?(expected_name, expected_type) || subcount)
         end
       end
-      
+
       count = (subcount * mymult)
       count
     end
@@ -72,11 +75,10 @@ module Codiphi
       when Hash
         data.each do |k,v|
           # first, get this child's costs
-          if [Hash, Array].include? v.class
+          if recurseable?(v)
             subcost += for_cost(v)
           end
         end
-        
         if (data.has_count?)
           mymult = data.count_value
         end

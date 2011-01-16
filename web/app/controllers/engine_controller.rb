@@ -12,7 +12,6 @@ class EngineController < ApplicationController
       data = {"list" => list_param}
     end
 
-
     schematic = Schematic.find_by_name data["list"]["schematic"]
 
     if schematic
