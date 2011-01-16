@@ -40,7 +40,6 @@
             },
             success: function(data) {
               var emitted_data = $(data).find('pre');
-              window.console.log(emitted_data);
               $('pre').replaceWith(emitted_data);
             }
           });

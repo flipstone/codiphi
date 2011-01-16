@@ -16,59 +16,120 @@
 module("Tree Data");
 
 test("treeData of empty tree is empty", function() {
-  $('#test-tree').tree();
-  deepEqual($('#test-tree').data('tree').treeData(), {});
+  $('#element').tree();
+  deepEqual($('#element').data('tree').treeData(), {});
 });
 
 test("adding a node is reflected in treeData", function() {
-  $('#test-tree').tree();
-  $('#test-tree .add-node .name').val('foo');
-  $('#test-tree .add-node .value').val('bar');
-  $('#test-tree .add-node').trigger("submit");
+  $('#element').tree();
+  $('#element .add-node .name').val('foo');
+  $('#element .add-node .value').val('bar');
+  $('#element .add-node').trigger("submit");
 
-  deepEqual($('#test-tree').data('tree').treeData(), {foo: 'bar'});
+  deepEqual($('#element').data('tree').treeData(), {foo: 'bar'});
 });
 
 test("adding a branch is reflected in treeData", function() {
-  $('#test-tree').tree();
-  $('#test-tree .add-branch .name').val('foo');
-  $('#test-tree .add-branch').trigger("submit");
+  $('#element').tree();
+  $('#element .add-branch .name').val('foo');
+  $('#element .add-branch').trigger("submit");
 
-  deepEqual($('#test-tree').data('tree').treeData(), {foo: {}});
+  deepEqual($('#element').data('tree').treeData(), {foo: {}});
 });
 
 test("adding a node to a sub-branch is reflected in treeData", function() {
-  $('#test-tree').tree();
-  $('#test-tree .add-branch .name').val('foo');
-  $('#test-tree .add-branch').trigger("submit");
+  $('#element').tree();
+  $('#element .add-branch .name').val('foo');
+  $('#element .add-branch').trigger("submit");
 
-  $('#test-tree .branch .add-node .name').val('bar');
-  $('#test-tree .branch .add-node .value').val('baz');
-  $('#test-tree .branch .add-node').trigger("submit");
+  $('#element .branch .add-node .name').val('bar');
+  $('#element .branch .add-node .value').val('baz');
+  $('#element .branch .add-node').trigger("submit");
 
-  deepEqual($('#test-tree').data('tree').treeData(), {foo: {bar: 'baz'}});
+  deepEqual($('#element').data('tree').treeData(), {foo: {bar: 'baz'}});
+});
+
+test("adding a list is reflected in treeData", function() {
+  $('#element').tree();
+  $('#element .add-list .name').val('foo');
+  $('#element .add-list').trigger("submit");
+
+  deepEqual($('#element').data('tree').treeData(), {foo: []});
+});
+
+test("adding node to a sublist list is reflected in treeData", function() {
+  $('#element').tree();
+  $('#element .add-list .name').val('foo');
+  $('#element .add-list').trigger("submit");
+
+  $('#element .leaf .add-branch').trigger("submit");
+
+  deepEqual($('#element').data('tree').treeData(), {foo: [{}]});
 });
 
 module("Tree View");
 
 test("adding a node is reflected in view", function() {
-  $('#test-tree').tree();
-  $('#test-tree .add-node .name').val('foo');
-  $('#test-tree .add-node .value').val('bar');
-  $('#test-tree .add-node').trigger("submit");
+  $('#element').tree();
+  $('#element .add-node .name').val('foo');
+  $('#element .add-node .value').val('bar');
+  $('#element .add-node').trigger("submit");
 
-  equal($('#test-tree .branch .leaf .name').html(), 'foo');
-  equal($('#test-tree .branch .leaf .value').html(), 'bar');
+  equal($('#element .branch .leaf .name').html(), 'foo');
+  equal($('#element .branch .leaf .value').html(), 'bar');
 });
 
 test("adding a branch is reflected in view", function() {
-  $('#test-tree').tree();
-  $('#test-tree .add-branch .name').val('foo');
-  $('#test-tree .add-branch').trigger("submit");
+  $('#element').tree();
+  $('#element .add-branch .name').val('foo');
+  $('#element .add-branch').trigger("submit");
 
-  equal($('#test-tree .branch .leaf .name').html(), 'foo');
-  equal($('#test-tree .branch .leaf .branch').size(), 1);
+  equal($('#element .branch .leaf .name').html(), 'foo');
+  equal($('#element .branch .leaf .branch').size(), 1);
 });
+
+test("adding a list is reflected in view", function() {
+  $('#element').tree();
+  $('#element .add-list .name').val('foo');
+  $('#element .add-list').trigger("submit");
+
+  equal($('#element .branch .leaf .name').html(), 'foo');
+  equal($('#element .branch .leaf .list').size(), 1);
+});
+
+module("List Data");
+
+test("treeData of empty list is empty", function() {
+  $('#element').list();
+  deepEqual($('#element').data('list').treeData(), []);
+});
+
+test("adding a branch is reflected in treeData", function() {
+  $('#element').list();
+  $('#element .add-branch').trigger("submit");
+  deepEqual($('#element').data('list').treeData(), [{}]);
+});
+
+test("adding data to subbranch is reflected in treeData", function() {
+  $('#element').list();
+  $('#element .add-branch').trigger("submit");
+
+  $('#element .member .add-node .name').val('foo');
+  $('#element .member .add-node .value').val('bar');
+  $('#element .member .add-node').trigger('submit');
+
+  deepEqual($('#element').data('list').treeData(), [{foo: 'bar'}]);
+});
+
+module("List View");
+
+test("adding a branch is reflected in view", function() {
+  $('#element').list();
+  $('#element .add-branch').trigger("submit");
+
+  equal($('#element li .branch').size(), 1);
+});
+
 
   });
   </script>
@@ -81,7 +142,7 @@ test("adding a branch is reflected in view", function() {
    <h2 id="qunit-userAgent"></h2>
    <ol id="qunit-tests"></ol>
    <div id="qunit-fixture">
-     <div id="test-tree"></div>
+     <div id="element"></div>
    </div>
 </body>
 </html>
