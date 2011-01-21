@@ -67,6 +67,18 @@ test("adding node to a sublist list is reflected in treeData", function() {
   deepEqual($('#element').data('tree').treeData(), {foo: [{}]});
 });
 
+test("editing a node value is reflected in treeData", function() {
+  $('#element').tree();
+  $('#element .add-node .name').val('foo');
+  $('#element .add-node .value').val('bar');
+  $('#element .add-node').trigger("submit");
+
+  $('#element .leaf .edit .value').val('baz');
+  $('#element .leaf .edit').trigger("submit");
+
+  deepEqual($('#element').data('tree').treeData(), {foo: 'baz'});
+});
+
 module("Tree View");
 
 test("adding a node is reflected in view", function() {
@@ -76,7 +88,7 @@ test("adding a node is reflected in view", function() {
   $('#element .add-node').trigger("submit");
 
   equal($('#element .branch .leaf .name').html(), 'foo');
-  equal($('#element .branch .leaf .value').html(), 'bar');
+  equal($('#element .branch .leaf .value').val(), 'bar');
 });
 
 test("adding a branch is reflected in view", function() {

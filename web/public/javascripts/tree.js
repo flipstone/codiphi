@@ -107,11 +107,20 @@ $.widget('ui.tree', {
   },
 
   addNode: function(data) {
-    $.extend(this.data, data);
+    var treeData = $.extend(this.data, data);
     for(name in data) {
-      var leaf = $("<li class='leaf'><span class='name'></span><span class='value'></span></li>");
+      var leaf = $("<li class='leaf'><form class='edit'><span class='name'></span><input type='text' class='value'></input></form></li>");
       leaf.find('.name').html(name);
-      leaf.find('.value').html(data[name]);
+      leaf.find('.value').val(data[name])
+
+      leaf.find('.value').change(function() {
+        leaf.find('.edit').submit();
+      });
+
+      leaf.find('.edit').submit(function(e) {
+        e.preventDefault();
+        treeData[name] = leaf.find('.value').val();
+      })
       this.tree_html.append(leaf);
     }
   },
