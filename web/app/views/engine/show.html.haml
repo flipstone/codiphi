@@ -28,10 +28,12 @@
         $('.list-tree').tree();
         $('#tree_editor form').submit(function(e) {
           e.preventDefault();
+          window.console.log($('.list-tree').data('tree').treeData());
           $.ajax({
             type: 'POST',
             url: $(this).action,
-            data: {list: $('.list-tree').data('tree').treeData()},
+            data: JSON.stringify({list: $('.list-tree').data('tree').treeData()}),
+            contentType: 'application/json',
             dataType: 'html',
             error: function(request, status) {
               var page = $(request.responseText)
