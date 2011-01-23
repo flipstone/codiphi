@@ -1,6 +1,81 @@
+function TreeData() {
+  this.nodes = {};
+}
+
+TreeData.prototype = {
+  addLeaf: function(name, value) {
+    this.nodes[name] = value;
+  },
+
+  addBranch: function(name) {
+    return this.nodes[name] = new TreeData();
+  },
+
+  addList: function(name) {
+    return this.nodes[name] = new ListData();
+  },
+
+  rename: function(oldName, newName) {
+    this.nodes[newName] = this.nodes[oldName];
+    delete this.nodes[oldName];
+  },
+
+  replace: function(name, newValue) {
+    this.nodes[name] = newValue;
+  },
+
+  toHash: function() {
+    var hash = {};
+
+    for (n in this.nodes) {
+      var v = this.nodes[n];
+
+      if (v.toHash) {
+        hash[n] = v.toHash();
+      } else {
+        hash[n] = v;
+      }
+    }
+
+    return hash;
+  }
+}
+
+function ListData() {
+  this.nodes = [];
+}
+
+ListData.prototype = {
+  addBranch: function() {
+    this.nodes.push(new TreeData());
+    return this.nodes[this.nodes.length - 1];
+  },
+
+  toHash: function() {
+    var array = [];
+
+    for (n in this.nodes) {
+      var v = this.nodes[n];
+
+      if (v.toHash) {
+        array.push(v.toHash());
+      } else {
+        array.push(v);
+      }
+    }
+    return array;
+  }
+}
+
 $.widget('ui.list', {
+  options: { data: null },
+
   _create: function() {
-    this.data = [];
+    if (this.options.data) {
+      this.data = this.options.data;
+    } else {
+      this.data = new ListData();
+    }
 
     this.tree_html = $('<ul class="list"></ul>');
 
@@ -18,39 +93,31 @@ $.widget('ui.list', {
   },
 
   addBranch: function() {
-    this.data.push(function() {
-      return holder.data('tree').treeData();
-    });
-
+    var subData = this.data.addBranch();
     var member = $("<li class='member'><div class='list-member-holder'></div></li>");
     this.tree_html.append(member);
     var holder = member.find('.list-member-holder');
-    holder.tree();
+    holder.tree({data: subData});
   },
 
   treeData: function() {
-    var treeData = [];
-
-    for (n in this.data) {
-      var v = this.data[n];
-
-      if (typeof(v) == "function") {
-        treeData.push(v());
-      } else {
-        treeData.push(v);
-      }
-    }
-    return treeData;
+    return this.data.toHash();
   }
 });
 
 $.widget('ui.tree', {
+  options: { data: null, },
+
   _create: function() {
-    this.data = {};
+    if (this.options.data) {
+      this.data = this.options.data;
+    } else {
+      this.data = new TreeData();
+    }
 
     this.tree_html = $('<ul class="branch"></ul>');
 
-    var node_form = $('<form action="#" class="add-node"></form>');
+    var node_form = $('<form action="#" class="add-leaf"></form>');
     node_form.append('Name: <input type="text" name="name" class="name"/>');
     node_form.append('Value: <input type="text" name="value" class="value"/>');
     node_form.append('<input type="submit" value="Value", class="done"/>');
@@ -58,9 +125,9 @@ $.widget('ui.tree', {
     node_form.data('tree', this);
     node_form.submit(function(e) {
       e.preventDefault();
-      node = {};
-      node[node_form.find('.name').val()] = node_form.find('.value').val();
-      node_form.data('tree').addNode(node);
+      var name = node_form.find('.name').val();
+      var value = node_form.find('.value').val();
+      node_form.data('tree').addLeaf(name, value);
     });
 
     var branch_form = $('<form action="#" class="add-branch"></form>');
@@ -90,60 +157,58 @@ $.widget('ui.tree', {
   },
 
   treeData: function() {
-    var treeData = {};
-
-    for (n in this.data) {
-      var v = this.data[n];
-
-
-      if (typeof(v) == "function") {
-        treeData[n] = v();
-      } else {
-        treeData[n] = v;
-      }
-    }
-
-    return treeData;
+    return this.data.toHash();
   },
 
-  addNode: function(data) {
-    var treeData = $.extend(this.data, data);
-    for(name in data) {
-      var leaf = $("<li class='leaf'><form class='edit'><span class='name'></span><input type='text' class='value'></input></form></li>");
-      leaf.find('.name').html(name);
-      leaf.find('.value').val(data[name])
+  addLeaf: function(name, value) {
+    this.data.addLeaf(name, value)
+    var treeData = this.data;
+    var node = this._buildNode(name);
+    node.find('form').append("<input class='value' type='text'>");
+    node.find('.value').val(value);
 
-      leaf.find('.value').change(function() {
-        leaf.find('.edit').submit();
-      });
+    node.bind('name-changed', function(e, data) {
+      name = data.newName;
+    });
 
-      leaf.find('.edit').submit(function(e) {
-        e.preventDefault();
-        treeData[name] = leaf.find('.value').val();
-      })
-      this.tree_html.append(leaf);
-    }
+    node.find('.value').change(function(e) {
+      e.preventDefault();
+      treeData.replace(name, node.find('.value').val());
+    });
+
+    this.tree_html.append(node);
   },
 
   addBranch: function(name) {
-    this.data[name] = function() {
-      return leaf.data('tree').treeData();
-    }
-
-    var leaf = $("<li class='leaf'><span class='name'></span></li>");
-    leaf.find('.name').html(name);
-    leaf.tree();
-    this.tree_html.append(leaf);
+    var subData = this.data.addBranch(name);
+    var node = this._buildNode(name);
+    node.tree({data: subData});
+    this.tree_html.append(node);
   },
 
   addList: function(name) {
-    this.data[name] = function() {
-      return leaf.data('list').treeData();
-    }
+    var subData = this.data.addList(name);
+    var node = this._buildNode(name);
+    node.list({data: subData});
+    this.tree_html.append(node);
+  },
 
-    var leaf = $("<li class='leaf'><span class='name'></span></li>");
-    leaf.find('.name').html(name);
-    leaf.list();
-    this.tree_html.append(leaf);
+  _buildNode: function(name) {
+    var node = $("<li class='node'><form><input class='name' type='text'></input></form></li>");
+
+    node.find('.name').val(name);
+
+    (function(data) {
+      node.find('.name').change(function(e) {
+        e.preventDefault();
+        var newName = node.find('.name').val();
+        var oldName = name;
+        data.rename(oldName, newName);
+        name = newName;
+        node.trigger('name-changed', {oldName: oldName, newName: newName});
+      })
+    })(this.data);
+
+    return node;
   }
 });
