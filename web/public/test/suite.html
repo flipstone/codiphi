@@ -133,6 +133,17 @@ test("editing a list name is reflected in treeData", function() {
   deepEqual($('#element').data('tree').treeData(), {baz: []});
 });
 
+test("removing a leaf is reflected in treeData", function() {
+  $('#element').tree();
+  $('#element .add-leaf .name').val('foo');
+  $('#element .add-leaf .value').val('bar');
+  $('#element .add-leaf').trigger("submit");
+
+  $('#element .node .delete').trigger('click');
+
+  deepEqual($('#element').data('tree').treeData(), {});
+});
+
 module("Tree View");
 
 test("adding a leaf is reflected in view", function() {
@@ -163,6 +174,17 @@ test("adding a list is reflected in view", function() {
   equal($('#element .branch .node .list').size(), 1);
 });
 
+test("removing a leaf is reflected in view", function() {
+  $('#element').tree();
+  $('#element .add-leaf .name').val('foo');
+  $('#element .add-leaf .value').val('bar');
+  $('#element .add-leaf').trigger("submit");
+
+  $('#element .node .delete').trigger('click');
+
+  equal($('#element .node').size(), 0);
+});
+
 module("List Data");
 
 test("treeData of empty list is empty", function() {
@@ -187,6 +209,54 @@ test("adding data to subbranch is reflected in treeData", function() {
   deepEqual($('#element').data('list').treeData(), [{foo: 'bar'}]);
 });
 
+test("removing a subbranch is reflected in treeData", function() {
+  $('#element').list();
+  $('#element .add-branch').trigger("submit");
+
+  $('#element .member .delete').trigger('click');
+
+  deepEqual($('#element').data('list').treeData(), []);
+});
+
+test("removing a subbranch removes only the selected branch", function() {
+  $('#element').list();
+
+  $('#element > .add-branch').trigger("submit");
+  $('#element > .add-branch').trigger("submit");
+
+  $('#element .member:nth-child(1) .add-leaf .name').val('foo');
+  $('#element .member:nth-child(1) .add-leaf .value').val('bar');
+  $('#element .member:nth-child(1) .add-leaf').trigger('submit');
+
+  $('#element .member:nth-child(2) .add-leaf .name').val('baz');
+  $('#element .member:nth-child(2) .add-leaf .value').val('bat');
+  $('#element .member:nth-child(2) .add-leaf').trigger('submit');
+
+  $('#element .member:nth-child(2) .delete').trigger('click');
+
+  deepEqual($('#element').data('list').treeData(), [{foo: 'bar'}]);
+});
+
+asyncTest("removing multiple subbranches works", 1, function() {
+  $('#element').list();
+
+  $('#element > .add-branch').trigger("submit");
+  $('#element > .add-branch').trigger("submit");
+  $('#element > .add-branch').trigger("submit");
+
+  $('#element .member:nth-child(2) .delete').trigger('click');
+
+  setTimeout(function() {
+    $('#element .member:nth-child(2) .delete').trigger('click');
+    setTimeout(assert, 0);
+  }, 0);
+
+  function assert() {
+    deepEqual($('#element').data('list').treeData(), [{}]);
+    start();
+  }
+});
+
 module("List View");
 
 test("adding a branch is reflected in view", function() {
@@ -196,6 +266,17 @@ test("adding a branch is reflected in view", function() {
   equal($('#element li .branch').size(), 1);
 });
 
+asyncTest("removing a subbranch is reflected in view", 1, function() {
+  $('#element').list();
+  $('#element .add-branch').trigger("submit");
+
+  $('#element .member .delete').trigger('click');
+
+  setTimeout(function() {
+    equal($('#element .member').size(), 0)
+    start();
+  }, 0);
+});
 
   });
   </script>

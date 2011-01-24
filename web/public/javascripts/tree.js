@@ -24,6 +24,10 @@ TreeData.prototype = {
     this.nodes[name] = newValue;
   },
 
+  remove: function(name) {
+    delete this.nodes[name];
+  },
+
   toHash: function() {
     var hash = {};
 
@@ -47,8 +51,18 @@ function ListData() {
 
 ListData.prototype = {
   addBranch: function() {
-    this.nodes.push(new TreeData());
-    return this.nodes[this.nodes.length - 1];
+    var subData = new TreeData();
+    this.nodes.push(subData);
+    subData._listIndex = this.nodes.length - 1;
+    return subData;
+  },
+
+  remove: function(subData) {
+    this.nodes.splice(subData._listIndex, 1);
+
+    for (n in this.nodes) {
+      this.nodes[n]._listIndex = n;
+    }
   },
 
   toHash: function() {
@@ -94,10 +108,19 @@ $.widget('ui.list', {
 
   addBranch: function() {
     var subData = this.data.addBranch();
-    var member = $("<li class='member'><div class='list-member-holder'></div></li>");
+    var member = $("<li class='member'><form><button class='delete'>Delete</button></form><div class='list-member-holder'></div></li>");
+    var d = this.data;
+
+    member.find('.delete').click(function(e) {
+      e.preventDefault();
+      d.remove(subData);
+      // without a timeout, member.remove() causes test suite
+      // page to reload infinitely in safari
+      setTimeout(function() {member.remove()}, 0);
+    });
+
+    member.find('.list-member-holder').tree({data: subData});
     this.tree_html.append(member);
-    var holder = member.find('.list-member-holder');
-    holder.tree({data: subData});
   },
 
   treeData: function() {
@@ -106,7 +129,7 @@ $.widget('ui.list', {
 });
 
 $.widget('ui.tree', {
-  options: { data: null, },
+  options: { data: null },
 
   _create: function() {
     if (this.options.data) {
@@ -194,7 +217,7 @@ $.widget('ui.tree', {
   },
 
   _buildNode: function(name) {
-    var node = $("<li class='node'><form><input class='name' type='text'></input></form></li>");
+    var node = $("<li class='node'><form><button class='delete'>Delete</button><input class='name' type='text'></input></form></li>");
 
     node.find('.name').val(name);
 
@@ -207,6 +230,12 @@ $.widget('ui.tree', {
         name = newName;
         node.trigger('name-changed', {oldName: oldName, newName: newName});
       })
+
+      node.find('.delete').click(function(e) {
+        e.preventDefault();
+        data.remove(name);
+        node.remove();
+      });
     })(this.data);
 
     return node;
