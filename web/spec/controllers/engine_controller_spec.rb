@@ -22,6 +22,45 @@ end_list
       response.should be_success
     end
 
+    it "renders html with validated result data" do
+      Factory.create :schematic, name: "test/hero1"
+
+      post :create, list: <<-end_list
+---
+list:
+  description: First Man Standing
+  schematic: test/hero1
+  author: Codiphi Developer
+  author_email: development@flipstone.com
+  variant: legal
+  version: "1"
+  model:
+  - type: hero-godling
+    description: Neo
+    count: 1
+end_list
+
+      response.should have_selector('.emitted_data pre') do |tag|
+        YAML.load(tag.inner_text).should == YAML.load(<<-end_list)
+---
+list:
+  description: First Man Standing
+  schematic: test/hero1
+  author: Codiphi Developer
+  author_email: development@flipstone.com
+  variant: legal
+  version: "1"
+  model:
+  - type: hero-godling
+    description: Neo
+    count: 1
+list-errors: 
+    - No 'hero-godling' model type defined in schematic.
+    - At least 1 hero model expected on list
+end_list
+      end
+    end
+
     it "renders html with result data" do
       Factory.create :schematic, name: "test/hero1"
 

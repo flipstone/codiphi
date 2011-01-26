@@ -202,7 +202,7 @@ module Codiphi
           "bar" => {
             Tokens::Name => "baz",
             Tokens::Type => "bar",
-            "count" => 3
+            "count" => "3"
           },
           "foo" => [{
             Tokens::Name => "foo",

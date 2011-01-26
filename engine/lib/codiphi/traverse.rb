@@ -48,7 +48,7 @@ module Codiphi
         end
 
         if (data.has_count?)
-          mymult = data[Tokens::Count]
+          mymult = data.count_value
         end
 
         if (data.is_named_type?(expected_name, expected_type))

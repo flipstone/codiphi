@@ -18,9 +18,9 @@ The schematic describes what makes a list legal or illegal.  We've tried to make
     }
 
 This schematic declares:
-  "A named :hero that costs 100 units"
+  "A model named 'hero' - it costs 100"
   "Any list created under this schematic is priced in points."
-  "Any list created under this schematic requires at least one :hero model."
+  "Any list created under this schematic requires at least one hero model."
 
 You can also ask a friend for theirs.
 

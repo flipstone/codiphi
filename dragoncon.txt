@@ -1,0 +1,28 @@
+40k demo: marines v orks
+
+space marines 1000 pts
+schematic: marine_guy/marines
+     user: marine_guy 
+   format: 40k
+
+orks 1000pts
+     user: ork_guy
+schematic: ork_guy/orks
+   format: 40k
+  
+Warmachine demo: a vs b
+
+Heroscape demo?
+
+Lego demo: knights vs thieves
+
+imac
+  - keynote loop
+
+handout cards
+
+web:
+view list
+edit list
+edit schematic
+
