@@ -5,27 +5,45 @@ function TreeData() {
 TreeData.prototype = {
   addLeaf: function(name, value) {
     this.nodes[name] = value;
+    this.emitChange();
   },
 
   addBranch: function(name) {
-    return this.nodes[name] = new TreeData();
+    var v = this.nodes[name] = new TreeData();
+    (function(t) {
+      $(v).change(function() { t.emitChange() });
+    })(this);
+    this.emitChange();
+    return v;
   },
 
   addList: function(name) {
-    return this.nodes[name] = new ListData();
+    var v = this.nodes[name] = new ListData();
+    (function(t) {
+      $(v).change(function() { t.emitChange() });
+    })(this);
+    this.emitChange();
+    return v;
   },
 
   rename: function(oldName, newName) {
     this.nodes[newName] = this.nodes[oldName];
     delete this.nodes[oldName];
+    this.emitChange();
   },
 
   replace: function(name, newValue) {
     this.nodes[name] = newValue;
+    this.emitChange();
   },
 
   remove: function(name) {
     delete this.nodes[name];
+    this.emitChange();
+  },
+
+  emitChange: function() {
+    $(this).trigger('change', this);
   },
 
   toHash: function() {
@@ -54,6 +72,10 @@ ListData.prototype = {
     var subData = new TreeData();
     this.nodes.push(subData);
     subData._listIndex = this.nodes.length - 1;
+    (function(t) {
+      $(subData).change(function() { t.emitChange() });
+    })(this);
+    this.emitChange();
     return subData;
   },
 
@@ -63,6 +85,11 @@ ListData.prototype = {
     for (n in this.nodes) {
       this.nodes[n]._listIndex = n;
     }
+    this.emitChange();
+  },
+
+  emitChange: function() {
+    $(this).trigger('change', this);
   },
 
   toHash: function() {
@@ -93,7 +120,7 @@ $.widget('ui.list', {
 
     this.tree_html = $('<ul class="list"></ul>');
 
-    var branch_form = $('<form action="#" class="add-branch"></form>');
+    var branch_form = $('<form class="add-branch"></form>');
     branch_form.append('<input type="submit" value="List Elem", class="done"/>');
 
     branch_form.data('list', this);
@@ -140,7 +167,7 @@ $.widget('ui.tree', {
 
     this.tree_html = $('<ul class="branch"></ul>');
 
-    var node_form = $('<form action="#" class="add-leaf"></form>');
+    var node_form = $('<form class="add-leaf"></form>');
     node_form.append('Name: <input type="text" name="name" class="name"/>');
     node_form.append('Value: <input type="text" name="value" class="value"/>');
     node_form.append('<input type="submit" value="Value", class="done"/>');
@@ -153,7 +180,7 @@ $.widget('ui.tree', {
       node_form.data('tree').addLeaf(name, value);
     });
 
-    var branch_form = $('<form action="#" class="add-branch"></form>');
+    var branch_form = $('<form class="add-branch"></form>');
     branch_form.append('Name: <input type="text" name="name" class="name"/>');
     branch_form.append('<input type="submit" value="Sub-Tree", class="done"/>');
 
@@ -163,7 +190,7 @@ $.widget('ui.tree', {
       branch_form.data('tree').addBranch(branch_form.find('.name').val());
     });
 
-    var list_form = $('<form action="#" class="add-list"></form>');
+    var list_form = $('<form class="add-list"></form>');
     list_form.append('Name: <input type="text" name="name" class="name"/>');
     list_form.append('<input type="submit" value="List", class="done"/>');
 

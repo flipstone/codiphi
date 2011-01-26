@@ -17,7 +17,7 @@
         = submit_tag "Run Engine"
 
     #tree_editor.tab
-      = form_tag do
+      = form_tag nil, class: 'tree-editor-form' do
         = submit_tag "Run Engine"
 
       .list-tree
@@ -26,7 +26,11 @@
       $(function() {
         $('.tabs').tabs();
         $('.list-tree').tree();
-        $('#tree_editor form').submit(function(e) {
+        $($('.list-tree').data('tree').data).change(function(e) {
+          $('.tree-editor-form').trigger('submit');
+        });
+
+        $('.tree-editor-form').submit(function(e) {
           e.preventDefault();
           window.console.log($('.list-tree').data('tree').treeData());
           $.ajax({

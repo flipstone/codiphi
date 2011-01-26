@@ -13,7 +13,107 @@
   <script>
   $(document).ready(function(){
 
+
 module("Tree Data");
+
+test("emits a change event when leaf is added", function() {
+  expect(1);
+  var d = new TreeData();
+  $(d).change(function(e,d2) {
+    equal(d2, d);
+  });
+  d.addLeaf('foo', 'bar');
+});
+
+test("emits a change event when branch is added", function() {
+  expect(1);
+  var d = new TreeData();
+  $(d).change(function(e,d2) {
+    equal(d2, d);
+  });
+  d.addBranch('foo');
+});
+
+test("emits a change event when list is added", function() {
+  expect(1);
+  var d = new TreeData();
+  $(d).change(function(e,d2) {
+    equal(d2, d);
+  });
+  d.addList('foo');
+});
+
+test("emits a change when a subbranch is changed", function() {
+  expect(1);
+  var d = new TreeData();
+  var s = d.addBranch('foo');
+  $(d).change(function(e,d2) {
+    equal(d2, d);
+  });
+  s.addLeaf('bar','bat');
+});
+
+test("emits a change when a branch is added to a list", function() {
+  expect(1);
+  var d = new TreeData();
+  var l = d.addList('foo');
+  $(d).change(function(e,d2) {
+    equal(d2, d);
+  });
+  l.addBranch();
+});
+
+test("emits a change when a branch inside a list is changed", function() {
+  expect(1);
+  var d = new TreeData();
+  var l = d.addList('foo');
+  var b = l.addBranch();
+  $(d).change(function(e,d2) {
+    equal(d2, d);
+  });
+  b.addLeaf('baz','bat');
+});
+
+test("emits a change when a node is renamed", function() {
+  expect(1);
+  var d = new TreeData();
+  d.addLeaf('foo', 'bar');
+  $(d).change(function(e,d2) {
+    equal(d2, d);
+  });
+  d.rename('foo','baz');
+});
+
+test("emits a change when a node is replaced", function() {
+  expect(1);
+  var d = new TreeData();
+  d.addLeaf('foo', 'bar');
+  $(d).change(function(e,d2) {
+    equal(d2, d);
+  });
+  d.replace('foo','baz');
+});
+
+test("emits a change when a node is removed", function() {
+  expect(1);
+  var d = new TreeData();
+  d.addLeaf('foo', 'bar');
+  $(d).change(function(e,d2) {
+    equal(d2, d);
+  });
+  d.remove('foo');
+});
+
+test("emits a change when a branch is removed from a list", function() {
+  expect(1);
+  var d = new TreeData();
+  var l = d.addList('foo');
+  var b = l.addBranch();
+  $(d).change(function(e,d2) {
+    equal(d2, d);
+  });
+  l.remove(b);
+});
 
 test("treeData of empty tree is empty", function() {
   $('#element').tree();
