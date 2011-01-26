@@ -69,3 +69,30 @@ pre {
   display: block;
 }
 
+button.delete {
+  text-indent: -9999px;
+  background: none;
+  background-image: url(/images/red_x.jpeg);
+  border: none;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.list-tree li {
+  list-style: none;
+}
+
+.list-tree ul {
+  padding-left: 0;
+}
+
+.list-tree ul ul {
+  padding-left: 2em;
+}
+
+.list-tree .branch .add-leaf,
+.list-tree .branch .add-branch,
+.list-tree .branch .add-list {
+  padding-left: 2em;
+}
