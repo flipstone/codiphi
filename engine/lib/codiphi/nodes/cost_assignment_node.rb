@@ -3,11 +3,11 @@ require_relative './codiphi_node'
 module Codiphi
   class CostAssignmentNode < CodiphiNode
 
-    def op_val 
+    def op_val
       assignment_operator.text_value
     end
 
-    def value_val 
+    def value_val
       value.text_value
     end
 
@@ -19,18 +19,21 @@ module Codiphi
       super(data, namespace)
 
       match_node = parent_declaration_node
-    
+
       if (match_node.nil?)
         # has no parent declaration, don't do anything just now.
         warn "no parent for assignment of cost #{value_val}"
+        [data, namespace]
       else
         match_type = match_node.type_val
         match_name = match_node.name_val
 
-        Codiphi::Traverse.matching_named_type(data, match_name, match_type) do |target_hash|
+        new_data = Transform.matching_named_type(data, match_name, match_type) do |target_hash|
           say "placing cost #{value_val} on #{match_type} #{match_name}"
           target_hash.add_to_cost(value_val, op_val, true)
         end
+
+        [new_data, namespace]
       end
     end
   end

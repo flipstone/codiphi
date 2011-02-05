@@ -68,7 +68,6 @@ module Codiphi
 
     def self.for_cost(data)
       subcost= 0
-      cost = 0
       mymult = 1
 
       case data
@@ -79,7 +78,8 @@ module Codiphi
             subcost += for_cost(v)
           end
         end
-        if (data.has_count?)
+
+        if data.has_count?
           mymult = data.count_value
         end
 
@@ -93,9 +93,8 @@ module Codiphi
           subcost += childcost
         end
       end
-      
-      cost = (subcost * mymult)
-      cost
+
+      subcost * mymult
     end
 
     # matches all <key> nodes

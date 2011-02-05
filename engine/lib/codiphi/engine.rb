@@ -5,37 +5,47 @@ module Codiphi
   class Engine
     include R18n::Helpers
     Version = [0,1,0]
-    
+
     attr_accessor :namespace, :data, :original_data, :emitted_data
     attr :syntax_tree, :assertions
-    
+
     def has_errors?
       @namespace.has_errors?
     end
-    
+
     def initialize(data, schematic=nil,locale='en')
       @schematic = schematic
-      @data = data
+      @data = Marshal.load( Marshal.dump(data))
       # poor man's clone
       @original_data = Marshal.load( Marshal.dump(@data))
-      @context = Hash.new
       @namespace = Namespace.new
-      @failures = []
       R18n.set(R18n::I18n.new(locale, "#{BASE_PATH}/r18n"))
     end
-    
+
     def emit
       cleanup_data
       data_to_emit = @data
       data_to_emit = @original_data if has_errors?
       @emitted_data = data_to_emit
     end
-    
-    def completion_transform
-      run_completeness_transform
-      emit
+
+    def returning_new
+      dup.tap do |new_e|
+        new_e.instance_variables.each do |i|
+          v = new_e.instance_variable_get i
+          new_e.instance_variable_set(i, Marshal.load(Marshal.dump(v)))
+        end
+        yield new_e
+      end
     end
-    
+
+    def completion_transform
+      returning_new do |e|
+        e.run_completeness_transform
+        e.emit
+      end
+    end
+
     def expand_data
       say_ok "expanding input to canonical structure" do
         Support.expand_to_canonical(@data, @namespace)
@@ -47,8 +57,15 @@ module Codiphi
         Support.remove_canonical_keys(@data)
       end
     end
-    
+
     def validate
+      returning_new do |e|
+        e.run_validate
+        e.emit
+      end
+    end
+
+    def run_validate
       @namespace.clear_errors
       render_tree unless @syntax_tree
       @syntax_tree.gather_declarations(@namespace) unless @namespace
@@ -60,7 +77,6 @@ module Codiphi
         # decorate the original file with appended errors
         original_data[Tokens::ListErrors] = @namespace.errors.map{ |f| f.to_s }
       end
-      emit
     end
 
     def apply_cost
@@ -90,15 +106,15 @@ module Codiphi
       @assertions.each do |asst|
         target_node = asst.parent_declaration
         target_type = _type_helper_for_assertion(asst)
-        
+
         say_ok t.assertions.checking(asst.text_value,target_type,target_node) do
- 
+
           Traverse.matching_key(@data, target_node) do |node|
             count = Traverse.count_for_expected_type_on_name(
-                                node, 
-                                asst.type_val, 
+                                node,
+                                asst.type_val,
                                 asst.name_val)
-                                
+
             parent_string = _namedtype_helper_for_assertion(target_node, target_type)
             _do_count_assertion(asst, count, parent_string)
           end
@@ -108,7 +124,7 @@ module Codiphi
 
     def _do_count_assertion(assertion, count, parent_string)
       target = assertion.integer_val
-      
+
       error = case assertion.op_val
         when Tokens::Expects then
           ExpectedNotMetException.new(assertion,parent_string) unless count >= target
@@ -117,10 +133,10 @@ module Codiphi
       end
       @namespace.add_error(error) if error
     end
-    
+
     def _type_helper_for_assertion(a)
-      a.parent_declaration == Tokens::List ? 
-        "" : 
+      a.parent_declaration == Tokens::List ?
+        "" :
         " #{a.parent_declaration_node.type.text_value}"
     end
 
@@ -133,7 +149,7 @@ module Codiphi
       running_cost = 0
       say_ok t.bin.calculating do
         running_cost = Traverse.for_cost(@data)
-      end      
+      end
       running_cost
     end
 
@@ -141,7 +157,7 @@ module Codiphi
       render_tree
       @syntax_tree.gather_declarations(@namespace)
       expand_data
-      @syntax_tree.completion_transform(@data, @namespace)
+      @data,_ = @syntax_tree.completion_transform(@data, @namespace)
       apply_cost
       true
     end

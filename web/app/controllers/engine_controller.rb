@@ -16,7 +16,7 @@ class EngineController < ApplicationController
 
     if schematic
       @engine = Codiphi::Engine.new(data, schematic.body)
-      @engine.completion_transform
+                .completion_transform
     end
 
     render action: :show

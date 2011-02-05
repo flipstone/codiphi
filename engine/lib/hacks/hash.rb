@@ -10,34 +10,45 @@ module Codiphi
     end
 
     def add_named_type(name, type)
-      self[type] = new_child = Hash.new
-      new_child[Tokens::Name] = name
-      new_child[Tokens::Type] = type
+      merge type => {
+        Tokens::Name => name,
+        Tokens::Type => type
+      }
     end
-    
+
+    def add_named_type!(name, type)
+      merge! type => {
+        Tokens::Name => name,
+        Tokens::Type => type
+      }
+    end
+
     def is_list_node?
       self[Tokens::Type] == Tokens::List
     end
 
     def add_to_cost(delta, token, force=false)
-      self[Tokens::Cost] ||= 0
-      
+      cost = self[Tokens::Cost] || 0
+
       if force
         delta = -delta if token == Tokens::Removal
-        self[Tokens::Cost] = delta
-        return
-      end
-      
-      case token
+        cost = delta
+      else
+        case token
         when Tokens::Addition
-          self[Tokens::Cost] += delta
+          cost += delta
         when Tokens::Removal
-          self[Tokens::Cost] -= delta
+          cost -= delta
         when Tokens::Assignment
-          self[Tokens::Cost] = delta
+          cost = delta
+        else
+          cost
+        end
       end
+
+      merge Tokens::Cost => cost
     end
-    
+
     def has_count?
       self.keys.include?(Tokens::Count)
     end

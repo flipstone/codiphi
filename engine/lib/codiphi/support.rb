@@ -13,7 +13,7 @@ module Codiphi
         input[Tokens::Type] = schematic_type unless schematic_type.nil?
         input.each do |k,v|
           if namespace.declared_type?(k) && !recurseable?(v)
-            input.add_named_type(v, k)
+            input.add_named_type!(v, k)
           end
 
           expand_to_canonical(v, namespace, k) if recurseable?(v)

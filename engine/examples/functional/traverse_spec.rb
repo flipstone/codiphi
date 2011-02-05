@@ -14,7 +14,7 @@ module Codiphi
         Traverse.matching_named_type(indata, "baz", "fum") do |node|
           node["erkle"] = 999
         end
-      
+
         indata["fum"][0].keys.should be_include("erkle")
         indata["fum"][0]["erkle"].should == 999
       end
