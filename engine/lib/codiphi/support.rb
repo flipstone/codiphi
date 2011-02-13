@@ -7,38 +7,44 @@ module Codiphi
       v.is_a?(Hash) || v.is_a?(Array)
     end
 
-    def self.expand_to_canonical(input, namespace, schematic_type=nil)
-      case input
-      when Hash then
-        input[Tokens::Type] = schematic_type unless schematic_type.nil?
-        input.each do |k,v|
-          if namespace.declared_type?(k) && !recurseable?(v)
-            input.add_named_type!(v, k)
-          end
-
-          expand_to_canonical(v, namespace, k) if recurseable?(v)
-        end
-      when Array then
-        input.each do |v|
-          expand_to_canonical(v, namespace, schematic_type) if recurseable?(v)
-        end
-      end
+    def self.transform(*args)
+      Transform.transform(*args)
     end
 
-    def self.remove_canonical_keys(input)
-      case input
-      when Hash then
-        input.each do |k,v|
-        if (CanonicalKeys.include?(k))
-          input.delete(k)
-        end
-        remove_canonical_keys(v) if recurseable?(v)
-        end
-      when Array then
-        input.each do |v|
-          remove_canonical_keys(v) if recurseable?(v)
-        end
-      end
+    def self.expand_to_canonical(data, namespace, schematic_type=nil)
+      transform data,
+
+                -> data do
+                  unless schematic_type.nil?
+                    data.merge Tokens::Type => schematic_type
+                  end
+                end,
+
+                -> k,v do
+                  if recurseable?(v)
+                    expand_to_canonical(v, namespace, k)
+                  elsif namespace.declared_type?(k)
+                    { Tokens::Name => v, Tokens::Type => k }
+                  else
+                    v
+                  end
+                end
+    end
+
+    def self.remove_canonical_keys(data)
+      transform data,
+
+                -> data do
+                  data.reject {|k,v| CanonicalKeys.include?(k) }
+                end,
+
+                -> k,v do
+                  if recurseable?(v)
+                    remove_canonical_keys(v)
+                  else
+                    v
+                  end
+                end
     end
 
     def self.read_file(path)

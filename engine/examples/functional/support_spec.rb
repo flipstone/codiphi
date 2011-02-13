@@ -43,34 +43,55 @@ module Codiphi
               Tokens::Type => "c"
             }]
         }
-        
-        Support.remove_canonical_keys(input)
-        input["c"].each do |e|
+
+        output = Support.remove_canonical_keys(input)
+        output["c"].each do |e|
           e.keys.should_not be_include(Tokens::Type)
         end
       end
+
+      it "doesn't modify input" do
+        input = {
+          "a" => "b",
+          "c" => [
+            {
+              Tokens::Name => "foo",
+              Tokens::Type => "c"
+            },
+            {
+              Tokens::Name => "bar",
+              Tokens::Type => "c"
+            }]
+        }
+
+        original_input = Marshal.load(Marshal.dump(input))
+
+        Support.remove_canonical_keys(input)
+
+        input.should == original_input
+      end
     end
-    
+
     describe "expand_to_canonical" do
       it "expands single named types to Hash" do
         namespace = Namespace.new
         namespace.add_named_type("foo", "unit")
-        
+
         input = {
           "unit" => "foo"
         }
-        
-        Support.expand_to_canonical(input, namespace)
-        
-        input["unit"].class.should == Hash
-        input["unit"][Tokens::Name].should == "foo"
-        input["unit"][Tokens::Type].should == "unit"
+
+        output = Support.expand_to_canonical(input, namespace)
+
+        output["unit"].class.should == Hash
+        output["unit"][Tokens::Name].should == "foo"
+        output["unit"][Tokens::Type].should == "unit"
       end
 
       it "doesn't expand existing Hashes" do
         namespace = Namespace.new
         namespace.add_named_type("foo", "unit")
-        
+
         input = {
           "c" =>
             {
@@ -78,18 +99,10 @@ module Codiphi
               Tokens::Type => "c"
             }
         }
-        
-        input_copy = {
-          "c" =>
-            {
-              Tokens::Name => "foo",
-              Tokens::Type => "c"
-            }
-        }
-        
-        Support.expand_to_canonical(input, namespace)
-        
-        input.should == input_copy
+
+        output = Support.expand_to_canonical(input, namespace)
+
+        output.should == input
       end
 
       it "applies Tokens::Type to Hash" do
@@ -97,14 +110,14 @@ module Codiphi
           "a" => "b",
           "c" => {
             Tokens::Name => "foo"
-          }        
+          }
         }
-      
-        Support.expand_to_canonical(input, Namespace.new)
-      
-        input["a"].should == "b"
-        input["c"].keys.should include(Tokens::Type)
-        input["c"][Tokens::Type].should == "c"
+
+        output = Support.expand_to_canonical(input, Namespace.new)
+
+        output["a"].should == "b"
+        output["c"].keys.should include(Tokens::Type)
+        output["c"][Tokens::Type].should == "c"
       end
 
       it "applies Tokens::Type to Array of Hash" do
@@ -118,11 +131,11 @@ module Codiphi
               Tokens::Name => "bar"
             }]
         }
-      
-        Support.expand_to_canonical(input,Namespace.new)
-      
-        input["a"].should == "b"
-        input["c"].each do |e|
+
+        output = Support.expand_to_canonical(input,Namespace.new)
+
+        output["a"].should == "b"
+        output["c"].each do |e|
           e.keys.should include(Tokens::Type)
           e[Tokens::Type].should == "c"
         end
@@ -141,17 +154,28 @@ module Codiphi
               }
             }]
         }
-      
-        Support.expand_to_canonical(input,Namespace.new)
-      
-        input["a"][0][Tokens::Type].should == "a"
-        weapon = input["a"][0]["weapon"]
+
+        output = Support.expand_to_canonical(input,Namespace.new)
+
+        output["a"][0][Tokens::Type].should == "a"
+        weapon = output["a"][0]["weapon"]
         weapon[Tokens::Type].should == "weapon"
         ammo = weapon["ammunition"]
         ammo[Tokens::Type].should == "ammunition"
       end
 
+      it "doesn't modify the input hash" do
+        namespace = Namespace.new
+        namespace.add_named_type("foo", "unit")
+
+        input = {
+          "unit" => "foo"
+        }
+
+        output = Support.expand_to_canonical(input, namespace)
+
+        input.should == {"unit" => "foo"}
+      end
     end
   end
-  
 end
