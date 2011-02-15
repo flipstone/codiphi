@@ -6,11 +6,11 @@ module Codiphi
     include R18n::Helpers
     Version = [0,1,0]
 
-    attr_accessor :namespace, :data, :original_data, :emitted_data
+    attr_accessor :namespace, :data, :original_data
     attr :syntax_tree, :assertions
 
     def has_errors?
-      @namespace.has_errors?
+      errors.any?
     end
 
     def initialize(data, schematic=nil,locale='en')
@@ -19,14 +19,20 @@ module Codiphi
       # poor man's clone
       @original_data = Marshal.load( Marshal.dump(@data))
       @namespace = Namespace.new
+      @errors = []
       R18n.set(R18n::I18n.new(locale, "#{BASE_PATH}/r18n"))
     end
 
-    def emit
-      cleanup_data
-      data_to_emit = @data
-      data_to_emit = @original_data if has_errors?
-      @emitted_data = data_to_emit
+    def errors
+      @errors | (@namespace.errors || [])
+    end
+
+    def emitted_data
+      if has_errors?
+        @original_data.merge Tokens::ListErrors => errors.map{ |f| f.to_s }
+      else
+        decanonicalized_data
+      end
     end
 
     def returning_new
@@ -42,7 +48,6 @@ module Codiphi
     def completion_transform
       returning_new do |e|
         e.run_completeness_transform
-        e.emit
       end
     end
 
@@ -52,16 +57,15 @@ module Codiphi
       end
     end
 
-    def cleanup_data
+    def decanonicalized_data
       say_ok "cleaning output of canonical artifacts" do
-        @data = Support.remove_canonical_keys(@data)
+        Support.remove_canonical_keys(@data)
       end
     end
 
     def validate
       returning_new do |e|
         e.run_validate
-        e.emit
       end
     end
 
@@ -73,10 +77,6 @@ module Codiphi
       Traverse.verify_named_types(@data, @namespace)
       run_gather_assertions
       check_assertions
-      if has_errors?
-        # decorate the original file with appended errors
-        original_data[Tokens::ListErrors] = @namespace.errors.map{ |f| f.to_s }
-      end
     end
 
     def apply_cost
@@ -131,7 +131,7 @@ module Codiphi
         when Tokens::Permits then
           PermittedExceededException.new(assertion, parent_string) unless count <= target
       end
-      @namespace.add_error(error) if error
+      @errors << error if error
     end
 
     def _type_helper_for_assertion(a)

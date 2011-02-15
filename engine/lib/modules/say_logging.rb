@@ -15,18 +15,19 @@ module SayLogging
     end
   end
 
-  def say_ok(string, &block)
+  def say_ok(string)
     unless @@suppress
       print " - #{string} .. "
       STDOUT.flush
     end
 
     begin
-      yield if block
-      puts "#{t.ok}" unless @@suppress
+      (yield if block_given?).tap do
+        puts "#{t.ok}" unless @@suppress
+      end
     rescue Exception
       puts "#{t.fail}" unless @@suppress
-    raise
+      raise
     end
   end
   
