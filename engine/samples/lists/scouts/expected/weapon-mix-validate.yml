@@ -1,0 +1,73 @@
+--- 
+list: 
+  description: Scouts
+  schematic: scouts/scout-squad
+  author: Codiphi Developer
+  author_email: development@flipstone.com
+  variant: Base
+  unit: 
+  - type: scout-squad
+    model: 
+    - type: scout
+      count: 1
+      special_rule: and_they_shall_know_no_fear
+      special_rule: combat_squads
+      special_rule: combat_tactics
+      special_rule: infiltrate
+      special_rule: move_through_cover
+      rank: troops
+      nature: infantry
+      weapon: boltgun
+      weapon: bolt_pistol
+      weapon: frag_grenades      
+    - type: scout
+      count: 1
+      special_rule: and_they_shall_know_no_fear
+      special_rule: combat_squads
+      special_rule: combat_tactics
+      special_rule: infiltrate
+      special_rule: move_through_cover
+      rank: troops
+      nature: infantry
+      weapon: combat_blade
+      weapon: bolt_pistol
+      weapon: frag_grenades      
+    - type: scout
+      count: 1
+      special_rule: and_they_shall_know_no_fear
+      special_rule: combat_squads
+      special_rule: combat_tactics
+      special_rule: infiltrate
+      special_rule: move_through_cover
+      rank: troops
+      nature: infantry
+      weapon: sniper_rifle
+      weapon: bolt_pistol
+      weapon: frag_grenades      
+    - type: scout
+      count: 1
+      special_rule: and_they_shall_know_no_fear
+      special_rule: combat_squads
+      special_rule: combat_tactics
+      special_rule: infiltrate
+      special_rule: move_through_cover
+      rank: troops
+      nature: infantry
+      weapon: shotgun
+      weapon: bolt_pistol
+      weapon: frag_grenades
+    - type: scout_sergeant
+      count: 1
+      special_rule: and_they_shall_know_no_fear
+      special_rule: combat_squads
+      special_rule: combat_tactics
+      special_rule: infiltrate
+      special_rule: move_through_cover
+      rank: troops
+      nature: infantry
+      weapon: boltgun
+      weapon: bolt_pistol
+      weapon: frag_grenades
+    cost: 127
+  cost_measure: points
+  cost: 127

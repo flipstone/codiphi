@@ -1,0 +1,122 @@
+special_rule :and_they_shall_know_no_fear
+special_rule :combat_squads
+special_rule :combat_tactics
+special_rule :infiltrate
+special_rule :move_through_cover
+special_rule :scouts
+
+rank :troops
+nature :infantry
+
+weapon :boltgun
+weapon :bolt_pistol
+weapon :frag_grenades
+weapon :combat_blade
+weapon :shotgun
+weapon :sniper_rifle
+weapon :heavy_bolter
+weapon :missile_launcher
+weapon :meltabombs
+weapon :power_weapon
+weapon :power_fist
+weapon :plasma_pistol
+
+unit :drop_pod
+
+gear :camo_cloaks {
+  + cost (3 * count(:scout) + 3)
+}
+
+
+model :scout {
+  ? index > 4 {
+    + cost 13
+  } 
+
+  ? weapon :shotgun {
+    - weapon :boltgun
+    - weapon :sniper_rifle
+  }
+
+  ? weapon :combat_blade {
+    - weapon :boltgun
+    - weapon :sniper_rifle
+  }
+
+  ? weapon :sniper_rifle {
+    - weapon :boltgun
+    - weapon :shotgun
+    - weapon :combat_blade
+  }
+
+  ? weapon :missile_launcher {
+    + cost 15
+    - weapon :heavy_bolter
+    - weapon :boltgun
+  }
+
+  ? weapon :heavy_bolter {
+    - weapon :boltgun
+    - weapon :missile_launcher
+    + cost 15
+  }
+  
+}
+
+model :scout_sergeant {
+  if weapon :plasma_pistol {
+    - weapon :bolt_pistol
+    + cost 15
+  }
+  
+  if weapon :power_weapon {
+    - weapon :boltgun
+    - weapon :power_fist
+    + cost 15
+  }
+
+  if weapon :power_fist {
+    - weapon :boltgun
+    - weapon :power_weapon
+    + cost 25
+  }
+
+  if weapon :meltabombs {
+    + cost 5
+  }
+
+}
+
+unit :scout_squad {
+  + rank :troops
+  + nature :infantry
+  + special_rule [
+    :and_they_shall_know_no_fear
+    :combat_squads
+    :infiltrate
+    :move_through_cover
+  ]
+  + cost (75 + 13*(count(:scout) - 4))
+
+  expects 1 model :scout_sergeant
+  expects 4 model :scout
+  permits 9 model :scout
+  permits 1 weapon [
+    :heavy_bolter
+    :missile_launcher
+  ]
+
+  permits 1 unit :drop_pod
+  
+  + weapon [
+    :bolt_pistol
+    :boltgun
+    :frag_grenades
+  ]
+}
+
+list { 
+  + cost_measure :points
+  permits 1 unit :scout_squad
+}
+

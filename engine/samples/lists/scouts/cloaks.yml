@@ -1,0 +1,18 @@
+--- 
+list: 
+  description: Scouts
+  schematic: scouts/scout-squad
+  author: Codiphi Developer
+  author_email: development@flipstone.com
+  variant: Base
+  unit: 
+  - type: scout_squad
+    gear: camo_cloaks
+    model: 
+    - type: scout
+      count: 7
+    - type: scout
+      count: 1
+      weapon: sniper_rifle
+    - type: scout_sergeant
+      count: 1
