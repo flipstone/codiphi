@@ -9,7 +9,7 @@ module Codiphi
       when Hash
         data = node_op[data] || data
         data.each_with_object({}) do |(k,v),h|
-          h[k] = child_op[k,v]
+          h[k] = child_op[k,v] || v
         end
       when Array
         data.map do |k|
@@ -35,8 +35,6 @@ module Codiphi
                 -> k,v do
                   if recurseable?(v)
                     matching_named_type(v, schematic_name, schematic_type, &block)
-                  else
-                    v
                   end
                 end
     end

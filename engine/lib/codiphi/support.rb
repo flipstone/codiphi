@@ -25,8 +25,6 @@ module Codiphi
                     expand_to_canonical(v, namespace, k)
                   elsif namespace.declared_type?(k)
                     { Tokens::Name => v, Tokens::Type => k }
-                  else
-                    v
                   end
                 end
     end
@@ -41,8 +39,6 @@ module Codiphi
                 -> k,v do
                   if recurseable?(v)
                     remove_canonical_keys(v)
-                  else
-                    v
                   end
                 end
     end
