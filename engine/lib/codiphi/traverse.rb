@@ -116,22 +116,22 @@ module Codiphi
 
     def self.verify_named_types(data, namespace)
       # puts "checking data #{data}"
-      children = case data
-        when Hash then
-          name, type = data.named_type_values
-          # puts "Checking type #{type} #{namespace.declared_type?(type)}"
-          # puts "Checking name #{name} #{namespace.named_type?(name,type)}"
-          if namespace.declared_type?(type) && !namespace.named_type?(name,type)
-            namespace.add_error(NoSuchNameException.new(data))
-          end
-          data.values
-        when Array then data
-        else []
-      end
+      child_errors = case data
+      when Hash then data.values
+      when Array then data
+      else []
+      end.map { |e| verify_named_types(e, namespace) }.flatten
 
-      children.each { |e| verify_named_types(e, namespace) }
+      self_errors = if Hash === data
+        name, type = data.named_type_values
+
+        if namespace.declared_type?(type) &&
+          !namespace.named_type?(name,type)
+          [NoSuchNameException.new(data)]
+        end
+      end || []
+
+      self_errors | child_errors
     end
-
-
   end
 end

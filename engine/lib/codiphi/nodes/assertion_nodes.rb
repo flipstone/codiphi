@@ -3,10 +3,11 @@ module Codiphi
   class AssertionNode < CodiphiNode
 
     def gather_declarations(namespace)
-      unless namespace.named_type?(name_val, type_val)
-        namespace.add_error(Codiphi::NoSuchNameException.new(self)) 
+      if namespace.named_type?(name_val, type_val)
+        namespace
+      else
+        namespace.add_error(Codiphi::NoSuchNameException.new(self))
       end
-      namespace
     end
 
     def gather_assertions(data, namespace, assertion_list, enclosing_condition)

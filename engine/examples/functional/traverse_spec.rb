@@ -315,11 +315,10 @@ module Codiphi
           }]
         }
 
-        namespace = Namespace.new
-        namespace.add_named_type("baz","fum")
-        
-        Traverse.verify_named_types(indata, namespace)
-        namespace.should_not have_errors
+        namespace = Namespace.new.add_named_type("baz","fum")
+
+        errors = Traverse.verify_named_types(indata, namespace)
+        errors.should be_empty
       end
 
       it "errors on bad name for declared type" do
@@ -330,12 +329,11 @@ module Codiphi
           }]
         }
 
-        namespace = Namespace.new
-        namespace.add_named_type("boo","qee")
-        
-        Traverse.verify_named_types(indata, namespace)
-        namespace.should have_errors
-        namespace.errors[0].class.should == NoSuchNameException
+        namespace = Namespace.new.add_named_type("boo","qee")
+
+        errors = Traverse.verify_named_types(indata, namespace)
+        errors.should_not be_empty
+        errors.first.class.should == NoSuchNameException
       end
 
       it "errors on nested bad names" do
@@ -352,22 +350,19 @@ module Codiphi
                 Tokens::Name => "buf",
                 Tokens::Type => "qee"
               }]
-              
+
             }
           }
-          
+
         }
 
         namespace = Namespace.new
-        namespace.add_named_type("boo","qee")
-        namespace.add_named_type("baz","qee")
-        
-        Traverse.verify_named_types(indata, namespace)
-        namespace.should have_errors
-        namespace.errors.count.should == 2
-      end
+                    .add_named_type("boo","qee")
+                    .add_named_type("baz","qee")
 
+        errors = Traverse.verify_named_types(indata, namespace)
+        errors.should have(2).items
+      end
     end
-    
   end
 end

@@ -69,9 +69,9 @@ module Codiphi
     end
 
     def run_validate
-      namespace.clear_errors
+      @namespace = namespace.clear_errors
       expand_data
-      Traverse.verify_named_types(@data, namespace)
+      @errors |= Traverse.verify_named_types(@data, namespace)
       run_gather_assertions
       check_assertions
     end

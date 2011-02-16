@@ -10,8 +10,7 @@ module Codiphi
         declaration_node = declaration_mock("model", "gray_warden")
         node = condition_mock('?',"weapon", "supergun", declaration_node, parentnode)
 
-        namespace = Namespace.new
-        namespace.add_named_type("supergun", "weapon")
+        namespace = Namespace.new.add_named_type("supergun", "weapon")
 
         indata = {
           "unit" => {
@@ -41,8 +40,8 @@ module Codiphi
         node = condition_mock('?',"weapon", "supergun", assignment_node, parentnode)
 
         namespace = Namespace.new
-        namespace.add_named_type("death_bombs", "weapon")
-        namespace.add_named_type("supergun", "weapon")
+                    .add_named_type("death_bombs", "weapon")
+                    .add_named_type("supergun", "weapon")
 
         indata = {
           "unit" => {
@@ -71,8 +70,7 @@ module Codiphi
         assertion_node = assertion_mock('permits', 0, "ammunition", "bullets")
         node = condition_mock('?',"weapon", "supergun", assertion_node, parentnode)
 
-        namespace = Namespace.new
-        namespace.add_named_type("supergun", "weapon")
+        namespace = Namespace.new.add_named_type("supergun", "weapon")
 
         indata = {
           "unit" => {
@@ -99,8 +97,7 @@ module Codiphi
         assertion_node = assertion_mock('permits', 0, "ammunition", "bullets")
         node = condition_mock('?',"weapon", "supergun", assertion_node, parentnode)
 
-        namespace = Namespace.new
-        namespace.add_named_type("supergun", "weapon")
+        namespace = Namespace.new.add_named_type("supergun", "weapon")
 
         indata = {
           "unit" => {

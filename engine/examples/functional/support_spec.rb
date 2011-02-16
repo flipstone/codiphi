@@ -74,8 +74,7 @@ module Codiphi
 
     describe "expand_to_canonical" do
       it "expands single named types to Hash" do
-        namespace = Namespace.new
-        namespace.add_named_type("foo", "unit")
+        namespace = Namespace.new.add_named_type("foo", "unit")
 
         input = {
           "unit" => "foo"
@@ -89,8 +88,7 @@ module Codiphi
       end
 
       it "doesn't expand existing Hashes" do
-        namespace = Namespace.new
-        namespace.add_named_type("foo", "unit")
+        namespace = Namespace.new.add_named_type("foo", "unit")
 
         input = {
           "c" =>
@@ -165,8 +163,7 @@ module Codiphi
       end
 
       it "doesn't modify the input hash" do
-        namespace = Namespace.new
-        namespace.add_named_type("foo", "unit")
+        namespace = Namespace.new.add_named_type("foo", "unit")
 
         input = {
           "unit" => "foo"
