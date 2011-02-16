@@ -5,13 +5,14 @@ module Codiphi
       unless namespace.named_type?(value_val, type_val)
         namespace.add_error(NoSuchNameException.new(self))
       end
+      namespace
     end
 
-    def op_val 
+    def op_val
       assignment_operator.text_value
     end
 
-    def value_val 
+    def value_val
       value.text_value
     end
 

@@ -18,13 +18,12 @@ module Codiphi
       @data = Marshal.load( Marshal.dump(data))
       # poor man's clone
       @original_data = Marshal.load( Marshal.dump(@data))
-      @namespace = Namespace.new
       @errors = []
       R18n.set(R18n::I18n.new(locale, "#{BASE_PATH}/r18n"))
     end
 
     def errors
-      @errors | (@namespace.errors || [])
+      @errors | (namespace.errors || [])
     end
 
     def emitted_data
@@ -53,7 +52,7 @@ module Codiphi
 
     def expand_data
       say_ok "expanding input to canonical structure" do
-        @data = Support.expand_to_canonical(@data, @namespace)
+        @data = Support.expand_to_canonical(@data, namespace)
       end
     end
 
@@ -70,11 +69,9 @@ module Codiphi
     end
 
     def run_validate
-      @namespace.clear_errors
-      render_tree unless @syntax_tree
-      @syntax_tree.gather_declarations(@namespace) unless @namespace
+      namespace.clear_errors
       expand_data
-      Traverse.verify_named_types(@data, @namespace)
+      Traverse.verify_named_types(@data, namespace)
       run_gather_assertions
       check_assertions
     end
@@ -88,7 +85,7 @@ module Codiphi
     def run_gather_assertions
       @assertions = []
       say_ok t.assertions.gathering do
-        @syntax_tree.gather_assertions(@data, @namespace, @assertions, true)
+        syntax_tree.gather_assertions(@data, namespace, @assertions, true)
       end
       true
     end
@@ -154,10 +151,8 @@ module Codiphi
     end
 
     def run_completeness_transform
-      render_tree
-      @syntax_tree.gather_declarations(@namespace)
       expand_data
-      @data,_ = @syntax_tree.completion_transform(@data, @namespace)
+      @data,_ = syntax_tree.completion_transform(@data, namespace)
       apply_cost
       true
     end
@@ -175,9 +170,16 @@ module Codiphi
       @schematic = Support.read_schematic(schematic_path)
     end
 
-    def render_tree
-      load_schematic_from_data unless @schematic
-      @syntax_tree = Parser.parse(@schematic)
+    def schematic
+      @schematic ||= load_schematic_from_data
+    end
+
+    def syntax_tree
+      @syntax_tree ||= Parser.parse(schematic)
+    end
+
+    def namespace
+      @namespace ||= syntax_tree.gather_declarations(Namespace.new)
     end
   end
 end

@@ -2,7 +2,7 @@ require_relative './spec_helper.rb'
 
 module Codiphi
 
-  describe AssignmentNode do 
+  describe AssignmentNode do
 
     describe "completion_transform" do
 
@@ -107,7 +107,6 @@ module Codiphi
         parentnode = declaration_mock("fum", "baz")
         node = assignment_mock('+',"unit", "foopants", parentnode)
 
-        namespace = Codiphi::Namespace.new
 
         indata = {
           "fum" => [{
@@ -115,10 +114,10 @@ module Codiphi
           }]
         }
 
-      node.gather_declarations(namespace)
+        namespace = node.gather_declarations(Namespace.new)
 
-      namespace.errors.should_not be_nil
-      namespace.errors[0].class.should == Codiphi::NoSuchNameException
+        namespace.errors.should_not be_nil
+        namespace.errors[0].class.should == Codiphi::NoSuchNameException
       end
     end
   end

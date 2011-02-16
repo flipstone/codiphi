@@ -7,21 +7,26 @@ module Codiphi
     end
 
     def fold(method, *args)
-      if terminal?
+      autowrap = (args.size == 1)
+
+      result = if terminal?
         args
       else
         elements.inject(args) do |args,e|
           if e.respond_to? method
-            e.send(method, *args)
+            new_args = e.send(method, *args)
+            autowrap ? [new_args] : new_args
           else
             args
           end
         end
       end
+
+      autowrap ? result.first : result
     end
 
     def gather_declarations(namespace)
-      recurse_to_children(:gather_declarations, [namespace])
+      fold(:gather_declarations, namespace)
     end
 
     def completion_transform(data, namespace)
