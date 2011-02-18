@@ -68,23 +68,6 @@ module Codiphi
       subcost * mymult
     end
 
-    # matches all <key> nodes
-    def self.matching_key(data, key, &block)
-      children = case data
-        when Hash then
-          data.values
-          if (data[Tokens::Type] == key)
-            block.call(data)
-          end
-          data.values
-        when Array then data
-        else []
-      end
-
-      children.each { |e| matching_key(e, key, &block) }
-
-    end
-
     def self.verify_named_types(data, namespace)
       # puts "checking data #{data}"
       child_errors = case data

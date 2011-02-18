@@ -2,33 +2,6 @@ require_relative '../spec_helper.rb'
 
 module Codiphi
   describe Traverse do
-    describe "matching_key" do
-      it "matches in Arrays" do
-        indata = {
-          "fee" => {
-            Tokens::Name => "bim",
-            Tokens::Type => "foo"
-          },
-          "foo" => [{
-            Tokens::Name => "bar",
-            Tokens::Type => "foo",
-            "foo" => [{
-              Tokens::Name => "baz",
-              Tokens::Type => "foo"
-            }]
-          }]
-        }
-
-        count = 0
-        Traverse.matching_key(indata, "foo") do |match|
-          count += 1
-        end
-
-        count.should == 3
-      end
-    end
-
-
     describe "count_for_named_type simple" do
       it "counts 3-level case" do
         indata = {
