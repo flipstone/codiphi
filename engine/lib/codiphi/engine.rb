@@ -6,7 +6,9 @@ module Codiphi
     include R18n::Helpers
     Version = [0,1,0]
 
-    attr_accessor :namespace, :data, :original_data
+    attr_accessor :namespace, :data, :original_data, :errors
+    protected :namespace=, :data=, :original_data=, :errors=
+
     attr :syntax_tree, :assertions
 
     def has_errors?
@@ -15,15 +17,10 @@ module Codiphi
 
     def initialize(data, schematic=nil,locale='en')
       @schematic = schematic
-      @data = Marshal.load( Marshal.dump(data))
-      # poor man's clone
-      @original_data = Marshal.load( Marshal.dump(@data))
+      @data = data
+      @original_data = @data
       @errors = []
       R18n.set(R18n::I18n.new(locale, "#{BASE_PATH}/r18n"))
-    end
-
-    def errors
-      @errors
     end
 
     def emitted_data
@@ -35,24 +32,27 @@ module Codiphi
     end
 
     def returning_new
-      dup.tap do |new_e|
-        new_e.instance_variables.each do |i|
-          v = new_e.instance_variable_get i
-          new_e.instance_variable_set(i, Marshal.load(Marshal.dump(v)))
-        end
-        yield new_e
-      end
+      dup.tap { |new_e| yield new_e }
     end
 
     def completion_transform
       returning_new do |e|
-        e.run_completeness_transform
+        e.data = completed_data
       end
     end
 
-    def expand_data
+    def validate
+      returning_new do |e|
+        e.errors |= (
+          Traverse.verify_named_types(canonical_data, namespace) |
+          assertion_errors
+        )
+      end
+    end
+
+    def canonical_data
       say_ok "expanding input to canonical structure" do
-        @data = Support.expand_to_canonical(@data, namespace)
+        Support.expand_to_canonical(@data, namespace)
       end
     end
 
@@ -60,24 +60,6 @@ module Codiphi
       say_ok "cleaning output of canonical artifacts" do
         Support.remove_canonical_keys(@data)
       end
-    end
-
-    def validate
-      returning_new do |e|
-        e.run_validate
-      end
-    end
-
-    def run_validate
-      expand_data
-      @errors |= Traverse.verify_named_types(@data, namespace)
-      check_assertions
-    end
-
-    def apply_cost
-      list_node = @data[Tokens::List]
-      list_node.set_cost(0) if list_node
-      list_node.set_cost(cost) if list_node
     end
 
     def assertions
@@ -89,45 +71,38 @@ module Codiphi
       end
     end
 
-    def no_assertions?
-      if (assertions.nil? || assertions.empty?)
-        warn t.assertions.none
-        return true
-      end
-      false
-    end
-
-    def check_assertions
-      return true if no_assertions?
-      assertions.each do |asst|
+    def assertion_errors
+      warn t.assertions.none if assertions.empty?
+      assertions.map do |asst|
         target_node = asst.parent_declaration
         target_type = _type_helper_for_assertion(asst)
 
         say_ok t.assertions.checking(asst.text_value,target_type,target_node) do
-
-          Traverse.matching_key(@data, target_node) do |node|
+          Transform.fold_type(@data, target_node, []) do |node, errors|
             count = Traverse.count_for_expected_type_on_name(
                                 node,
                                 asst.type_val,
                                 asst.name_val)
 
-            parent_string = _namedtype_helper_for_assertion(target_node, target_type)
-            _do_count_assertion(asst, count, parent_string)
+            errors | _do_count_assertion(asst, count, "#{target_node}#{target_type}")
           end
         end
-      end
+      end.flatten
     end
 
     def _do_count_assertion(assertion, count, parent_string)
       target = assertion.integer_val
 
-      error = case assertion.op_val
-        when Tokens::Expects then
-          ExpectedNotMetException.new(assertion,parent_string) unless count >= target
-        when Tokens::Permits then
-          PermittedExceededException.new(assertion, parent_string) unless count <= target
-      end
-      @errors << error if error
+      case assertion.op_val
+      when Tokens::Expects
+        if count < target
+          [ExpectedNotMetException.new(assertion, parent_string)]
+        end
+      when Tokens::Permits
+        if count > target
+          [PermittedExceededException.new(assertion, parent_string)]
+        end
+      end || []
     end
 
     def _type_helper_for_assertion(a)
@@ -136,41 +111,37 @@ module Codiphi
         " #{a.parent_declaration_node.type.text_value}"
     end
 
-    def _namedtype_helper_for_assertion(node, type)
-      type == "" ? type : " #{type}"
-      "#{node}#{type}"
-    end
-
-    def cost
+    def cost(data)
       running_cost = 0
       say_ok t.bin.calculating do
-        running_cost = Traverse.for_cost(@data)
+        running_cost = Traverse.for_cost(data)
       end
       running_cost
     end
 
-    def run_completeness_transform
-      expand_data
-      @data,_ = syntax_tree.completion_transform(@data, namespace)
-      apply_cost
-      true
-    end
-
-    def load_schematic_from_data
-      list_node = @data[Tokens::List]
-      raise t.assertions.no_list unless list_node
-
-      schematic_path = list_node[Tokens::Schematic]
-      bin_msg = t.bin
-      say_ok bin_msg.inspecting do
-        raise bin_msg.no_schematic unless schematic_path
+    def completed_data
+      data,_ = syntax_tree.completion_transform(canonical_data, namespace)
+      list_node = data[Tokens::List]
+      if list_node
+        data = data.merge Tokens::List => list_node.set_cost(0)
+        data = data.merge Tokens::List => list_node.set_cost(cost(data))
       end
-
-      @schematic = Support.read_schematic(schematic_path)
+      data
     end
 
     def schematic
-      @schematic ||= load_schematic_from_data
+      @schematic ||= begin
+        list_node = @data[Tokens::List]
+        raise t.assertions.no_list unless list_node
+
+        schematic_path = list_node[Tokens::Schematic]
+        bin_msg = t.bin
+        say_ok bin_msg.inspecting do
+          raise bin_msg.no_schematic unless schematic_path
+        end
+
+        Support.read_schematic(schematic_path)
+      end
     end
 
     def syntax_tree

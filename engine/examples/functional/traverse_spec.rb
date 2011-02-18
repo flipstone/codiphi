@@ -23,7 +23,7 @@ module Codiphi
         Traverse.matching_key(indata, "foo") do |match|
           count += 1
         end
-        
+
         count.should == 3
       end
     end

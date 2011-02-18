@@ -4,6 +4,21 @@ module Codiphi
       Support.recurseable?(v)
     end
 
+    def self.fold_type(data, key, memo, &block)
+      children = case data
+        when Hash then
+          data.values
+          if (data[Tokens::Type] == key)
+            memo = block.call(data, memo)
+          end
+          data.values
+        when Array then data
+        else []
+      end
+
+      children.inject(memo) { |memo,e| fold_type(e, key, memo, &block) }
+    end
+
     def self.transform(data, node_op, child_op)
       case data
       when Hash

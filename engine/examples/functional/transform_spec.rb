@@ -188,5 +188,28 @@ module Codiphi
       end
 
     end
+
+    describe "fold_type" do
+      it "matches in Arrays" do
+        indata = {
+          "fee" => {
+            Tokens::Name => "bim",
+            Tokens::Type => "foo"
+          },
+          "foo" => [{
+            Tokens::Name => "bar",
+            Tokens::Type => "foo",
+            "foo" => [{
+              Tokens::Name => "baz",
+              Tokens::Type => "foo"
+            }]
+          }]
+        }
+
+        Transform.fold_type(indata, "foo", 0) do |match, memo|
+          memo + 1
+        end.should == 3
+      end
+    end
   end
 end

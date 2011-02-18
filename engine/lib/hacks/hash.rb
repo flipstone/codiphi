@@ -16,13 +16,6 @@ module Codiphi
       }
     end
 
-    def add_named_type!(name, type)
-      merge! type => {
-        Tokens::Name => name,
-        Tokens::Type => type
-      }
-    end
-
     def is_list_node?
       self[Tokens::Type] == Tokens::List
     end
@@ -62,7 +55,7 @@ module Codiphi
     end
 
     def set_cost(cost)
-      self[Tokens::Cost] = cost
+      merge Tokens::Cost => cost
     end
 
     def cost_value
