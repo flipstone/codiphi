@@ -4,35 +4,6 @@ module Codiphi
       Support.recurseable?(v)
     end
 
-    def self.matching_named_type(data, schematic_name, schematic_type, &block)
-      case data
-      when Hash
-        # special case for list
-        if schematic_type == Tokens::List && data.is_list_node?
-          block.call(data)
-        end
-
-        # test this hash for type to match
-        if (data.is_named_type?(schematic_name, schematic_type))
-          block.call(data)
-        end
-
-        # recurse on the attributes, looking for <schematic_type>
-        data.each do |k,v|
-          if recurseable?(v)
-            matching_named_type(v, schematic_name, schematic_type, &block)
-          end
-        end
-
-      when Array
-        data.each do |k|
-          if recurseable?(k)
-            matching_named_type(k, schematic_name, schematic_type, &block)
-          end
-        end # each
-      end # case 
-    end # def
-
     # return sum of <count> for all <name> nodes with a child of type:<name>
     def self.count_for_expected_type_on_name(data, expected_type, expected_name)
       subcount = 0
