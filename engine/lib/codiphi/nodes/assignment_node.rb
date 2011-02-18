@@ -1,11 +1,11 @@
 require_relative './codiphi_node'
 module Codiphi
   class AssignmentNode < CodiphiNode
-    def gather_declarations(namespace)
+    def gather_declarations(namespace, errors)
       if namespace.named_type?(value_val, type_val)
-        namespace
+        [namespace, errors]
       else
-        namespace.add_error(NoSuchNameException.new(self))
+        [namespace, errors + [NoSuchNameException.new(self)]]
       end
     end
 

@@ -12,8 +12,8 @@ module Codiphi
 
     it "adds error if no variable not declared" do
       node = assertion_mock("expects", 99, "foo", "pants")
-      namespace = node.gather_declarations(Namespace.new)
-      namespace.should have_errors
+      namespace, errors = node.gather_declarations(Namespace.new, [])
+      errors.should_not be_empty
     end
 
   end

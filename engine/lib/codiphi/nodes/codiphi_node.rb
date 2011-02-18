@@ -25,8 +25,8 @@ module Codiphi
       autowrap ? result.first : result
     end
 
-    def gather_declarations(namespace)
-      fold(:gather_declarations, namespace)
+    def gather_declarations(namespace, errors)
+      fold(:gather_declarations, namespace, errors)
     end
 
     def completion_transform(data, namespace)

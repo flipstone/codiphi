@@ -2,11 +2,11 @@ require_relative './codiphi_node.rb'
 module Codiphi
   class AssertionNode < CodiphiNode
 
-    def gather_declarations(namespace)
+    def gather_declarations(namespace, errors)
       if namespace.named_type?(name_val, type_val)
-        namespace
+        [namespace, errors]
       else
-        namespace.add_error(Codiphi::NoSuchNameException.new(self))
+        [namespace, errors + [Codiphi::NoSuchNameException.new(self)]]
       end
     end
 

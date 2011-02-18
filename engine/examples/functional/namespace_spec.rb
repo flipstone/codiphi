@@ -18,25 +18,11 @@ describe Codiphi::Namespace do
     n.should_not be_named_type("foo", "zingbat")
   end
 
-  it "adds error" do
-    x = RuntimeError.new
-    n = Codiphi::Namespace.new.add_error(x)
-    n.should have_errors
-    n.errors.should include(x)
-  end
-
-  it "clears errors" do
-    x = RuntimeError.new
-    n = Codiphi::Namespace.new.add_error(x).clear_errors
-    n.errors.should be_nil
-    n.should_not have_errors
-  end
-
   it "is frozen" do
     Codiphi::Namespace.new.should be_frozen
   end
 
-  it "is frozen after adding error" do
-    Codiphi::Namespace.new.add_error("foo").should be_frozen
+  it "is frozen after adding type" do
+    Codiphi::Namespace.new.add_named_type("foo", "unit").should be_frozen
   end
 end

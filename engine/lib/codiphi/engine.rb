@@ -23,7 +23,7 @@ module Codiphi
     end
 
     def errors
-      @errors | (namespace.errors || [])
+      @errors
     end
 
     def emitted_data
@@ -69,7 +69,6 @@ module Codiphi
     end
 
     def run_validate
-      @namespace = namespace.clear_errors
       expand_data
       @errors |= Traverse.verify_named_types(@data, namespace)
       run_gather_assertions
@@ -179,7 +178,11 @@ module Codiphi
     end
 
     def namespace
-      @namespace ||= syntax_tree.gather_declarations(Namespace.new)
+      @namespace ||= begin
+        n,e = syntax_tree.gather_declarations(Namespace.new, [])
+        @errors += e
+        n
+      end
     end
   end
 end

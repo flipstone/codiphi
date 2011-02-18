@@ -5,22 +5,6 @@ module Codiphi
       freeze
     end
 
-    def has_errors?
-      !self[:errors].nil? && !self[:errors].empty?
-    end
-
-    def add_error(error)
-      set_arrayed_value :errors, error
-    end
-
-    def clear_errors
-      merge :errors => nil
-    end
-
-    def errors
-      self[:errors]
-    end
-
     def declared_type?(type)
       includes_value_for_key?(:types_list, type)
     end
