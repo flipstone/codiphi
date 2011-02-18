@@ -10,9 +10,8 @@ module Codiphi
       end
     end
 
-    def gather_assertions(data, namespace, assertion_list, enclosing_condition)
-      assertion_list = [] if assertion_list.nil?
-      assertion_list << self if enclosing_condition
+    def gather_assertions(data, assertion_list)
+      [data, assertion_list + [self]]
     end
 
     def op_val

@@ -21,11 +21,7 @@ module Codiphi
       type.text_value
     end
 
-    def gather_assertions(data, namespace, assertion_list, enclosing_condition)
-      completion_transform(data, namespace) if enclosing_condition
-    end
-
-    def completion_transform(data, namespace)
+   def completion_transform(data, namespace)
       super(data, namespace)
       match_node = parent_declaration_node
 

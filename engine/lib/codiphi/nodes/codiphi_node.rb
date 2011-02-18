@@ -1,11 +1,5 @@
 module Codiphi
   class CodiphiNode < Treetop::Runtime::SyntaxNode
-    def recurse_to_children(method, args)
-      unless terminal?
-        elements.each{ |e| e.send(method, *args) if e.respond_to? method }
-      end
-    end
-
     def fold(method, *args)
       autowrap = (args.size == 1)
 
@@ -33,9 +27,8 @@ module Codiphi
       fold(:completion_transform, data, namespace)
     end
 
-    def gather_assertions(data, namespace, assertion_list, enclosing_condition)
-      recurse_to_children(:gather_assertions, 
-        [data, namespace, assertion_list, enclosing_condition])
+    def gather_assertions(data, assertion_list)
+      fold(:gather_assertions, data, assertion_list)
     end
 
     def declarative?

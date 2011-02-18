@@ -27,11 +27,10 @@ module Codiphi
           }
         }
 
-        list = []
-        node.gather_assertions(indata, namespace, list, true)
+        _, list = node.gather_assertions(indata, [])
         list.should be_empty
       end
-      
+
       xit "errors on bad name reference" do end
 
       xit "performs completion on assignments" do
@@ -58,13 +57,11 @@ module Codiphi
           }
         }
 
-        list = []
-        node.gather_assertions(indata, namespace, list, true)
+        _, list = node.gather_assertions(indata, [])
         indata["unit"]["model"][0]["weapon"].should be_is_named_type("death_bombs", "weapon")
-        
       end
       xit "collects cost assignments" do end
-      
+
       it "doesn't add children on negative condition" do 
         parentnode = declaration_mock("sergeant", "model")
         assertion_node = assertion_mock('permits', 0, "ammunition", "bullets")
@@ -87,11 +84,10 @@ module Codiphi
           }
         }
 
-        list = []
-        node.gather_assertions(indata, namespace, list, true)
+        _, list = node.gather_assertions(indata, [])
         list.should be_empty
       end
-        
+
       it "collects single assertions" do
         parentnode = declaration_mock("model", "sergeant")
         assertion_node = assertion_mock('permits', 0, "ammunition", "bullets")
@@ -114,8 +110,7 @@ module Codiphi
           }
         }
 
-        list = []
-        node.gather_assertions(indata, namespace, list, true)
+        _, list = node.gather_assertions(indata, [])
         list.should_not be_empty
         list.should be_include assertion_node
       end

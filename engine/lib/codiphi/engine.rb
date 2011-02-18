@@ -71,7 +71,6 @@ module Codiphi
     def run_validate
       expand_data
       @errors |= Traverse.verify_named_types(@data, namespace)
-      run_gather_assertions
       check_assertions
     end
 
@@ -81,16 +80,17 @@ module Codiphi
       list_node.set_cost(cost) if list_node
     end
 
-    def run_gather_assertions
-      @assertions = []
-      say_ok t.assertions.gathering do
-        syntax_tree.gather_assertions(@data, namespace, @assertions, true)
+    def assertions
+      @assertions ||= begin
+        _, assertions = say_ok t.assertions.gathering do
+          syntax_tree.gather_assertions(@data, [])
+        end
+        assertions
       end
-      true
     end
 
     def no_assertions?
-      if (@assertions.nil? || @assertions.empty?)
+      if (assertions.nil? || assertions.empty?)
         warn t.assertions.none
         return true
       end
@@ -99,7 +99,7 @@ module Codiphi
 
     def check_assertions
       return true if no_assertions?
-      @assertions.each do |asst|
+      assertions.each do |asst|
         target_node = asst.parent_declaration
         target_type = _type_helper_for_assertion(asst)
 
