@@ -1,46 +1,9 @@
 module Codiphi
   module Support
     include R18n::Helpers
-    CanonicalKeys = [Tokens::Type]
 
     def self.recurseable?(v)
       v.is_a?(Hash) || v.is_a?(Array)
-    end
-
-    def self.transform(*args)
-      Transform.transform(*args)
-    end
-
-    def self.expand_to_canonical(data, namespace, schematic_type=nil)
-      transform data,
-
-                -> data do
-                  unless schematic_type.nil?
-                    data.merge Tokens::Type => schematic_type
-                  end
-                end,
-
-                -> k,v do
-                  if recurseable?(v)
-                    expand_to_canonical(v, namespace, k)
-                  elsif namespace.declared_type?(k)
-                    { Tokens::Name => v, Tokens::Type => k }
-                  end
-                end
-    end
-
-    def self.remove_canonical_keys(data)
-      transform data,
-
-                -> data do
-                  data.reject {|k,v| CanonicalKeys.include?(k) }
-                end,
-
-                -> k,v do
-                  if recurseable?(v)
-                    remove_canonical_keys(v)
-                  end
-                end
     end
 
     def self.read_file(path)

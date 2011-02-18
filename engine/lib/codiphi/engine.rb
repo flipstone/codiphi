@@ -46,13 +46,13 @@ module Codiphi
 
     def canonical_data
       @canonical_data ||= say_ok "expanding input to canonical structure" do
-        Support.expand_to_canonical @data, namespace
+        Transform.expand_to_canonical @data, namespace
       end
     end
 
     def decanonicalized_result
       @decanonicalized_result ||= say_ok "cleaning output of canonical artifacts" do
-        Support.remove_canonical_keys completed_data
+        Transform.remove_canonical_keys completed_data
       end
     end
 
