@@ -28,7 +28,7 @@ module Codiphi
     end
 
     def errors
-      namespace_errors | validation_errors
+      declaration_errors | validation_errors
     end
 
     def validating?
@@ -151,7 +151,7 @@ module Codiphi
       @gather_declarations ||= syntax_tree.gather_declarations(Namespace.new, [])
     end
 
-    def namespace_errors
+    def declaration_errors
       gathered_declarations.last
     end
 
