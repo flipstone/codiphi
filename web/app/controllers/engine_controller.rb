@@ -15,8 +15,7 @@ class EngineController < ApplicationController
     schematic = Schematic.find_by_name data["list"]["schematic"]
 
     if schematic
-      @engine = Codiphi::Engine.new(data, schematic.body)
-                .completion_transform
+      @engine = Codiphi::Engine.new(data, schematic: schematic.body)
     end
 
     render action: :show

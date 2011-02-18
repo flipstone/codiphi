@@ -6,66 +6,60 @@ module Codiphi
     include R18n::Helpers
     Version = [0,1,0]
 
-    attr_accessor :namespace, :data, :original_data, :errors
-    protected :namespace=, :data=, :original_data=, :errors=
-
-    attr :syntax_tree, :assertions
+    attr :data, :namespace, :options
 
     def has_errors?
       errors.any?
     end
 
-    def initialize(data, schematic=nil,locale='en')
-      @schematic = schematic
+    def initialize(data, options = {})
+      @options = options
+      @schematic = options[:schematic]
       @data = data
-      @original_data = @data
-      @errors = []
-      R18n.set(R18n::I18n.new(locale, "#{BASE_PATH}/r18n"))
+      R18n.set(R18n::I18n.new(options[:locale] || 'en', "#{BASE_PATH}/r18n"))
     end
 
     def emitted_data
       if has_errors?
-        @original_data.merge Tokens::ListErrors => errors.map{ |f| f.to_s }
+        @data.merge Tokens::ListErrors => errors.map{ |f| f.to_s }
       else
-        decanonicalized_data
+        decanonicalized_result
       end
     end
 
-    def returning_new
-      dup.tap { |new_e| yield new_e }
+    def errors
+      namespace_errors | validation_errors
     end
 
-    def completion_transform
-      returning_new do |e|
-        e.data = completed_data
-      end
+    def validating?
+      options[:validate] || !options.key?(:validate)
     end
 
-    def validate
-      returning_new do |e|
-        e.errors |= (
-          Traverse.verify_named_types(canonical_data, namespace) |
-          assertion_errors
-        )
+    def validation_errors
+      @validation_errors ||= if validating?
+        Traverse.verify_named_types(completed_data, namespace) |
+        assertion_errors
+      else
+        []
       end
     end
 
     def canonical_data
-      say_ok "expanding input to canonical structure" do
-        Support.expand_to_canonical(@data, namespace)
+      @canonical_data ||= say_ok "expanding input to canonical structure" do
+        Support.expand_to_canonical @data, namespace
       end
     end
 
-    def decanonicalized_data
-      say_ok "cleaning output of canonical artifacts" do
-        Support.remove_canonical_keys(@data)
+    def decanonicalized_result
+      @decanonicalized_result ||= say_ok "cleaning output of canonical artifacts" do
+        Support.remove_canonical_keys completed_data
       end
     end
 
     def assertions
       @assertions ||= begin
         _, assertions = say_ok t.assertions.gathering do
-          syntax_tree.gather_assertions(@data, [])
+          syntax_tree.gather_assertions completed_data, []
         end
         assertions
       end
@@ -73,12 +67,12 @@ module Codiphi
 
     def assertion_errors
       warn t.assertions.none if assertions.empty?
-      assertions.map do |asst|
+      @assertion_errors ||= assertions.map do |asst|
         target_node = asst.parent_declaration
         target_type = _type_helper_for_assertion(asst)
 
         say_ok t.assertions.checking(asst.text_value,target_type,target_node) do
-          Transform.fold_type(@data, target_node, []) do |node, errors|
+          Transform.fold_type(completed_data, target_node, []) do |node, errors|
             count = Traverse.count_for_expected_type_on_name(
                                 node,
                                 asst.type_val,
@@ -120,13 +114,18 @@ module Codiphi
     end
 
     def completed_data
-      data,_ = syntax_tree.completion_transform(canonical_data, namespace)
-      list_node = data[Tokens::List]
-      if list_node
-        data = data.merge Tokens::List => list_node.set_cost(0)
-        data = data.merge Tokens::List => list_node.set_cost(cost(data))
+      @completed_data ||= begin
+        data,_ = syntax_tree.completion_transform(canonical_data, namespace)
+        list_node = data[Tokens::List]
+        if list_node
+          # the cost is set to zero before calculating cost because
+          # otherwise it will be included in the cost again if a list is
+          # double processed
+          data = data.merge Tokens::List => list_node.set_cost(0)
+          data = data.merge Tokens::List => list_node.set_cost(cost(data))
+        end
+        data
       end
-      data
     end
 
     def schematic
@@ -148,12 +147,16 @@ module Codiphi
       @syntax_tree ||= Parser.parse(schematic)
     end
 
+    def gathered_declarations
+      @gather_declarations ||= syntax_tree.gather_declarations(Namespace.new, [])
+    end
+
+    def namespace_errors
+      gathered_declarations.last
+    end
+
     def namespace
-      @namespace ||= begin
-        n,e = syntax_tree.gather_declarations(Namespace.new, [])
-        @errors += e
-        n
-      end
+      gathered_declarations.first
     end
   end
 end

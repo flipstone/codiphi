@@ -28,15 +28,15 @@ module Codiphi
         schematic = Codiphi::Support.read_schematic_data(options.schematic)
       end
 
-      engine = Codiphi::Engine.new(data, schematic, options.locale)
-
-      unless (options.no_validate)
-        engine.completion_transform
-        engine.validate
-      else
+      if options.no_validate
         say t.bin.no_validation
-        engine.completion_transform
       end
+
+      engine = Codiphi::Engine.new data,
+                                   schematic: schematic,
+                                   locale: options.locale,
+                                   validate: !options.no_validate
+
       stdout.puts YAML::dump(engine.emitted_data)
     end
 

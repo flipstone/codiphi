@@ -55,7 +55,7 @@ class Array
         v1.deep_diff(v2, difflist, keystack.push('[]'))
         keystack.pop
       else
-        difflist << "Expected value '#{other[k]}' #{keystack.pretty_node(k)}, but got '#{v}'" unless v1 == v2
+        difflist << "Expected value '#{v2}' #{keystack.pretty_node(:array)}, but got '#{v1}'" unless v1 == v2
       end 
     end
 
