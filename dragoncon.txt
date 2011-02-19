@@ -21,8 +21,10 @@ imac
 
 handout cards
 
-web:
+web feature breakdown:
+upload schematic
+upload list
 view list
-edit list
-edit schematic
-
+hot tree edit list
+save list
+save schematic

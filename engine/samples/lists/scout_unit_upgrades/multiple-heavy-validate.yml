@@ -1,0 +1,22 @@
+--- 
+list: 
+  description: Scouts
+  schematic: scouts/scout_squad
+  author: Codiphi Developer
+  author_email: development@flipstone.com
+  variant: Base
+  unit: 
+  - type: scout_squad
+    model: 
+    - type: scout
+      count: 2
+    - type: scout
+      count: 1
+      weapon: missile_launcher
+    - type: scout
+      count: 1
+      weapon: heavy_bolter
+    - type: scout_sergeant
+      count: 1
+list-errors: 
+    - Unit scout_squad permits only one selection from [heavy_bolter, missile_launcher]

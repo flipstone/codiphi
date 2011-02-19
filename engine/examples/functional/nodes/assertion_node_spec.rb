@@ -1,21 +1,27 @@
 require_relative './spec_helper.rb'
 
 module Codiphi
-  
-  describe AssertionNode do 
-    it "adds itself to passed context on transform" do
-      node = assertion_mock("expects", 99, "foo", "pants")
-      list = []
-      node.gather_assertions({}, Namespace.new, list, true)
-      list.should_not be_nil
-      list.should be_include node
+  describe AssertionNode do
+    describe "gather_assertions" do
+      it "adds itself to list" do
+        node = assertion_mock("expects", 99, "foo", "pants")
+        _, list = node.gather_assertions({}, [])
+        list.should_not be_nil
+        list.should be_include node
+      end
+
+      it "doesn't modify original list" do
+        node = assertion_mock("expects", 99, "foo", "pants")
+        original_list = []
+        node.gather_assertions({}, original_list)
+        original_list.should be_empty
+      end
     end
 
     it "adds error if no variable not declared" do
       node = assertion_mock("expects", 99, "foo", "pants")
-      namespace = Namespace.new
-      node.gather_declarations(namespace)
-      namespace.should have_errors
+      namespace, errors = node.gather_declarations(Namespace.new, [])
+      errors.should_not be_empty
     end
 
   end

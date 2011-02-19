@@ -1,0 +1,14 @@
+--- 
+list: 
+  schematic: scouts/scout_squad
+  description: sergeant with plasma pistol
+  unit: 
+  - type: scout_squad
+    model: 
+    - type: scout
+      count: 4
+    - type: scout_sergeant
+      weapon: sniper_rifle
+      weapon: plasma_pistol
+      weapon: melta_bombs
+      count: 1

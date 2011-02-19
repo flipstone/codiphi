@@ -37,18 +37,40 @@ class Array
     end
     out
   end
+
+  def deep_diff(other, difflist, keystack)
+    unless other.is_a?(Array)
+      difflist << "Unexpected elements #{keystack.pretty_node}: #{inspect}" 
+      return
+    end
+
+    begin
+      self_for_comp, other_for_comp = sort, other.sort
+    rescue ArgumentError
+      self_for_comp, other_for_comp = self, other
+    end
+
+    self_for_comp.zip(other_for_comp).each do |v1, v2|
+      if v1.respond_to?(:deep_diff) && v2.respond_to?(:deep_diff)
+        v1.deep_diff(v2, difflist, keystack.push('[]'))
+        keystack.pop
+      else
+        difflist << "Expected value '#{v2}' #{keystack.pretty_node(:array)}, but got '#{v1}'" unless v1 == v2
+      end 
+    end
+
+  end
 end
 
 class Hash
   def deep_diff(other, difflist, keystack)
-    if other.nil?
+    unless other.is_a?(Hash)
       difflist << "Unexpected elements #{keystack.pretty_node}: #{self.keys.inspect}" 
       return
     end
 
     keydiffs = self.keys - other.keys
     keydiffs += other.keys - self.keys
-    # puts "diffing keys #{self.keys} - #{other.keys} = #{keydiffs}"
 
     if !keydiffs.empty?
       keydiffs.each { |k| 
@@ -57,15 +79,13 @@ class Hash
       }
     end
     self.each do |k,v| 
-      # puts "diffing hashes #{v.class} - #{other[k].class}"
-      if v.class == Hash && other[k].class == Hash
-        # puts "deep diffing node #{k}"
+      if v.respond_to?(:deep_diff) && other[k].respond_to?(:deep_diff)
         v.deep_diff(other[k], difflist, keystack.push(k))
+        keystack.pop
       else
         # compare the values
         difflist << "Expected value '#{other[k]}' #{keystack.pretty_node(k)}, but got '#{v}'" unless other[k] == v
       end 
     end
-    keystack.pop
   end
 end

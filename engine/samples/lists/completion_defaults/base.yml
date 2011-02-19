@@ -1,0 +1,13 @@
+--- 
+list: 
+  schematic: scouts/scout_squad
+  description: default value does not overwrite list-provided value
+  unit: 
+  - type: scout_squad
+    model: 
+    - type: scout
+      weapon: sniper_rifle
+      weapon: frag_grenades
+      count: 4
+    - type: scout_sergeant
+      count: 1

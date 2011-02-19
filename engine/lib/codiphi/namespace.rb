@@ -1,55 +1,34 @@
 module Codiphi
   class Namespace < Hash
-    
-    def add_to_runlist(node_as_string)
-      _set_arrayed_value(:runlist, node_as_string)
-    end
-    
-    def has_run?(node_as_string)
-      _includes_value_for_key?(:runlist, node_as_string)
-    end
-    
-    def has_errors?
-      !self[:errors].nil? && !self[:errors].empty?
-    end
-    
-    def add_error(error)
-      _set_arrayed_value(:errors, error)
-    end
-    
-    def clear_errors
-      self[:errors] = nil
-    end
-
-    def errors
-      self[:errors]
+    def initialize(*args)
+      super(*args)
+      freeze
     end
 
     def declared_type?(type)
-      _includes_value_for_key?(:types_list, type)
+      includes_value_for_key?(:types_list, type)
     end
-    
+
     def named_type?(name, type)
-      _includes_value_for_key?(name, type)
+      includes_value_for_key?(name, type)
     end
 
     def add_named_type(name, type)
-      _set_arrayed_value(name, type)
-      _set_arrayed_value(:types_list, type)
-    end
-    
-    def _set_arrayed_value(key, value)
-      if self[key].nil?
-        self[key] = [value]
-      else
-        self[key] << value
-      end
-      self[key]
+      set_arrayed_value(name, type).set_arrayed_value(:types_list, type)
     end
 
-    def _includes_value_for_key?(key, value)
+    def merge(*args)
+      super(*args).tap { |n| n.freeze }
+    end
+
+    protected
+
+    def set_arrayed_value(key, value)
+      merge key => ((self[key] || []) + [value])
+    end
+
+    def includes_value_for_key?(key, value)
       (!self[key].nil? && self[key].include?(value))
     end
-    
   end
 end

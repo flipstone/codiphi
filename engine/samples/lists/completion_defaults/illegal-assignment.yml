@@ -1,0 +1,13 @@
+--- 
+list: 
+  schematic: scouts/scout_squad
+  description: node can not possess out-of-scope (but valid) item
+  unit: 
+  - type: scout_squad
+    model: 
+    - type: scout
+      weapon: boltgun
+      count: 4
+    - type: scout_sergeant
+      weapon: missile_launcher
+      count: 1
