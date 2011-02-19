@@ -8,6 +8,7 @@ desc "Run all specs in spec directory"
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.pattern = "examples/**/*_spec.rb"
   t.rspec_opts = ['--color']
+  t.verbose = false
 end
 
 MetricFu::Configuration.run do |config|
