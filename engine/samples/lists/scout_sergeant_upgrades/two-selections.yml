@@ -1,7 +1,7 @@
 --- 
 list: 
   schematic: scouts/scout_squad
-  description: sergeant with plasma pistol
+  description: sergeant with two optional selections
   unit: 
   - type: scout_squad
     model: 

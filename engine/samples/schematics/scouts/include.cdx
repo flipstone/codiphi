@@ -1,0 +1,7 @@
+include 'included'
+
+list { 
+  + cost_measure :points
+  permits 1 unit :scout_squad
+  expects 1 unit :scout_squad
+}

@@ -1,13 +1,12 @@
 --- 
 list: 
+  description: Scouts with drop pod
   schematic: scouts/scout_squad
-  description: sergeant with power weapon
   unit: 
   - type: scout_squad
     model: 
     - type: scout
-      weapon: sniper_rifle
       count: 4
     - type: scout_sergeant
-      weapon: power_weapon
       count: 1
+      unit: drop_pod

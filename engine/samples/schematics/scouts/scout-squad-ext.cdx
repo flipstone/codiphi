@@ -1,3 +1,5 @@
+include 'transports'
+
 special_rule :and_they_shall_know_no_fear
 special_rule :combat_squads
 special_rule :combat_tactics
@@ -21,8 +23,6 @@ weapon :meltabombs
 weapon :power_weapon
 weapon :power_fist
 weapon :plasma_pistol
-
-unit :drop_pod
 
 gear :camo_cloaks {
   + cost (3 * count(:scout) + 3)

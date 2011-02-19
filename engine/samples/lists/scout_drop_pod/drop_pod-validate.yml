@@ -1,14 +1,9 @@
 --- 
 list: 
-  description: Scouts
+  description: Scouts with drop pod
   schematic: scouts/scout_squad
-  author: Codiphi Developer
-  author_email: development@flipstone.com
-  variant: Base
   unit: 
   - type: scout_squad
-    gear: camo_cloaks
-      cost: 27
     special_rule: and_they_shall_know_no_fear
     special_rule: combat_squads
     special_rule: combat_tactics
@@ -19,15 +14,8 @@ list:
     nature: infantry
     model: 
     - type: scout
-      count: 7
+      count: 4
       weapon: boltgun
-      weapon: bolt_pistol
-      weapon: frag_grenades
-      weapon: krak_grenades
-      gear: scout_armor
-    - type: scout
-      count: 1
-      weapon: sniper_rifle
       weapon: bolt_pistol
       weapon: frag_grenades
       weapon: krak_grenades
@@ -39,6 +27,19 @@ list:
       weapon: frag_grenades
       weapon: krak_grenades
       gear: scout_armor
-    cost: 154
+    unit:
+      - type: drop_pod
+        special_rule: inertial_guidance_system
+        special_rule: immobile
+        special_rule: drop_pod_assault
+        rank: dedicated_transport
+        nature: vehicle
+        vehicle_type: open_topped
+        model: 
+        - type: drop_pod
+          count: 1
+          weapon: storm_bolter
+        cost: 35
+    cost: 105
   cost_measure: points
-  cost: 154
+  cost: 105

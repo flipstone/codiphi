@@ -1,14 +1,9 @@
 --- 
 list: 
-  description: Scouts
+  description: Heavy bolter gets gear
   schematic: scouts/scout_squad
-  author: Codiphi Developer
-  author_email: development@flipstone.com
-  variant: Base
   unit: 
   - type: scout_squad
-    gear: camo_cloaks
-      cost: 27
     special_rule: and_they_shall_know_no_fear
     special_rule: combat_squads
     special_rule: combat_tactics
@@ -19,19 +14,21 @@ list:
     nature: infantry
     model: 
     - type: scout
-      count: 7
-      weapon: boltgun
+      count: 3
+      weapon: sniper_rifle
       weapon: bolt_pistol
-      weapon: frag_grenades
+      weapon: frag_grenades      
       weapon: krak_grenades
       gear: scout_armor
     - type: scout
       count: 1
-      weapon: sniper_rifle
+      weapon: heavy_bolter
       weapon: bolt_pistol
       weapon: frag_grenades
       weapon: krak_grenades
       gear: scout_armor
+      gear: hellfire_rounds
+      cost: 10
     - type: scout_sergeant
       count: 1
       weapon: boltgun
@@ -39,6 +36,6 @@ list:
       weapon: frag_grenades
       weapon: krak_grenades
       gear: scout_armor
-    cost: 154
+    cost: 85
   cost_measure: points
-  cost: 154
+  cost: 85

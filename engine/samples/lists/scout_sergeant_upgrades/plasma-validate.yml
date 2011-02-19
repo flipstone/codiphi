@@ -9,6 +9,7 @@ list:
     special_rule: combat_tactics
     special_rule: infiltrate
     special_rule: move_through_cover
+    special_rule: scouts
     rank: troops
     nature: infantry
     model: 
@@ -17,11 +18,15 @@ list:
       weapon: boltgun
       weapon: bolt_pistol
       weapon: frag_grenades
+      weapon: krak_grenades
+      gear: scout_armor
     - type: scout_sergeant
       count: 1
       weapon: boltgun
       weapon: plasma_pistol
       weapon: frag_grenades
+      weapon: krak_grenades
+      gear: scout_armor
       cost: 15
     cost: 90
   cost_measure: points

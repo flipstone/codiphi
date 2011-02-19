@@ -1,0 +1,47 @@
+special_rule :inertial_guidance_system
+special_rule :immobile
+special_rule :drop_pod_assault
+
+rank :dedicated_transport
+nature :vehicle
+vehicle_type :open_topped
+
+weapon :storm_bolter
+weapon :deathwind_missile_launcher
+
+gear :locator_beacon
+
+model :drop_pod {
+  + weapon :storm_bolter
+  permits 1 weapon [
+    :storm_bolter
+    :deathwind_missile_launcher
+  ]
+  
+  if weapon :deathwind_missile_launcher {
+    + cost 20
+  }
+
+  if gear :locator_beacon {
+    + cost 10
+  }
+
+}
+
+unit :drop_pod {
+  
+  + rank :dedicated_transport
+  + nature :vehicle
+  + vehicle_type :open_topped
+  + special_rule [
+    :inertial_guidance_system
+    :immobile
+    :drop_pod_assault
+  ]
+  
+  + cost 35
+
+  expects 1 model :drop_pod
+  permits 1 model :drop_pod
+
+}

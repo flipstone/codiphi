@@ -1,13 +1,15 @@
 --- 
 list: 
+  description: Heavy bolter gets gear
   schematic: scouts/scout_squad
-  description: sergeant with power weapon
   unit: 
   - type: scout_squad
     model: 
     - type: scout
+      count: 1
+      weapon: heavy_bolter
+    - type: scout
+      count: 3
       weapon: sniper_rifle
-      count: 4
     - type: scout_sergeant
-      weapon: power_weapon
       count: 1

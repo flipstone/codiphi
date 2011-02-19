@@ -1,0 +1,12 @@
+special_rule :infiltrate
+special_rule :move_through_cover
+special_rule :scouts
+
+unit :scout_squad {
+  + special_rule [
+    :infiltrate
+    :move_through_cover
+    :scouts
+  ]
+  + cost 99
+}
