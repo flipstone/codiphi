@@ -1,0 +1,19 @@
+--- 
+list: 
+  description: Simple 10 boy mob
+  schematic: scouts/ork_boyz
+  unit: 
+  - type: ork_boyz
+    nature: infantry
+    rank: troops
+    special_rule: furious_charge
+    special_rule: mob_rule
+    special_rule: waaagh!
+    model:
+    - type: ork_boy
+      weapon: slugga
+      weapon: choppa
+      count: 10
+    cost: 60
+  cost: 60
+  cost_measure: points

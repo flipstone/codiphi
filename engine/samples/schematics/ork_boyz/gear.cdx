@@ -1,0 +1,10 @@
+weapon :shoota
+weapon :choppa
+weapon :stikkbombs
+weapon :slugga
+weapon :big_shoota
+weapon :rokkit_launcha
+weapon :power_klaw
+
+gear :eavy_armor
+gear :bosspole

@@ -1,0 +1,9 @@
+--- 
+list: 
+  description: Simple 10 boy mob
+  schematic: scouts/ork_boyz
+  unit: 
+  - type: ork_boyz
+    model: 
+    - type: ork_boy
+      count: 10

@@ -1,0 +1,23 @@
+include 'gear'
+include 'rulez'
+
+rank :troops
+nature :infantry
+
+model :ork_boy {
+
+  + weapon [
+    :slugga
+    :choppa
+  ]
+
+}
+
+unit :boyz_mob {
+  
+  expects 10 model :ork_boy
+  permits 30 model :ork_boy
+  
+  cost count(:ork_boy)*6
+}
+

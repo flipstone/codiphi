@@ -1,0 +1,11 @@
+--- 
+list: 
+  description: Illegal 31 boy mob
+  schematic: scouts/ork_boyz
+  unit: 
+  - type: ork_boyz
+    model: 
+    - type: ork_boy
+      count: 31
+list-errors:
+  - At most 30 ork_boy model permitted in unit ork_boyz
