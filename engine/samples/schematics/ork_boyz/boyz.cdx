@@ -13,11 +13,75 @@ model :ork_boy {
 
 }
 
-unit :boyz_mob {
+model :nob {
+
+  + weapon [
+    :slugga
+    :choppa
+  ]
+
+  permits 1 weapon [
+    :choppa
+    :big_choppa
+  ]
+
+  if weapon :big_choppa {
+    + cost 5
+  }
+
+  if weapon :power_klaw {
+    + cost 25
+  }
+
+  if gear :bosspole {
+    + cost 25
+  }
+
+}
+unit :ork_boyz {
   
-  expects 10 model :ork_boy
-  permits 30 model :ork_boy
+  expects 10 model [
+    :ork_boy
+    :nob
+  ]
   
-  cost count(:ork_boy)*6
+  permits 30 model [
+    :ork_boy
+    :nob
+  ]
+  
+  permits 1 :nob
+  
+  cost count(:ork_boy)*6 + count(:nob)*16
+  
+  # this should just trigger on nob upgrades
+  if gear :eavy_armor {
+    + cost count(:nob)*5
+  }
+    
 }
 
+unit :ard_boyz {
+  
+  expects 10 model [
+    :ork_boy
+    :nob
+  ]
+  
+  permits 30 model [
+    :ork_boy
+    :nob
+  ]
+  
+  permits 1 :nob
+  
+  cost count(:ork_boy)*10 + count(:nob)*20
+
+  + gear :eavy_armor
+}
+
+list { 
+  + cost_measure :points
+  permits 1 unit :ard_boyz
+  permits 6 rank :troops
+}

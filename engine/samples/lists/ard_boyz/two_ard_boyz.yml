@@ -1,0 +1,17 @@
+--- 
+list: 
+  description: Illegal : 2 Ard Boyz 
+  schematic: scouts/ork_boyz
+  unit: 
+  - type: ork_boyz
+    model: 
+    - type: ork_boy
+      count: 10
+  - type: ard_boyz
+    model: 
+    - type: ork_boy
+      count: 10
+  - type: ard_boyz
+    model: 
+    - type: ork_boy
+      count: 10

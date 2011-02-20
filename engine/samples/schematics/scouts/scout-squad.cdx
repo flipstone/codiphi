@@ -140,6 +140,6 @@ unit :scout_squad {
 
 list { 
   + cost_measure :points
-  permits 1 unit :scout_squad
+  permits 6 rank :troops
 }
 

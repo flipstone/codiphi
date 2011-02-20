@@ -1,0 +1,45 @@
+--- 
+list: 
+  description: Nobz price armor correctly
+  schematic: scouts/ork_boyz
+  unit: 
+  - type: ork_boyz
+    nature: infantry
+    rank: troops
+    special_rule: furious_charge
+    special_rule: mob_rule
+    special_rule: waaagh!
+    model:
+    - type: ork_boy
+      weapon: slugga
+      weapon: choppa
+      count: 10
+    - type: nob
+      weapon: slugga
+      weapon: choppa
+      gear: bosspole
+      gear: eavy_armor
+      count: 1
+      cost: 5
+    cost: 86
+  - type: ard_boyz
+    nature: infantry
+    rank: troops
+    special_rule: furious_charge
+    special_rule: mob_rule
+    special_rule: waaagh!
+    model:
+    - type: ork_boy
+      weapon: slugga
+      weapon: choppa
+      count: 10
+    - type: nob
+      weapon: slugga
+      weapon: choppa
+      gear: bosspole
+      gear: eavy_armor
+      count: 1
+      cost: 5
+    cost: 125
+  cost: 211
+  cost_measure: points

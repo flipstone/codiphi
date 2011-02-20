@@ -1,0 +1,13 @@
+--- 
+list: 
+  description: mob with nob
+  schematic: scouts/ork_boyz
+  unit: 
+  - type: ork_boyz
+    model: 
+    - type: ork_boy
+      count: 20
+    - type: nob
+      count: 1
+      weapon: big_choppa
+      gear: bosspole

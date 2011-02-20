@@ -1,0 +1,31 @@
+--- 
+list: 
+  description: Boyz and Ard Boyz
+  schematic: scouts/ork_boyz
+  unit: 
+  - type: ork_boyz
+    nature: infantry
+    rank: troops
+    special_rule: furious_charge
+    special_rule: mob_rule
+    special_rule: waaagh!
+    model:
+    - type: ork_boy
+      weapon: slugga
+      weapon: choppa
+      count: 10
+    cost: 60
+  - type: ard_boyz
+    nature: infantry
+    rank: troops
+    special_rule: furious_charge
+    special_rule: mob_rule
+    special_rule: waaagh!
+    model:
+    - type: ork_boy
+      weapon: slugga
+      weapon: choppa
+      count: 10
+    cost: 100
+  cost: 160
+  cost_measure: points

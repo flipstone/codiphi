@@ -1,0 +1,21 @@
+--- 
+list: 
+  description: Nobz price armor correctly
+  schematic: scouts/ork_boyz
+  unit: 
+  - type: ork_boyz
+    model: 
+    - type: ork_boy
+      count: 10
+    - type: nob
+      count: 1
+      gear: bosspole
+      gear: eavy_armor
+  - type: ard_boyz
+    model: 
+    - type: ork_boy
+      count: 10
+    - type: nob
+      count: 1
+      gear: bosspole
+      

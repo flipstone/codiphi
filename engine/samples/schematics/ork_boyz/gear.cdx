@@ -5,6 +5,7 @@ weapon :slugga
 weapon :big_shoota
 weapon :rokkit_launcha
 weapon :power_klaw
+weapon :big_choppa
 
 gear :eavy_armor
 gear :bosspole
