@@ -75,3 +75,8 @@
   float: left;
   min-height: 20px;
 }
+
+.list-errors {
+  clear:both;
+  color: red;
+}

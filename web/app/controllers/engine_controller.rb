@@ -7,6 +7,7 @@ class EngineController < ApplicationController
     list_param = params[:list]
     data = Codiphi::Support.read_yaml "../engine/samples/lists/#{list_param}.yml"
     @list = data["list"]
+    @errors = data["list-errors"]
   end
   
   def create

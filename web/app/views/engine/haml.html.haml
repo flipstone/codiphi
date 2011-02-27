@@ -5,6 +5,11 @@
   .header
     .name #{@list['name']}
     .schematic Schematic: #{@list['schematic']}
+  - if @errors
+    .list-errors
+      - @errors.each do |error|
+        .list-error
+          = error
   - haml_from_list(@list)
   .footer
     .total-label
