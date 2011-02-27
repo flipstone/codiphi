@@ -1,13 +1,12 @@
 --- 
 list: 
-  description: Scouts
+  name: Orton's Eagles
   schematic: scouts/scout_squad
-  author: Codiphi Developer
-  author_email: development@flipstone.com
-  variant: Base
   unit: 
-  - type: scout_squad
-    special_rule: 
+  - name: Orton's Talon
+    type: scout_squad
+    description: Orton's men frequently make freaky xeno love to the tinny whine of the heavy bolter's song.
+    special_rule:
       - type: and_they_shall_know_no_fear
       - type: combat_squads
       - type: combat_tactics
@@ -20,14 +19,25 @@ list:
       - type: infantry
     model: 
     - type: scout
-      count: 4
+      count: 3
       weapon: 
-        - type: boltgun
+        - type: sniper_rifle
         - type: bolt_pistol
         - type: frag_grenades
         - type: krak_grenades
       gear: 
         - type: scout_armor
+    - type: scout
+      count: 1
+      weapon: 
+        - type: heavy_bolter
+        - type: bolt_pistol
+        - type: frag_grenades
+        - type: krak_grenades
+      gear: 
+        - type: scout_armor
+        - type: hellfire_rounds
+      cost: 10
     - type: scout_sergeant
       count: 1
       weapon: 
@@ -37,6 +47,6 @@ list:
         - type: krak_grenades
       gear: 
         - type: scout_armor
-    cost: 75
+    cost: 85
   cost_measure: points
-  cost: 75
+  cost: 85

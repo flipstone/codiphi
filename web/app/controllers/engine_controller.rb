@@ -4,7 +4,8 @@ class EngineController < ApplicationController
   end
 
   def haml
-    data = Codiphi::Support.read_yaml "app/views/engine/haml-test.yml"
+    list_param = params[:list]
+    data = Codiphi::Support.read_yaml "../engine/samples/lists/#{list_param}.yml"
     @list = data["list"]
   end
   

@@ -4,42 +4,54 @@ list:
   schematic: scouts/scout_squad
   unit: 
   - type: scout_squad
-    special_rule: and_they_shall_know_no_fear
-    special_rule: combat_squads
-    special_rule: combat_tactics
-    special_rule: infiltrate
-    special_rule: move_through_cover
-    special_rule: scouts
-    rank: troops
-    nature: infantry
+    special_rule:
+      - type: and_they_shall_know_no_fear
+      - type: combat_squads
+      - type: combat_tactics
+      - type: infiltrate
+      - type: move_through_cover
+      - type: scouts
+    rank: 
+      - type: troops
+    nature: 
+      - type: infantry
     model: 
     - type: scout
       count: 4
-      weapon: boltgun
-      weapon: bolt_pistol
-      weapon: frag_grenades
-      weapon: krak_grenades
-      gear: scout_armor
+      weapon: 
+        - type: boltgun
+        - type: bolt_pistol
+        - type: frag_grenades
+        - type: krak_grenades
+      gear: 
+        - type: scout_armor
     - type: scout_sergeant
       count: 1
-      weapon: boltgun
-      weapon: bolt_pistol
-      weapon: frag_grenades
-      weapon: krak_grenades
-      gear: scout_armor
+      weapon: 
+        - type: boltgun
+        - type: bolt_pistol
+        - type: frag_grenades
+        - type: krak_grenades
+      gear: 
+        - type: scout_armor
     unit:
       - type: drop_pod
-        special_rule: inertial_guidance_system
-        special_rule: immobile
-        special_rule: drop_pod_assault
-        rank: dedicated_transport
-        nature: vehicle
-        vehicle_type: open_topped
+        special_rule: 
+          - type: inertial_guidance_system
+          - type: immobile
+          - type: drop_pod_assault
+        rank: 
+          - type: dedicated_transport
+        nature: 
+          - type: vehicle
+        vehicle_type: 
+          - type: open_topped
         model: 
         - type: drop_pod
           count: 1
-          weapon: storm_bolter
+          weapon: 
+            - type: storm_bolter
         cost: 35
     cost: 105
   cost_measure: points
-  cost: 105
+  cost: 135

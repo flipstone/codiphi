@@ -24,7 +24,11 @@
   margin-top: 15px;
 }
 
-.list .name {
+.list .description {
+  font-style: italic;
+}
+
+.list .header .name {
   float: left;
 }
 
@@ -33,26 +37,33 @@
 }
 .list .sequence-label {
   font-size: 12px;
-  display: inline;
+  font-weight: bold;
 }
 
 .list .sequence {
   min-height: 20px;
   padding: 8px 8px 4px 8px;
+  font-size: 12px;
   border: 1px #ccc solid;
+}
+
+.list .custom-node {
+}
+
+.list .node-type {
 }
 
 .list .node {
   min-height: 20px;
-  display: inline;
 }
 
-.list .node_type {
+.list .sequence-node {
   margin-bottom: 4px;
 }
 
 .list .type {
-  font-weight: bold;
+  font-size: 14px;
+  
 }
 
 .list .cost {

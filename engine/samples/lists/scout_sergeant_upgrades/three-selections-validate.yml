@@ -4,30 +4,37 @@ list:
   description: sergeant with three optional selections
   unit: 
   - type: scout_squad
-    special_rule: and_they_shall_know_no_fear
-    special_rule: combat_squads
-    special_rule: combat_tactics
-    special_rule: infiltrate
-    special_rule: move_through_cover
-    special_rule: scouts
-    rank: troops
-    nature: infantry
+    special_rule:
+      - type: and_they_shall_know_no_fear
+      - type: combat_squads
+      - type: combat_tactics
+      - type: infiltrate
+      - type: move_through_cover
+      - type: scouts
+    rank: 
+      - type: troops
+    nature: 
+      - type: infantry
     model: 
     - type: scout
       count: 4
-      weapon: boltgun
-      weapon: bolt_pistol
-      weapon: frag_grenades
-      weapon: krak_grenades
-      gear: scout_armor
+      weapon: 
+        - type: boltgun
+        - type: bolt_pistol
+        - type: frag_grenades
+        - type: krak_grenades
+      gear: 
+        - type: scout_armor
     - type: scout_sergeant
       count: 1
-      weapon: sniper_rifle
-      weapon: plasma_pistol
-      weapon: frag_grenades
-      weapon: krak_grenades
-      gear: scout_armor
-      weapon: melta_bombs
+      weapon: 
+        - type: sniper_rifle
+        - type: plasma_pistol
+        - type: melta_bombs
+        - type: frag_grenades
+        - type: krak_grenades
+      gear: 
+        - type: scout_armor
       cost: 30
     cost: 105
   cost_measure: points

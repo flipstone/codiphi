@@ -14,8 +14,10 @@ list:
       - type: infiltrate
       - type: move_through_cover
       - type: scouts
-    rank: troops
-    nature: infantry
+    rank: 
+      - type: troops
+    nature: 
+      - type: infantry
     model: 
     - type: scout
       count: 4
@@ -24,7 +26,8 @@ list:
         - type: bolt_pistol
         - type: frag_grenades
         - type: krak_grenades
-      gear: scout_armor
+      gear: 
+        - type: scout_armor
     - type: scout_sergeant
       count: 1
       weapon: 
@@ -32,7 +35,8 @@ list:
         - type: bolt_pistol
         - type: frag_grenades
         - type: krak_grenades
-      gear: scout_armor
+      gear: 
+        - type: scout_armor
     cost: 75
   cost_measure: points
   cost: 75

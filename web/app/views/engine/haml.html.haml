@@ -3,11 +3,11 @@
 
 .list
   .header
-    .name #{@list['description']}
+    .name #{@list['name']}
     .schematic Schematic: #{@list['schematic']}
   - haml_from_list(@list)
   .footer
     .total-label
-      Total (points)
+      Total (#{@list['cost_measure']})
     .cost
-      300
+      #{@list['cost']}

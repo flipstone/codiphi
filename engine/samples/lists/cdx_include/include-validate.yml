@@ -8,9 +8,10 @@ list:
   unit: 
   - type: scout_squad
     count: 1
-    special_rule: infiltrate
-    special_rule: move_through_cover
-    special_rule: scouts
+    special_rule:
+      - type: infiltrate
+      - type: move_through_cover
+      - type: scouts
     cost: 99
   cost: 99
   cost_measure: points

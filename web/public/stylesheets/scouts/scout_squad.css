@@ -4,33 +4,36 @@
 
 .unit {
   background-color: #eef;
-  clear: both;
 }
 
-.model {
+.unit .node_type {
+  font-size: 18px;
+}
+
+.model .sequence {
   background-color: #efe;
 }
 
-.special_rule .node_type {
-  display: inline;
-  font-size: 12px;
+.sequence-label {
+  background-color: none;
 }
 
-.gear .node_type {
-  display: inline;
-  font-size: 12px;
-}
-.nature .node_type {
-  display: inline;
-  font-size: 12px;
+.gear .sequence {
+  background-color: #eee;
 }
 
-.rank .node_type {
-  display: inline;
-  font-size: 12px;
+.gear .sequence {
+  background-color: #eee;
 }
 
-.weapon .node_type {
+.name {
+  font-weight: bold;
+}
+
+.special_rule {
   display: inline;
-  font-size: 12px;
+}
+
+.rank {
+  display: inline;
 }
