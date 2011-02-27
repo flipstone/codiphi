@@ -13,6 +13,7 @@ module Codiphi
     Type = "schematic_type"
     Name = "type"
     Cost = "cost"
+    CostMeasure = "cost_measure"
     List = "list"
     ListErrors = "list-errors"
     Count = "count"

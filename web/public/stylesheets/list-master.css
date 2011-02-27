@@ -1,0 +1,66 @@
+.list {
+  width: 95%;
+  min-height: 20px;
+  border: 1px #ccc solid;
+  padding: 10px;
+}
+
+.list .header {
+  color: #fff;
+  background-color: #666;
+  height: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 3px;
+}
+
+.list .footer {
+  color: #fff;
+  background-color: #666;
+  height: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 3px;
+  margin-top: 15px;
+}
+
+.list .name {
+  float: left;
+}
+
+.list .schematic {
+  float: right;
+}
+.list .sequence-label {
+  font-size: 12px;
+  display: inline;
+}
+
+.list .sequence {
+  min-height: 20px;
+  padding: 8px 8px 4px 8px;
+  border: 1px #ccc solid;
+}
+
+.list .node {
+  min-height: 20px;
+  display: inline;
+}
+
+.list .node_type {
+  margin-bottom: 4px;
+}
+
+.list .type {
+  font-weight: bold;
+}
+
+.list .cost {
+  float: right;
+  font-weight: bold;
+}
+
+.list .footer .total-label {
+  float: left;
+  min-height: 20px;
+}
