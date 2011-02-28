@@ -1,17 +1,19 @@
 module EngineHelper
   TypeToken = "type"
   
-  def haml_from_list(list)
+  def haml_from_list(list, parent_type="list")
     list.each do |k,v|
       if v.class == Array
         haml_tag :div, :class => "#{k}" do
-          haml_tag :div, :class => "sequence-frame" do
+          haml_tag :div, :class => "sequence-frame" do      
             haml_tag :div, :class => "sequence-label" do
-              haml_concat(k.pluralize.titleize)
+              haml_tag :a, href:"#", class: "hide-button" do
+                haml_concat(k.pluralize.titleize)
+              end
             end
             haml_tag :div, :class => "sequence" do
               v.each do |child_v|
-                haml_from_list(child_v)
+                haml_from_list(child_v, k)
               end
             end
           end
@@ -19,8 +21,8 @@ module EngineHelper
       else
         case k
         when TypeToken
-          haml_tag :div, :class => "node-type" do
-            haml_tag :div, :class => "sequence-node" do
+          haml_tag :div, :class => "sequence-node" do
+            haml_tag :div, :class => "node-type" do
               countstr = list[Codiphi::Tokens::Count] ?
                          "#{list[Codiphi::Tokens::Count]}x " :
                          ""
