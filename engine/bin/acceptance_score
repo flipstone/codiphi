@@ -1,0 +1,93 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/codiphi.rb'
+require_relative '../examples/support/all'
+
+SayLogging.suppress_log
+
+class AcceptanceCase < Struct.new(:file)
+  def name
+    Pathname.new(file).relative_path_from(Pathname.new(BASE_PATH)).to_s
+  end
+
+  def input_file
+    file.sub(/-[^-]+.yml\Z/,'.yml')
+  end
+
+  def should_validate?
+    file =~ /-([^-]+).yml\Z/
+    $1 == 'validate'
+  end
+
+  def expected_vs_actual_differences
+    @diffs ||= begin
+      data = Codiphi::Support.read_yaml input_file
+      e = Codiphi::Engine.new data, validate: should_validate?
+      expected_data = Codiphi::Support.read_yaml file
+      diffs = []
+      expected_data.deep_diff e.emitted_data, diffs, []
+      diffs
+    rescue Exception => e
+      [e]
+    end
+  end
+
+  def passed?
+    expected_vs_actual_differences.empty?
+  end
+
+  def failed?
+    !passed?
+  end
+end
+
+class AcceptanceSuite < Struct.new(:files)
+  def cases
+    @cases ||= files.map {|f| AcceptanceCase.new f}
+  end
+
+  def failing
+    cases.select &:failed?
+  end
+
+  def passing
+    cases.select &:passed?
+  end
+
+  def total_cases
+    cases.size
+  end
+
+  def percentage
+    return 0 unless total_cases > 0
+    passing.size * 100 / total_cases
+  end
+
+  def filter(filter_string)
+    self.class.new(files.select do |file|
+      file =~ Regexp.new(Regexp.escape(filter_string))
+    end)
+  end
+
+  def self.from_pattern(pattern)
+    new(Dir[pattern].select do |file|
+      File.basename(file,'.yml') =~ /-(validate|transform)\Z/
+    end)
+  end
+end
+
+suite = AcceptanceSuite.from_pattern File.join(
+  BASE_PATH, %w(samples lists ** *.yml)
+)
+
+if ARGV[0]
+  suite = suite.filter(ARGV[0])
+end
+
+suite.failing.each do |f|
+  puts "Failed: #{f.name}"
+  puts f.expected_vs_actual_differences.map {|d| "  #{d}"}
+  puts
+end
+
+puts "#{suite.passing.size} of #{suite.total_cases} passing (#{suite.percentage}%)"
