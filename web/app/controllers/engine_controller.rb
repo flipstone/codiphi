@@ -5,6 +5,7 @@ class EngineController < ApplicationController
 
   def haml
     list_param = params[:list]
+    list_param ||= "scout_unit_upgrades/weapon-mix-validate"
     data = Codiphi::Support.read_yaml "../engine/samples/lists/#{list_param}.yml"
     @list = data["list"]
     @errors = data["list-errors"]

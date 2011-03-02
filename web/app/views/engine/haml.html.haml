@@ -1,5 +1,13 @@
 %link{"rel" => "stylesheet", "href" => "/stylesheets/list-master.css", "type" => "text/css"}
-%link{"rel" => "stylesheet", "href" => "/stylesheets/#{@list['schematic']}.css", "type" => "text/css"}
+%link{"rel" => "stylesheet", "href" => "/stylesheets/scouts/scout_squad.css", "type" => "text/css"}
+
+:javascript
+  $(document).ready(function(){
+    $(".hide-button").click(function(){
+      $(this).parent().parent().children(".sequence").toggle( "blind", {}, 500 );
+      return false;
+    });
+  });
 
 .list
   .header

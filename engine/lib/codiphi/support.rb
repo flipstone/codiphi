@@ -25,8 +25,7 @@ module Codiphi
     end
 
     def self.read_schematic(url)
-      codex_name = url.split('/').last
-      full_path = "samples/schematics/#{url}/#{codex_name}.cdx"
+      full_path = "samples/schematics/#{url}.cdx"
       read_schematic_data(full_path)
     end
 

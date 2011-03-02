@@ -6,11 +6,20 @@
   background-color: #eef;
 }
 
-.unit .node_type {
+.unit .node-type {
   font-size: 18px;
 }
 
+.special_rule .node-type {
+  font-size: 12px;
+}
+
+.special_rule .sequence {
+  display: none;
+}
+
 .model .sequence {
+  display: none;
   background-color: #efe;
 }
 
@@ -22,8 +31,19 @@
   background-color: #eee;
 }
 
-.gear .sequence {
+.rank .sequence {
   background-color: #eee;
+  display: none;
+}
+
+.nature .sequence {
+  background-color: #eee;
+  display: none;
+}
+
+.weapon .sequence {
+  background-color: #eee;
+  display: none;
 }
 
 .name {

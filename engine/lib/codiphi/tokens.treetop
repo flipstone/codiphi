@@ -1,0 +1,32 @@
+module Codiphi
+  grammar Tokens
+    rule integer
+      '-'? [0-9]+
+      <IntegerNode>
+    end
+
+    rule name
+      ':' word
+      <NameNode>
+    end
+
+    rule word
+      !reserved [a-zA-Z0-9_]+
+    end
+
+    rule reserved
+      "list" /
+      "expects" /
+      "if"
+    end
+
+    rule eof
+      !.
+    end
+
+    rule one_space
+      [ \t\r\n]
+    end
+
+  end
+end

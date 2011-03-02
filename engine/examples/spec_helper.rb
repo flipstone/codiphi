@@ -1,5 +1,6 @@
 require_relative '../lib/codiphi.rb'
 require 'mocha'
+require_relative 'support/all'
 
 SayLogging.suppress_log
 

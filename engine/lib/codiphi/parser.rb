@@ -1,16 +1,18 @@
 module Codiphi
+  Treetop.load File.join(BASE_PATH, "lib/codiphi/tokens.treetop")
+  Treetop.load File.join(BASE_PATH, "lib/codiphi/formula.treetop")
+  Treetop.load File.join(BASE_PATH, "lib/codiphi/codiphi.treetop")
   class Parser
-    Treetop.load File.join(BASE_PATH, "lib/codiphi/codiphi.treetop")
     @@parser = CodiphiParser.new
-    
+
     def self.parse(schematic)
       tree = @@parser.parse(schematic)
-            
-      if(tree.nil?)
+
+      if tree.nil?
         raise ParseException, "Unable to parse Codiphi schematic:\n#{@@parser.failure_reason}"
       end
-      
-      return tree
+
+      tree
     end
 
     # sc: A useful method if inspecting the tree directly, but unsafe for named references
@@ -28,8 +30,27 @@ module Codiphi
        @@parser.failure_reason
      end
   end
-  
+
   class ParseException < Exception
   end
-  
+
+  module Formula
+    class Parser
+      @@parser = Codiphi::FormulaParser.new
+
+      def self.parse(schematic)
+        tree = @@parser.parse(schematic)
+
+        if tree.nil?
+          raise ParseException, "Unable to parse Codiphi formula :\n#{@@parser.failure_reason}"
+        end
+
+        tree
+      end
+
+      def self.failure_reason
+        @@parser.failure_reason
+      end
+    end
+  end
 end
