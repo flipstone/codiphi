@@ -80,13 +80,27 @@ suite = AcceptanceSuite.from_pattern File.join(
   BASE_PATH, %w(samples lists ** *.yml)
 )
 
-if ARGV[0]
-  suite = suite.filter(ARGV[0])
+require 'optparse'
+
+verbose = false
+args = OptionParser.new do |opts|
+  opts.on("-v", "Run verbosely") do |v|
+    verbose = v
+  end
+end.parse(ARGV)
+
+if args.any?
+  suite = suite.filter args.first
 end
 
 suite.failing.each do |f|
   puts "Failed: #{f.name}"
-  puts f.expected_vs_actual_differences.map {|d| "  #{d}"}
+  puts(f.expected_vs_actual_differences.map do |d|
+    "  #{d}" +
+    if verbose && d.respond_to?(:backtrace)
+      "\n    " + d.backtrace.join("\n    ")
+    end.to_s
+  end)
   puts
 end
 

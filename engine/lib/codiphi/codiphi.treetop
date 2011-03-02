@@ -1,4 +1,6 @@
 grammar Codiphi
+  include Formula
+
   rule codex
     space?
     declaration_list:declaration_list?
@@ -6,50 +8,45 @@ grammar Codiphi
     list:list?
     space? <CodexNode>
   end
-  
+
   rule list
     type:"list"
     space?
     declaration_block
     <ListNode>
   end
-      
+
   rule assertion
-    assertion_operator 
-    space 
-    integer 
-    space 
-    type:word 
-    space 
-    name 
+    assertion_operator
+    space
+    integer
+    space
+    type:word
+    space
+    name
     <AssertionNode>
   end
-  
-  rule integer
-    '-'? [0-9]+
-    <IntegerNode>
-  end
-  
+
   rule assertion_operator
     "expects"
     / "permits"
     <LiteralNode>
   end
-    
+
   rule declaration
     type:word
     space
     name
-    space? 
+    space?
     declaration_block:declaration_block?
     <DeclarationNode>
   end
 
   rule declaration_block
-    "{" 
-    space* 
+    "{"
+    space*
     declaration_list
-    space* 
+    space*
     "}"
     <DeclarationBlockNode>
   end
@@ -78,13 +75,13 @@ grammar Codiphi
     value:name
     <CostMeasureAssignmentNode>
   end
-  
+
   rule cost_assignment
     assignment_operator
     space
     type:"cost"
     space
-    value:integer
+    value:formula
     <CostAssignmentNode>
   end
 
@@ -95,38 +92,20 @@ grammar Codiphi
     <LiteralNode>
   end
 
-  rule word
-    !reserved [a-zA-Z0-9_]+ 
-  end
-  
-  rule reserved
-    "list" /
-    "expects"
-  end
-  
   rule comment
     '#' (!eoc .)* eoc
   end
-  
-  rule name
-    ':' word 
-    <NameNode>
-  end
-  
+
   rule string
     '"' (!'"' .)+ '"'
   end
-    
+
   rule eoc
     [\n] / eof
   end
-    
-  rule eof
-    !.
-  end
-  
+
   rule space
-    ([ \t\r\n] / comment)+
+    (one_space / comment)+
   end
-  
+
 end

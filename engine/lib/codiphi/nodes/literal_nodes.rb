@@ -18,7 +18,4 @@ module Codiphi
       super.reverse.chop.reverse
     end
   end
-
-  class SpaceNode < LiteralNode
-  end
 end
