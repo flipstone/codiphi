@@ -20,28 +20,6 @@ module Codiphi
       self[Tokens::Type] == Tokens::List
     end
 
-    def add_to_cost(delta, token, force=false)
-      cost = self[Tokens::Cost] || 0
-
-      if force
-        delta = -delta if token == Tokens::Removal
-        cost = delta
-      else
-        case token
-        when Tokens::Addition
-          cost += delta
-        when Tokens::Removal
-          cost -= delta
-        when Tokens::Assignment
-          cost = delta
-        else
-          cost
-        end
-      end
-
-      merge Tokens::Cost => cost
-    end
-
     def has_count?
       self.keys.include?(Tokens::Count)
     end
@@ -56,6 +34,10 @@ module Codiphi
 
     def set_cost(cost)
       merge Tokens::Cost => cost
+    end
+
+    def set_cost_by_operation(delta, token)
+      merge Tokens::Cost => (token == Tokens::Removal ? -delta : delta)
     end
 
     def cost_value
