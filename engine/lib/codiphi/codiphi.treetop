@@ -23,7 +23,7 @@ grammar Codiphi
     space
     type:word
     space
-    name
+    name:(name / option_list)
     <AssertionNode>
   end
 
@@ -52,7 +52,7 @@ grammar Codiphi
   end
 
   rule declaration_list
-    declaration:(assertion / declaration / cost_measure_assignment / cost_assignment / assignment)
+    declaration:(assertion / declaration / cost_measure_assignment / cost_assignment / assignment / conditional)
     space?
     declaration_list:declaration_list?
     <DeclarationListNode>
@@ -63,8 +63,12 @@ grammar Codiphi
     space
     type:word
     space
-    value:(name / integer / word / string)
+    value:(name / integer / word / string / option_list)
     <AssignmentNode>
+  end
+
+  rule option_list
+    '[' space? name (space name)* space? ']'
   end
 
   rule cost_measure_assignment
@@ -90,6 +94,10 @@ grammar Codiphi
     '-' /
 	'='
     <LiteralNode>
+  end
+
+  rule conditional
+    'if' space word space name space declaration_block
   end
 
   rule comment

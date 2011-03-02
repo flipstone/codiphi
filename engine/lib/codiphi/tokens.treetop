@@ -16,7 +16,8 @@ module Codiphi
 
     rule reserved
       "list" /
-      "expects"
+      "expects" /
+      "if"
     end
 
     rule eof
