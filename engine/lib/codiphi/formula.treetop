@@ -7,7 +7,10 @@ module Codiphi
     end
 
     rule operation
-      operand formula_space operator formula_space (operation / operand)
+      left_operand:operand
+      formula_space operator formula_space
+      right_operand:(operation / operand)
+      <OperationNode>
     end
 
     rule operand
@@ -24,10 +27,14 @@ module Codiphi
 
     rule parenthetical
       '(' formula_space formula formula_space ')'
+      <ParentheticalNode>
     end
 
     rule operator
-      '*' / '+' / '-' / '/'
+        '*' <MultiplicationNode>
+      / '+' <AdditionNode>
+      / '-' <SubtractionNode>
+      / '/' <DivisionNode>
     end
 
     rule formula_space
