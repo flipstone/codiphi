@@ -118,5 +118,13 @@ module Codiphi
         errors[0].class.should == Codiphi::NoSuchNameException
       end
     end
+
+    describe "named_type_values" do
+      it "returns the name and type values" do
+        parentnode = declaration_mock("fum", "baz")
+        node = assignment_mock('+',"unit", "foopants", parentnode)
+        node.named_type_values.should == ["foopants", "unit"]
+      end
+    end
   end
 end

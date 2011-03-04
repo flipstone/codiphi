@@ -21,6 +21,10 @@ module Codiphi
       type.text_value
     end
 
+    def named_type_values
+      return value_val, type_val
+    end
+
    def completion_transform(data, namespace)
       super(data, namespace)
       match_node = parent_declaration_node
