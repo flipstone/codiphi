@@ -25,7 +25,7 @@ class AcceptanceCase < Struct.new(:file)
       e = Codiphi::Engine.new data, validate: should_validate?
       expected_data = Codiphi::Support.read_yaml file
       diffs = []
-      expected_data.deep_diff e.emitted_data, diffs, []
+      e.emitted_data.deep_diff expected_data, diffs, []
       diffs
     rescue Exception => e
       [e]
