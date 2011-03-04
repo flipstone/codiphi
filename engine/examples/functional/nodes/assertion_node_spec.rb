@@ -24,5 +24,11 @@ module Codiphi
       errors.should_not be_empty
     end
 
+    describe "named_type_values" do
+      it "returns the named and type values" do
+        assertion_mock("expects", 99, "foo", "pants")
+        .named_type_values.should == ["pants", "foo"]
+      end
+    end
   end
 end

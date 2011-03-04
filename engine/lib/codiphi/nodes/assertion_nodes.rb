@@ -22,7 +22,7 @@ module Codiphi
       integer.text_value
     end
 
-    def name_val 
+    def name_val
       name.text_value
     end
 
@@ -30,5 +30,8 @@ module Codiphi
       type.text_value
     end
 
+    def named_type_values
+      return name_val, type_val
+    end
   end
 end
