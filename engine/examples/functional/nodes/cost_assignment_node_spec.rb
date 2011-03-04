@@ -1,8 +1,7 @@
 require_relative './spec_helper.rb'
 
 module Codiphi
-  describe CostAssignmentNode do 
-
+  describe CostAssignmentNode do
     it "assigns cost to new node" do
       parentnode = declaration_mock("fum", "baz")
       node = cost_assignment_mock('+',555, parentnode)
@@ -17,7 +16,7 @@ module Codiphi
       outdata,_ = node.completion_transform(indata, {})
       outdata["fum"].class.should == Hash
       outdata["fum"].keys.should be_include "cost"
-      outdata["fum"]["cost"].should == 555
+      outdata["fum"].cost_value.should == 555
     end
 
     it "sets data on =" do
@@ -34,7 +33,7 @@ module Codiphi
 
         outdata,_ = node.completion_transform(indata, {})
         outdata["fum"][0].keys.should be_include "cost"
-        outdata["fum"][0]["cost"].should == 555
+        outdata["fum"][0].cost_value.should == 555
     end
 
     it "increments data on +" do
@@ -51,7 +50,7 @@ module Codiphi
 
         outdata,_ = node.completion_transform(indata, {})
         outdata["fum"][0].keys.should be_include "cost"
-        outdata["fum"][0]["cost"].should == 555
+        outdata["fum"][0].cost_value.should == 555
     end
 
     it "decrements data on -" do
@@ -68,8 +67,31 @@ module Codiphi
 
         outdata,_ = node.completion_transform(indata, {})
         outdata["fum"][0].keys.should be_include "cost"
-        outdata["fum"][0]["cost"].should == -555
+        outdata["fum"][0].cost_value.should == -555
     end
 
+    it "calculates cost from formula" do
+      parentnode = declaration_mock("fum", "baz")
+      node = cost_assignment_mock(
+        '+',Formula::Parser.parse("count(:fee) * 3"), parentnode
+      )
+
+      indata = {
+        "fum" => {
+          Tokens::Name => "baz",
+          Tokens::Type => "fum",
+          "fee" => {
+            Tokens::Name => "foo",
+            Tokens::Type => "fee",
+            Tokens::Count => 2
+          }
+        }
+      }
+
+      outdata,_ = node.completion_transform(indata, {})
+      outdata["fum"].class.should == Hash
+      outdata["fum"].keys.should be_include "cost"
+      outdata["fum"].cost_value.should == 6
+    end
   end
 end

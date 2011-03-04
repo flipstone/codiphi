@@ -1,12 +1,12 @@
 module Codiphi
   module HashExtensions
     def is_named_type?(name, type)
-      name == self[Tokens::Name] && 
-      type == self[Tokens::Type] 
+      name == self[Tokens::Name] &&
+      type == self[Tokens::Type]
     end
 
     def named_type_values
-      return self[Tokens::Name], self[Tokens::Type] 
+      return self[Tokens::Name], self[Tokens::Type]
     end
 
     def add_named_type(name, type)
@@ -34,10 +34,6 @@ module Codiphi
 
     def set_cost(cost)
       merge Tokens::Cost => cost
-    end
-
-    def set_cost_by_operation(delta, token)
-      merge Tokens::Cost => (token == Tokens::Removal ? -delta : delta)
     end
 
     def cost_value

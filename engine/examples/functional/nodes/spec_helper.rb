@@ -3,9 +3,9 @@ require_relative '../../spec_helper.rb'
 def literal_node(value, parent=nil)
   node = nil
   case value
-  when Fixnum 
+  when Fixnum
     node = Codiphi::IntegerNode.new(value.to_s, 0..value.to_s.length)
-  when String, Char
+  when String
     node = Codiphi::LiteralNode.new(value.to_s, 0..value.length)
   end
   node.parent = parent  
@@ -17,7 +17,9 @@ def cost_assignment_mock(opval, valueval, parent=nil)
   node = Codiphi::CostAssignmentNode.new(input, 0..input.length)
   node.parent = parent
   node.stubs(:assignment_operator).returns(literal_node(opval, node))
-  node.stubs(:value).returns(literal_node(valueval, node))
+  node.stubs(:value).returns(
+    valueval.is_a?(Codiphi::CodiphiNode) ? valueval : literal_node(valueval, node)
+  )
   node
 end
 

@@ -30,7 +30,10 @@ module Codiphi
 
         new_data = Transform.matching_named_type(data, match_name, match_type) do |target_hash|
           say "placing cost #{value_val} on #{match_type} #{match_name}"
-          target_hash.set_cost_by_operation value_val, op_val
+          target_hash.set_cost(
+            value.evaluate(Functions.curry_data(target_hash)) *
+            (op_val == Tokens::Removal ? -1 : 1)
+          )
         end
 
         [new_data, namespace]
