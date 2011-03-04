@@ -98,18 +98,36 @@ module Codiphi
     end
 
     describe "gather_declarations" do
-      it "throws error on premature assignment" do
+      it "throws error on assignment without declaration" do
         node = Node :declaration, "fum :baz { + unit :foopants }"
+        _, errors = node.gather_declarations(Namespace.new, [])
+        errors.first.class.should == Codiphi::NoSuchNameException
+      end
 
-        indata = {
-          "fum" => [{
-            "type" => "baz"
-          }]
-        }
+      it "doesn't throws error on assignment with declaration" do
+        node = Node :declaration, "fum :baz { + unit :foopants }"
+        _, errors = node.gather_declarations(
+          Namespace.new.add_named_type('foopants','unit'), []
+        )
+        errors.should be_empty
+      end
 
-        namespace, errors = node.gather_declarations(Namespace.new, [])
+      it "throws an error when a name in an option list is not declared" do
+        node = Node :declaration, "fum :baz { + unit [:foopants :barpants]}"
+        _, errors = node.gather_declarations(
+          Namespace.new.add_named_type('foopants','unit'), []
+        )
+        errors.first.class.should == Codiphi::NoSuchNameException
+      end
 
-        errors[0].class.should == Codiphi::NoSuchNameException
+      it "doesn't throw an error when aall names in an option list are declared" do
+        node = Node :declaration, "fum :baz { + unit [:foopants :barpants]}"
+        _, errors = node.gather_declarations(
+          Namespace.new.add_named_type('foopants','unit')
+                       .add_named_type('barpants','unit'),
+          []
+        )
+        errors.should be_empty
       end
     end
 

@@ -2,15 +2,23 @@ require_relative './codiphi_node'
 module Codiphi
   class AssignmentNode < CodiphiNode
     def gather_declarations(namespace, errors)
-      if namespace.named_type?(value_val, type_val)
-        [namespace, errors]
-      else
-        [namespace, errors + [NoSuchNameException.new(self)]]
+      value_vals.inject([namespace, errors]) do |(namespace, errors), value_val|
+        if namespace.named_type?(value_val, type_val)
+          [namespace, errors]
+        else
+          [namespace, errors + [NoSuchNameException.new(value_val, type_val)]]
+        end
       end
     end
 
     def op_val
       assignment_operator.text_value
+    end
+
+    def value_vals
+      value.respond_to?(:name_values) ?
+        value.name_values :
+        [value_val]
     end
 
     def value_val

@@ -3,10 +3,12 @@ module Codiphi
   class AssertionNode < CodiphiNode
 
     def gather_declarations(namespace, errors)
-      if namespace.named_type?(name_val, type_val)
-        [namespace, errors]
-      else
-        [namespace, errors + [Codiphi::NoSuchNameException.new(self)]]
+      name_vals.inject([namespace, errors]) do |(namespace, errors), name_val|
+        if namespace.named_type?(name_val, type_val)
+          [namespace, errors]
+        else
+          [namespace, errors + [Codiphi::NoSuchNameException.new(name_val, type_val)]]
+        end
       end
     end
 
@@ -24,6 +26,12 @@ module Codiphi
 
     def name_val
       name.text_value
+    end
+
+    def name_vals
+      name.respond_to?(:name_values) ?
+        name.name_values :
+        [name_val]
     end
 
     def type_val

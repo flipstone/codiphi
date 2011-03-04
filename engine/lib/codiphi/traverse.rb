@@ -81,7 +81,7 @@ module Codiphi
 
         if namespace.declared_type?(type) &&
           !namespace.named_type?(name,type)
-          [NoSuchNameException.new(data)]
+          [NoSuchNameException.new(name, type)]
         end
       end || []
 

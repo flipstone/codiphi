@@ -1,13 +1,13 @@
 module Codiphi
   class NodeException < RuntimeError
     include R18n::Helpers
-    
+
     attr :node
-    
+
     def initialize(node)
       @node = node
     end
-    
+
   end
 
   class AssertionException < NodeException
@@ -16,10 +16,13 @@ module Codiphi
       @target_description = target_description
     end
   end
-  
-  class NoSuchNameException < NodeException
+
+  class NoSuchNameException < RuntimeError
+    def initialize(name, type)
+      @name, @type = name, type
+    end
     def to_s
-      t.assignment.no_such_name(*@node.named_type_values).to_s
+      t.assignment.no_such_name(@name, @type).to_s
     end
   end
 

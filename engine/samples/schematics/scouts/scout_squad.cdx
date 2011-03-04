@@ -10,6 +10,9 @@ nature :infantry
 
 weapon :boltgun
 weapon :bolt_pistol
+weapon :combi_melta
+weapon :combi_plasma
+weapon :combi_flamer
 weapon :frag_grenades
 weapon :krak_grenades
 weapon :combat_blade
@@ -64,7 +67,7 @@ model :scout_sergeant {
     :boltgun
     :frag_grenades
   ]
-  
+
   permits 1 weapon [
     :plasma_pistol
     :bolt_pistol
