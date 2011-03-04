@@ -5,8 +5,8 @@ module Codiphi
   class Parser
     @@parser = CodiphiParser.new
 
-    def self.parse(schematic)
-      tree = @@parser.parse(schematic)
+    def self.parse(schematic, options = {})
+      tree = @@parser.parse(schematic, options)
 
       if tree.nil?
         raise ParseException, "Unable to parse Codiphi schematic:\n#{@@parser.failure_reason}"
@@ -38,8 +38,8 @@ module Codiphi
     class Parser
       @@parser = Codiphi::FormulaParser.new
 
-      def self.parse(schematic)
-        tree = @@parser.parse(schematic)
+      def self.parse(schematic, options = {})
+        tree = @@parser.parse(schematic, options)
 
         if tree.nil?
           raise ParseException, "Unable to parse Codiphi formula :\n#{@@parser.failure_reason}"

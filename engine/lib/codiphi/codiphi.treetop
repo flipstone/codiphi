@@ -68,7 +68,8 @@ grammar Codiphi
   end
 
   rule option_list
-    '[' space? name (space name)* space? ']'
+    '[' space? name rest_names:(space name)* space? ']'
+    <OptionListNode>
   end
 
   rule cost_measure_assignment

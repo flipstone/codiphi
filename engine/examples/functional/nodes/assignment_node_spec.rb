@@ -7,8 +7,7 @@ module Codiphi
     describe "completion_transform" do
 
       it "decorates data on +" do
-        parentnode = declaration_mock("fum", "baz")
-        node = assignment_mock('+',"unit", "foopants", parentnode)
+        node = Node :declaration, "fum :baz { + unit :foopants }"
 
         namespace = Namespace.new.add_named_type("foopants", "unit")
 
@@ -25,8 +24,7 @@ module Codiphi
       end
 
       it "removes data on -" do
-        parentnode = declaration_mock("fum", "baz")
-        node = assignment_mock('-', "unit", "foopants", parentnode)
+        node = Node :declaration, "fum :baz { - unit :foopants }"
 
         namespace = Hash.new
         namespace["foopants"] = "unit"
@@ -47,8 +45,7 @@ module Codiphi
       end
 
       it "doesn't remove similarly typed data on -" do
-        parentnode = declaration_mock("fum", "baz")
-        node = assignment_mock('-',"unit", "foopants", parentnode)
+        node = Node :declaration, "fum :baz { - unit :foopants }"
 
         namespace = Hash.new
         namespace["foopants"] = "unit"
@@ -68,8 +65,7 @@ module Codiphi
       end
 
       it "removes only target type from array on -" do
-        parentnode = declaration_mock("fum", "baz")
-        node = assignment_mock('-',"unit", "foopants", parentnode)
+        node = Node :declaration, "fum :baz { - unit :foopants }"
 
         namespace = Hash.new
         namespace["foopants"] = "unit"
@@ -103,9 +99,7 @@ module Codiphi
 
     describe "gather_declarations" do
       it "throws error on premature assignment" do
-        parentnode = declaration_mock("fum", "baz")
-        node = assignment_mock('+',"unit", "foopants", parentnode)
-
+        node = Node :declaration, "fum :baz { + unit :foopants }"
 
         indata = {
           "fum" => [{
@@ -121,9 +115,8 @@ module Codiphi
 
     describe "named_type_values" do
       it "returns the name and type values" do
-        parentnode = declaration_mock("fum", "baz")
-        node = assignment_mock('+',"unit", "foopants", parentnode)
-        node.named_type_values.should == ["foopants", "unit"]
+        Node(:assignment, "+ unit :foopants")
+        .named_type_values.should == ["foopants", "unit"]
       end
     end
   end
