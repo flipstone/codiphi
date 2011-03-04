@@ -5,7 +5,7 @@ module Codiphi
     def self.it_evals(formula, options)
       expected = options[:to]
       it "#{formula} evals to #{expected}" do
-        Codiphi::Formula::Parser.parse(formula).evaluate.should == expected
+        Codiphi::Formula::Parser.parse(formula).evaluate(options[:with]).should == expected
       end
     end
 
@@ -25,5 +25,17 @@ module Codiphi
 
     it_evals "(3 + 6) / 3 + 1", to: 4
     it_evals "(3 + 6) / (2 + 1)", to: 3
+
+    it_evals "foo(:bar)", to: 1, with: {
+      foo: -> x { x == 'bar' ? 1 : nil }
+    }
+
+    it_evals "foo(:bar) + 2", to: 3, with: {
+      foo: -> x { x == 'bar' ? 1 : nil }
+    }
+
+    it_evals "2 + foo(:bar)", to: 3, with: {
+      foo: -> x { x == 'bar' ? 1 : nil }
+    }
   end
 end

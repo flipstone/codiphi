@@ -18,7 +18,8 @@ module Codiphi
     end
 
     rule function_reference
-      function_name '(' name ')'
+      function_name '(' argument:name ')'
+      <FunctionReferenceNode>
     end
 
     rule function_name

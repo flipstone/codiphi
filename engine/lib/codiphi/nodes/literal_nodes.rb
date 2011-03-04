@@ -12,12 +12,8 @@ module Codiphi
       super.to_i
     end
 
-    def evaluate
+    def evaluate(context)
       text_value
-    end
-
-    def left_associative_evaluate(left_assoc_value, operator)
-      operator.operate(left_assoc_value, evaluate)
     end
   end
 
