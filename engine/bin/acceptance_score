@@ -89,11 +89,11 @@ args = OptionParser.new do |opts|
   end
 end.parse(ARGV)
 
-if args.any?
-  suite = suite.filter args.first
+filtered_suite = args.inject(suite) do |s,arg|
+  s.filter arg
 end
 
-suite.failing.each do |f|
+filtered_suite.failing.each do |f|
   puts "Failed: #{f.name}"
   puts(f.expected_vs_actual_differences.map do |d|
     "  #{d}" +
@@ -104,4 +104,4 @@ suite.failing.each do |f|
   puts
 end
 
-puts "#{suite.passing.size} of #{suite.total_cases} passing (#{suite.percentage}%)"
+puts "#{filtered_suite.passing.size} of #{filtered_suite.total_cases} passing (#{filtered_suite.percentage}%)"

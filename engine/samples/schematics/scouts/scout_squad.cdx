@@ -35,6 +35,7 @@ gear :hellfire_shells
 gear :scout_armor
 
 model :scout {
+  + gear :scout_armor
 
   + weapon [
     :bolt_pistol
@@ -62,6 +63,7 @@ model :scout {
 }
 
 model :scout_sergeant {
+  + gear :scout_armor
   + weapon [
     :bolt_pistol
     :boltgun

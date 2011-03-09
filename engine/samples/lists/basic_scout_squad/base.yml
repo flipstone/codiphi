@@ -1,6 +1,6 @@
 --- 
 list: 
-  description: Scouts with drop pod
+  description: Scouts
   schematic: scouts/scout_squad
   author: Codiphi Developer
   author_email: development@flipstone.com
