@@ -1,13 +1,13 @@
---- 
-list: 
+---
+list:
   description: Scouts
   schematic: scouts/scout_squad
   author: Codiphi Developer
   author_email: development@flipstone.com
   variant: Base
-  unit: 
+  unit:
   - type: scout_squad
-    model: 
+    model:
     - type: scout
       count: 7
     - type: scout

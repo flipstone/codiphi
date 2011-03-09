@@ -32,4 +32,31 @@ describe Hash do
       {}.set_cost(13).cost_value.should == 13
     end
   end
+
+  describe "add_named_type" do
+    it "adds a single node" do
+      {}.add_named_type("foo","bar")["bar"]
+      .named_type_values.should == ["foo", "bar"]
+    end
+
+    it "converts to array on adding second node" do
+      bar = {}.add_named_type("foo","bar")
+              .add_named_type("baz","bar")["bar"]
+      bar.map(&:named_type_values).should == [
+        ["foo","bar"],
+        ["baz","bar"]
+      ]
+    end
+
+    it "keeps adding to array on adding third node" do
+      bar = {}.add_named_type("foo","bar")
+              .add_named_type("baz","bar")
+              .add_named_type("bat","bar")["bar"]
+      bar.map(&:named_type_values).should == [
+        ["foo","bar"],
+        ["baz","bar"],
+        ["bat","bar"]
+      ]
+    end
+  end
 end

@@ -63,10 +63,12 @@ module Codiphi
     def _do_assignment(target_hash, namespace)
       say _descriptive_string_for_hash(target_hash,"placing")
 
-      if namespace.is_named_type?(value_val, type_val)
-        target_hash.add_named_type(value_val, type_val)
-      else
-        target_hash.merge type_val => value_val
+      value_vals.inject(target_hash) do |h, value_val|
+        if namespace.named_type?(value_val, type_val)
+          h.add_named_type value_val, type_val
+        else
+          h.merge type_val => value_val
+        end
       end
     end
 

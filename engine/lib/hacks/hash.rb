@@ -10,10 +10,12 @@ module Codiphi
     end
 
     def add_named_type(name, type)
-      merge type => {
-        Tokens::Name => name,
-        Tokens::Type => type
-      }
+      new_member = Hash.with_named_type name, type
+      if key? type
+        merge type => [*[self[type]].flatten, new_member]
+      else
+        merge type => new_member
+      end
     end
 
     def is_list_node?
@@ -40,9 +42,15 @@ module Codiphi
       self[Tokens::Cost]
     end
 
+    module ClassMethods
+      def with_named_type(name, type)
+        { Tokens::Name => name, Tokens::Type => type }
+      end
+    end
   end
 end
 
 class Hash
   include Codiphi::HashExtensions
+  extend Codiphi::HashExtensions::ClassMethods
 end

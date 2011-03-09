@@ -8,30 +8,35 @@ list:
   unit:
   - type: scout_squad
     special_rule:
-      - and_they_shall_know_no_fear
-      - combat_squads
-      - combat_tactics
-      - infiltrate
-      - move_through_cover
-      - scouts
-    rank: troops
-    nature: infantry
+      - type: and_they_shall_know_no_fear
+      - type: combat_squads
+      - type: infiltrate
+      - type: move_through_cover
+      - type: scouts
+      - type: combat_tactics
+    rank:
+      type: troops
+    nature:
+      type: infantry
     model:
     - type: scout
       count: 4
       weapon:
-        - bolt_pistol
-        - boltgun
-        - frag_grenades
-        - krak_grenades
-      gear: scout_armor
+        - type: bolt_pistol
+        - type: boltgun
+        - type: frag_grenades
+        - type: krak_grenades
+      gear:
+        type: scout_armor
     - type: scout_sergeant
       count: 1
       weapon:
-        - bolt_pistol
-        - boltgun
-        - frag_grenades
-      gear: scout_armor
+        - type: bolt_pistol
+        - type: boltgun
+        - type: frag_grenades
+        - type: krak_grenades
+      gear:
+        type: scout_armor
     cost: 75
   cost_measure: points
   cost: 75

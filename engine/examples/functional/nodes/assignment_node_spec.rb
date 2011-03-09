@@ -6,7 +6,7 @@ module Codiphi
 
     describe "completion_transform" do
 
-      it "decorates data on +" do
+      it "adds named type data on +" do
         node = Node :declaration, "fum :baz { + unit :foopants }"
 
         namespace = Namespace.new.add_named_type("foopants", "unit")
@@ -20,7 +20,59 @@ module Codiphi
 
         outdata,_ = node.completion_transform(indata, namespace)
         outdata["fum"][0].keys.should be_include "unit"
+        outdata["fum"][0]["unit"]
+        .should == Hash.with_named_type("foopants", "unit")
+      end
+
+      it "adds multiple named type datas when used with option list" do
+        node = Node :declaration, "fum :baz { + unit [:foopants :barpants] }"
+
+        namespace = Namespace.new
+                    .add_named_type("foopants", "unit")
+                    .add_named_type("barpants", "unit")
+
+        indata = {
+          "fum" => [{
+            Tokens::Name => "baz",
+            Tokens::Type => "fum"
+          }]
+        }
+
+        outdata,_ = node.completion_transform(indata, namespace)
+        outdata["fum"][0]["unit"].should == [
+          Hash.with_named_type("foopants","unit"),
+          Hash.with_named_type("barpants","unit")
+        ]
+      end
+
+      it "adds plain data on +" do
+        node = Node :declaration, "fum :baz { + unit :foopants }"
+
+        indata = {
+          "fum" => [{
+            Tokens::Name => "baz",
+            Tokens::Type => "fum"
+          }]
+        }
+
+        outdata,_ = node.completion_transform(indata, Namespace.new)
+        outdata["fum"][0].keys.should be_include "unit"
         outdata["fum"][0]["unit"].should == "foopants"
+      end
+
+      xit "adds multiple plain data on +" do
+        node = Node :declaration, "fum :baz { + unit [:foopants :barpants]}"
+
+        indata = {
+          "fum" => [{
+            Tokens::Name => "baz",
+            Tokens::Type => "fum"
+          }]
+        }
+
+        outdata,_ = node.completion_transform(indata, Namespace.new)
+        outdata["fum"][0].keys.should be_include "unit"
+        outdata["fum"][0]["unit"].should == ["foopants", "barpants"]
       end
 
       it "removes data on -" do

@@ -1,51 +1,51 @@
---- 
-list: 
+---
+list:
   description: Scouts
   schematic: scouts/scout_squad
   author: Codiphi Developer
   author_email: development@flipstone.com
   variant: Base
-  unit: 
+  unit:
   - cost: 127
     type: scout_squad
     special_rule:
       - type: and_they_shall_know_no_fear
       - type: combat_squads
-      - type: combat_tactics
       - type: infiltrate
       - type: move_through_cover
       - type: scouts
-    rank: 
-      - type: troops
+      - type: combat_tactics
+    rank:
+      type: troops
     nature:
-      - type: infantry
-    model: 
+      type: infantry
+    model:
     - type: scout
       count: 7
-      weapon: 
-        - type: boltgun
+      weapon:
         - type: bolt_pistol
+        - type: boltgun
         - type: frag_grenades
         - type: krak_grenades
-      gear: 
-        - type: scout_armor
+      gear:
+        type: scout_armor
     - type: scout
       count: 1
-      weapon: 
-        - type: sniper_rifle
+      weapon:
         - type: bolt_pistol
+        - type: sniper_rifle
         - type: frag_grenades
         - type: krak_grenades
-      gear: 
-        - type: scout_armor
+      gear:
+        type: scout_armor
     - type: scout_sergeant
       count: 1
-      weapon: 
-        - type: boltgun
+      weapon:
         - type: bolt_pistol
+        - type: boltgun
         - type: frag_grenades
         - type: krak_grenades
-      gear: 
-        - type: scout_armor
+      gear:
+        type: scout_armor
   cost_measure: points
   cost: 127

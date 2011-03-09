@@ -1,13 +1,13 @@
---- 
-list: 
+---
+list:
   description: Scouts
   schematic: scouts/scout_squad
   author: Codiphi Developer
   author_email: development@flipstone.com
   variant: Base
-  unit: 
+  unit:
   - type: scout_squad
-    model: 
+    model:
     - type: scout
       count: 7
     - type: scout
@@ -15,5 +15,5 @@ list:
       weapon: sniper_rifle
     - type: scout_sergeant
       count: 1
-list-errors: 
+list-errors:
     - At most 9 scout model permitted in unit scout_squad
