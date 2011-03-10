@@ -73,9 +73,9 @@ module Codiphi
         "fum" => {
           Tokens::Name => "baz",
           Tokens::Type => "fum",
-          "fee" => {
-            Tokens::Name => "foo",
-            Tokens::Type => "fee",
+          "foo" => {
+            Tokens::Name => "fee",
+            Tokens::Type => "foo",
             Tokens::Count => 2
           }
         }

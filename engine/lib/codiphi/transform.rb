@@ -6,19 +6,26 @@ module Codiphi
 
     CanonicalKeys = [Tokens::Type]
 
-    def self.fold_type(data, key, memo, &block)
+    def self.fold_selected(data, memo, selector, operation)
       children = case data
         when Hash then
-          data.values
-          if (data[Tokens::Type] == key)
-            memo = block.call(data, memo)
+          if selector[data]
+            memo = operation[data, memo]
           end
           data.values
         when Array then data
         else []
       end
 
-      children.inject(memo) { |memo,e| fold_type(e, key, memo, &block) }
+      children.inject(memo) { |memo,e| fold_selected(e, memo, selector, operation) }
+    end
+
+    def self.fold_type(data, key, memo, &block)
+      fold_selected data,
+                    memo,
+                    -> d { d[Tokens::Type] == key },
+                    block
+
     end
 
     def self.transform(data, node_op, child_op)

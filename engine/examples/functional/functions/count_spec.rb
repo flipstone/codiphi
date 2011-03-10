@@ -5,12 +5,12 @@ module Codiphi
     it "counts all with given type" do
       Functions[:count].call(
         {
-          Tokens::Type => :bar,
-          model: { Tokens::Type => :foo },
+          Tokens::Name => :bar,
+          model: { Tokens::Name => :foo },
           models: [
-            { Tokens::Type => :foo },
-            { Tokens::Type => :baz },
-            { Tokens::Type => :foo }
+            { Tokens::Name => :foo },
+            { Tokens::Name => :baz },
+            { Tokens::Name => :foo }
           ]
         },
         :foo).should == 3
@@ -19,12 +19,12 @@ module Codiphi
     it "takes count attributes into account" do
       Functions[:count].call(
         {
-          Tokens::Type => :bar,
-          model: { Tokens::Type => :foo },
+          Tokens::Name => :bar,
+          model: { Tokens::Name => :foo },
           models: [
-            { Tokens::Type => :foo, Tokens::Count => 2 },
-            { Tokens::Type => :baz },
-            { Tokens::Type => :foo, Tokens::Count => 3 }
+            { Tokens::Name => :foo, Tokens::Count => 2 },
+            { Tokens::Name => :baz },
+            { Tokens::Name => :foo, Tokens::Count => 3 }
           ]
         },
         :foo).should == 6

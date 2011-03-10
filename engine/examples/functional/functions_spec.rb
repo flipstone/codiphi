@@ -5,7 +5,7 @@ module Codiphi
     describe "curry_data" do
       it "curries the first argument of the function" do
         Functions.curry_data({
-          Tokens::Type => :foo
+          Tokens::Name => :foo
         })[:count].call(:foo).should == 1
       end
     end

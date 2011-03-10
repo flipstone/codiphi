@@ -357,5 +357,31 @@ module Codiphi
         end.should == 3
       end
     end
+
+    describe "fold_selected" do
+      it "folds on the items matching predicate" do
+        indata = {
+          "fee" => {
+            Tokens::Name => "bim",
+            Tokens::Type => "foo"
+          },
+          "foo" => [{
+            Tokens::Name => "bar",
+            Tokens::Type => "foo",
+            "foo" => [{
+              Tokens::Name => "baz",
+              Tokens::Type => "foo"
+            }]
+          }]
+        }
+
+        Transform.fold_selected(
+          indata,
+          0,
+          -> x { x[Tokens::Type] == "foo" },
+          -> x, memo { memo + 1 }
+        ).should == 3
+      end
+    end
   end
 end
